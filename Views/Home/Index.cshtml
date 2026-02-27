@@ -1,0 +1,186 @@
+﻿@* Views/Dinosaurs/Index.cshtml *@
+@model IEnumerable<DinoApp.Models.DinosaurDto>
+
+@{
+    ViewData["Title"] = "Динозавры";
+}
+
+<style>
+    .dino-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+
+        .dino-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+    .dino-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 48px;
+    }
+
+    .dino-name {
+        color: #2c3e50;
+        margin: 15px 0 10px 0;
+        font-size: 24px;
+    }
+
+    .dino-info {
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+        .dino-info strong {
+            color: #34495e;
+        }
+
+    .btn-group {
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        margin-right: 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+        border: none;
+    }
+
+    .btn-info {
+        background-color: #27ae60;
+        color: white;
+    }
+
+    .btn-warning {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .header-actions {
+        margin-bottom: 30px;
+        text-align: right;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 50px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        color: #999;
+    }
+
+    .era-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        background-color: #e74c3c;
+        color: white;
+        border-radius: 3px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+</style>
+
+<h1>🦕 Наши динозавры</h1>
+
+<div class="header-actions">
+    <a asp-action="Create" class="btn btn-primary">➕ Добавить динозавра</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">
+        <h2>😕 Пока нет динозавров</h2>
+        <p>Нажмите кнопку "Добавить динозавра", чтобы создать первого!</p>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var dino in Model)
+        {
+            <div class="col-md-4">
+                <div class="dino-card">
+                    @if (!string.IsNullOrEmpty(dino.PhotoUrl))
+                    {
+                        <img src="@dino.PhotoUrl" alt="@dino.Name" class="dino-image">
+                    }
+                    else
+                    {
+                        <div class="dino-image">
+                            🦕
+                        </div>
+                    }
+
+                    <h2 class="dino-name">
+                        @dino.Name
+                        @if (!string.IsNullOrEmpty(dino.Era))
+                        {
+                            <span class="era-badge">@dino.Era</span>
+                        }
+                    </h2>
+
+                    <div class="dino-info">
+                        <strong>Клада:</strong> @(dino.Clade ?? "Не указано")
+                    </div>
+
+                    <div class="dino-info">
+                        <strong>Период:</strong> @(dino.Period ?? "Не указан")
+                    </div>
+
+                    <div class="dino-info">
+                        <strong>Семейство:</strong> @(dino.GroupName ?? "Не указано")
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(dino.Description))
+                    {
+                        <div class="dino-info">
+                            <strong>Описание:</strong><br>
+                            @(dino.Description.Length > 100
+                                ? dino.Description.Substring(0, 100) + "..."
+                                : dino.Description)
+                        </div>
+                    }
+
+                    <div class="btn-group">
+                        <a asp-action="Details" asp-route-id="@dino.Id" class="btn btn-info">👁️ Подробнее</a>
+                        <a asp-action="Edit" asp-route-id="@dino.Id" class="btn btn-warning">✏️ Редактировать</a>
+                        <a asp-action="Delete" asp-route-id="@dino.Id" class="btn btn-danger">🗑️ Удалить</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Можно добавить JavaScript для интерактивности
+        console.log('Страница динозавров загружена!');
+    </script>
+}
