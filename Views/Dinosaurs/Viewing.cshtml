@@ -1,0 +1,340 @@
+﻿@* Views/Dinosaurs/Vieving.cshtml *@
+@model DinoApp.Models.DinosaurDto
+
+@{
+    ViewData["Title"] = $"{Model.Name} — подробная информация";
+}
+
+<style>
+    .details-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Шапка с названием */
+    .page-header {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 30px;
+        border-radius: 15px 15px 0 0;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .dino-icon {
+        font-size: 64px;
+        background-color: rgba(255,255,255,0.2);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid white;
+    }
+
+    .title-section h1 {
+        margin: 0;
+        font-size: 42px;
+        font-weight: 700;
+    }
+
+    .era-badge-large {
+        display: inline-block;
+        padding: 8px 20px;
+        background-color: #e74c3c;
+        color: white;
+        border-radius: 30px;
+        font-size: 18px;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    /* Основной контент */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Карточки с информацией */
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        border-left: 5px solid #e74c3c;
+    }
+
+    .info-card h3 {
+        color: #2c3e50;
+        margin: 0 0 15px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-row {
+        display: flex;
+        margin-bottom: 12px;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .info-label {
+        font-weight: 700;
+        width: 120px;
+        color: #7f8c8d;
+    }
+
+    .info-value {
+        flex: 1;
+        color: #2c3e50;
+    }
+
+    /* Изображение */
+    .image-section {
+        grid-column: span 2;
+        margin-bottom: 20px;
+    }
+
+    .dino-main-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        background-color: #ecf0f1;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        height: 400px;
+        background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 120px;
+        color: #95a5a6;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Секция описания */
+    .description-section {
+        grid-column: span 2;
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border-left: 5px solid #3498db;
+    }
+
+    .description-section h3 {
+        color: #2c3e50;
+        margin: 0 0 15px 0;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .description-text {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #34495e;
+        text-align: justify;
+    }
+
+    /* Кнопки навигации */
+    .nav-buttons {
+        margin-top: 25px;
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+
+    .btn-back {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+    .btn-edit {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="details-container">
+    <!-- Шапка с названием -->
+    <div class="page-header">
+        <div class="dino-icon">
+            🦕
+        </div>
+        <div class="title-section">
+            <h1>@Model.Name</h1>
+            <span class="era-badge-large">
+                @(Model.Era ?? "Эра не указана")
+            </span>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <!-- Изображение (на всю ширину) -->
+        <div class="image-section">
+            @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+            {
+                <img src="@Model.PhotoUrl" alt="@Model.Name" class="dino-main-image">
+            }
+            else
+            {
+                <div class="image-placeholder">
+                    🦕
+                </div>
+            }
+        </div>
+
+        <!-- Левая колонка - основная информация -->
+        <div>
+            <div class="info-card">
+                <h3>📋 Основная информация</h3>
+
+                <div class="info-row">
+                    <span class="info-label">Клада:</span>
+                    <span class="info-value">@(Model.Clade ?? "Не указано")</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Период:</span>
+                    <span class="info-value">@(Model.Period ?? "Не указан")</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Семейство:</span>
+                    <span class="info-value">@(Model.GroupName ?? "Не указано")</span>
+                </div>
+            </div>
+
+            <!-- Краткое описание -->
+            <div class="info-card">
+                <h3>📝 Краткое описание</h3>
+                <p style="font-size: 16px; line-height: 1.8; color: #34495e;">
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span style="color: #95a5a6;">Описание отсутствует</span>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <!-- Правая колонка - дополнительные характеристики (только текст) -->
+        <div>
+            <div class="info-card">
+                <h3>🔬 Научная классификация</h3>
+
+                <div class="info-row">
+                    <span class="info-label">Отряд:</span>
+                    <span class="info-value">Ящеротазовые</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Подотряд:</span>
+                    <span class="info-value">Тероподы</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Длина:</span>
+                    <span class="info-value">12-13 метров</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Вес:</span>
+                    <span class="info-value">6-8 тонн</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>🌍 Место обитания</h3>
+                <div class="info-row">
+                    <span class="info-label">Континент:</span>
+                    <span class="info-value">Северная Америка</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Формация:</span>
+                    <span class="info-value">Хелл-Крик</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Полное описание (только текст) -->
+        <div class="description-section">
+            <h3>📖 Полное описание</h3>
+            <div class="description-text">
+                <p>
+                    Тираннозавр (Tyrannosaurus rex) — один из крупнейших наземных хищников в истории Земли.
+                    Обитал в западной части Северной Америки в конце мелового периода, около 68-66 миллионов лет назад.
+                </p>
+                <p>
+                    Обладал массивным черепом длиной до 1.5 метра, мощными челюстями с 60 зубьями длиной до 30 см.
+                    Несмотря на огромные размеры, мог развивать скорость до 20-30 км/ч. Передние конечности были очень
+                    маленькими, но чрезвычайно сильными.
+                </p>
+                <p>
+                    Долгое время велись споры о том, был ли тираннозавр хищником или падальщиком. Современные исследования
+                    показывают, что он сочетал оба способа питания, занимая вершину пищевой пирамиды своего времени.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопки навигации -->
+    <div class="nav-buttons">
+        <a href="#" class="btn btn-back">← Назад к списку</a>
+        <a href="#" class="btn btn-edit">✏️ Редактировать</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Простой скрипт для демонстрации
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Страница динозавра загружена!');
+        });
+    </script>
+}
