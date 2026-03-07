@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DinoApp.Views.Dinosaurs
 {
-    public class ReditModel : PageModel
+    public class EditModel : PageModel
     {
         public void OnGet()
         {
