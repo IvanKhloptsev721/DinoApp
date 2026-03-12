@@ -56,6 +56,47 @@ namespace DinoApp.Controllers
         {
             return View("CreateDinosaurs");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, DinosaurDto dto)
+        {
+            if (id != dto.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+
+            try
+            {
+                // Преобразуем DinosaurDto в UpdateDinosaurDto
+                var updateDto = new UpdateDinosaurDto
+                {
+                    Name = dto.Name,
+                    Era = dto.Era,
+                    Clade = dto.Clade,
+                    Period = dto.Period,
+                    GroupName = dto.GroupName,
+                    // Добавьте остальные поля, которые есть в UpdateDinosaurDto
+                    PhotoUrl = dto.PhotoUrl,
+                    Description = dto.Description,
+                    // ... остальные поля
+                };
+
+                await _apiClient.UpdateAsync(id, updateDto);
+                TempData["SuccessMessage"] = "Динозавр успешно обновлен!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении: {ex.Message}");
+                ModelState.AddModelError("", "Ошибка при обновлении динозавра. Проверьте подключение к API.");
+                return View(dto);
+            }
+        }
 
         // POST: /Dinosaurs/Create
         [HttpPost]

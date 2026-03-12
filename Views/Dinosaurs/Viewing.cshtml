@@ -325,8 +325,8 @@
 
     <!-- Кнопки навигации -->
     <div class="nav-buttons">
-        <a href="#" class="btn btn-back">← Назад к списку</a>
-        <a href="#" class="btn btn-edit">✏️ Редактировать</a>
+        <a asp-action="Index" class="btn btn-back">← Назад к списку</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-edit">✏️ Редактировать</a>
     </div>
 </div>
 

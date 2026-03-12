@@ -107,6 +107,19 @@
 </style>
 
 <h1>🦕 Наши динозавры</h1>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        ✅ @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        ❌ @TempData["ErrorMessage"]
+    </div>
+}
 
 <div class="header-actions">
     <a asp-action="Create" class="btn btn-primary">➕ Добавить динозавра</a>

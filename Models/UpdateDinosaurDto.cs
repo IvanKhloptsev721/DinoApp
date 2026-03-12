@@ -1,35 +1,23 @@
-﻿// Models/UpdateDinosaurDto.cs - для отправки при обновлении
-using System.ComponentModel.DataAnnotations;
-
-namespace DinoApp.Models;
-
-public class UpdateDinosaurDto
+﻿// Models/UpdateDinosaurDto.cs
+namespace DinoApp.Models
 {
-    [MaxLength(100)]
-    public string? Name { get; set; }
-
-    [MaxLength(100)]
-    public string? Clade { get; set; }
-
-    [MaxLength(50)]
-    public string? Era { get; set; }
-
-    [MaxLength(50)]
-    public string? Period { get; set; }
-
-    [MaxLength(100)]
-    public string? GroupName { get; set; }
-
-    [MaxLength(100)]
-    public string? Genus { get; set; }
-
-    [MaxLength(100)]
-    public string? Species { get; set; }
-
-    public string? Description { get; set; }
-
-    [Url]
-    public string? PhotoUrl { get; set; }
-
-    public string? Comments { get; set; }
+    public class UpdateDinosaurDto
+    {
+        public string Name { get; set; }
+        public string? Era { get; set; }
+        public string? Clade { get; set; }
+        public string? Period { get; set; }
+        public string? GroupName { get; set; }
+        public string? Size { get; set; }
+        public string? PhotoUrl { get; set; }
+        public string? Description { get; set; }
+        public string? FullDescription { get; set; }
+        public string? Diet { get; set; }
+        public string? Locomotion { get; set; }
+        public string? Continent { get; set; }
+        public string? Status { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool AllowComments { get; set; }
+        public string? DiscoveryLocation { get; set; }
+    }
 }
