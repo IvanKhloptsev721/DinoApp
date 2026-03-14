@@ -1,5 +1,4 @@
-﻿// Controllers/DinosaursController.cs
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using DinoApp.Services;
 using DinoApp.Models;
 
@@ -24,10 +23,7 @@ namespace DinoApp.Controllers
             }
             catch (Exception ex)
             {
-                // Логируем ошибку
                 Console.WriteLine($"Ошибка при загрузке динозавров: {ex.Message}");
-
-                // Показываем пустой список с сообщением об ошибке
                 ViewBag.ErrorMessage = "Не удалось загрузить динозавров. Проверьте подключение к API.";
                 return View(new List<DinosaurDto>());
             }
@@ -43,7 +39,7 @@ namespace DinoApp.Controllers
                 {
                     return NotFound();
                 }
-                return View("Viewing", dinosaur); // Открывает DinosaurDetails.cshtml
+                return View("Viewing", dinosaur);
             }
             catch (Exception ex)
             {
@@ -51,51 +47,11 @@ namespace DinoApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
         // GET: /Dinosaurs/Create
         public IActionResult Create()
         {
-            return View("CreateDinosaurs");
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DinosaurDto dto)
-        {
-            if (id != dto.Id)
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(dto);
-            }
-
-            try
-            {
-                // Преобразуем DinosaurDto в UpdateDinosaurDto
-                var updateDto = new UpdateDinosaurDto
-                {
-                    Name = dto.Name,
-                    Era = dto.Era,
-                    Clade = dto.Clade,
-                    Period = dto.Period,
-                    GroupName = dto.GroupName,
-                    // Добавьте остальные поля, которые есть в UpdateDinosaurDto
-                    PhotoUrl = dto.PhotoUrl,
-                    Description = dto.Description,
-                    // ... остальные поля
-                };
-
-                await _apiClient.UpdateAsync(id, updateDto);
-                TempData["SuccessMessage"] = "Динозавр успешно обновлен!";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка при обновлении: {ex.Message}");
-                ModelState.AddModelError("", "Ошибка при обновлении динозавра. Проверьте подключение к API.");
-                return View(dto);
-            }
+            return View("CreateDinosaurs", new CreateDinosaurDto());
         }
 
         // POST: /Dinosaurs/Create
@@ -105,7 +61,7 @@ namespace DinoApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Edit",dto);
+                return View("CreateDinosaurs", dto);
             }
 
             try
@@ -118,7 +74,7 @@ namespace DinoApp.Controllers
             {
                 Console.WriteLine($"Ошибка при создании: {ex.Message}");
                 ModelState.AddModelError("", "Ошибка при создании динозавра. Проверьте подключение к API.");
-                return View("Edit",dto);
+                return View("CreateDinosaurs", dto);
             }
         }
 
@@ -133,16 +89,62 @@ namespace DinoApp.Controllers
                     return NotFound();
                 }
 
-                // Сохраняем ID для представления
-                ViewBag.DinosaurId = id;
-
-                // Просто передаем полученный DinosaurDto в представление
-                return View("Edit", dinosaur); // dinosaur уже имеет тип DinosaurDto
+                return View("Edit", dinosaur); // ВСЕГДА возвращаем DinosaurDto
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при загрузке для редактирования: {ex.Message}");
+                TempData["ErrorMessage"] = "Не удалось загрузить данные динозавра.";
                 return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // POST: /Dinosaurs/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, DinosaurDto dto)
+        {
+            if (id != dto.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", dto);
+            }
+
+            try
+            {
+                var updateDto = new UpdateDinosaurDto
+                {
+                    Name = dto.Name,
+                    Era = dto.Era,
+                    Clade = dto.Clade,
+                    Period = dto.Period,
+                    GroupName = dto.GroupName,
+                    Size = dto.Size,
+                    PhotoUrl = dto.PhotoUrl,
+                    Description = dto.Description,
+                    FullDescription = dto.FullDescription,
+                    Diet = dto.Diet,
+                    Locomotion = dto.Locomotion,
+                    Continent = dto.Continent,
+                    Status = dto.Status,
+                    IsFeatured = dto.IsFeatured,
+                    AllowComments = dto.AllowComments,
+                    DiscoveryLocation = dto.DiscoveryLocation
+                };
+
+                await _apiClient.UpdateAsync(id, updateDto);
+                TempData["SuccessMessage"] = "Динозавр успешно обновлен!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении: {ex.Message}");
+                ModelState.AddModelError("", "Ошибка при обновлении динозавра. Проверьте подключение к API.");
+                return View("Edit", dto);
             }
         }
 
