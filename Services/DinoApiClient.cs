@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using DinoApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace DinoApp.Services;
 
@@ -45,25 +46,35 @@ public class DinoApiClient
         return JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
     }
 
-    // GET /api/dinosaurs/slug/{slug} - получить по slug
-    public async Task<DinosaurDto?> GetBySlugAsync(string slug)
-    {
-        var response = await _httpClient.GetAsync($"/api/dinosaurs/slug/{slug}");
-
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            return null;
-
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
-    }
-
-    // POST /api/dinosaurs - создать
+    // POST /api/dinosaurs - создать с файлом
     public async Task<DinosaurDto> CreateAsync(CreateDinosaurDto dto)
     {
-        var json = JsonSerializer.Serialize(dto, _jsonOptions);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        using var content = new MultipartFormDataContent();
+
+        // Добавляем текстовые поля
+        content.Add(new StringContent(dto.Name ?? ""), "Name");
+        content.Add(new StringContent(dto.Era ?? ""), "Era");
+        content.Add(new StringContent(dto.Clade ?? ""), "Clade");
+        content.Add(new StringContent(dto.Period ?? ""), "Period");
+        content.Add(new StringContent(dto.GroupName ?? ""), "GroupName");
+        content.Add(new StringContent(dto.Size ?? ""), "Size");
+        content.Add(new StringContent(dto.Description ?? ""), "Description");
+        content.Add(new StringContent(dto.FullDescription ?? ""), "FullDescription");
+        content.Add(new StringContent(dto.Diet ?? ""), "Diet");
+        content.Add(new StringContent(dto.Locomotion ?? ""), "Locomotion");
+        content.Add(new StringContent(dto.Continent ?? ""), "Continent");
+        content.Add(new StringContent(dto.Status ?? ""), "Status");
+        content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
+        content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
+        content.Add(new StringContent(dto.DiscoveryLocation ?? ""), "DiscoveryLocation");
+
+        // Добавляем файл, если он есть
+        if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
+        {
+            var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
+            content.Add(fileContent, "PhotoFile", dto.PhotoFile.FileName);
+        }
 
         var response = await _httpClient.PostAsync("/api/dinosaurs", content);
         response.EnsureSuccessStatusCode();
@@ -73,11 +84,36 @@ public class DinoApiClient
                ?? throw new Exception("Failed to create dinosaur");
     }
 
-    // PUT /api/dinosaurs/{id} - обновить
+    // PUT /api/dinosaurs/{id} - обновить с файлом
     public async Task UpdateAsync(int id, UpdateDinosaurDto dto)
     {
-        var json = JsonSerializer.Serialize(dto, _jsonOptions);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        using var content = new MultipartFormDataContent();
+
+        // Добавляем текстовые поля
+        content.Add(new StringContent(dto.Name ?? ""), "Name");
+        content.Add(new StringContent(dto.Era ?? ""), "Era");
+        content.Add(new StringContent(dto.Clade ?? ""), "Clade");
+        content.Add(new StringContent(dto.Period ?? ""), "Period");
+        content.Add(new StringContent(dto.GroupName ?? ""), "GroupName");
+        content.Add(new StringContent(dto.Size ?? ""), "Size");
+        content.Add(new StringContent(dto.Description ?? ""), "Description");
+        content.Add(new StringContent(dto.FullDescription ?? ""), "FullDescription");
+        content.Add(new StringContent(dto.Diet ?? ""), "Diet");
+        content.Add(new StringContent(dto.Locomotion ?? ""), "Locomotion");
+        content.Add(new StringContent(dto.Continent ?? ""), "Continent");
+        content.Add(new StringContent(dto.Status ?? ""), "Status");
+        content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
+        content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
+        content.Add(new StringContent(dto.DiscoveryLocation ?? ""), "DiscoveryLocation");
+        content.Add(new StringContent(dto.ExistingPhotoPath ?? ""), "ExistingPhotoPath");
+
+        // Добавляем новый файл, если он есть
+        if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
+        {
+            var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
+            content.Add(fileContent, "PhotoFile", dto.PhotoFile.FileName);
+        }
 
         var response = await _httpClient.PutAsync($"/api/dinosaurs/{id}", content);
         response.EnsureSuccessStatusCode();
@@ -88,25 +124,5 @@ public class DinoApiClient
     {
         var response = await _httpClient.DeleteAsync($"/api/dinosaurs/{id}");
         response.EnsureSuccessStatusCode();
-    }
-
-    // GET /api/dinosaurs/era/{era} - фильтр по эре
-    public async Task<List<DinosaurDto>> GetByEraAsync(string era)
-    {
-        var response = await _httpClient.GetAsync($"/api/dinosaurs/era/{era}");
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
-    }
-
-    // GET /api/dinosaurs/clade/{clade} - фильтр по кладе
-    public async Task<List<DinosaurDto>> GetByCladeAsync(string clade)
-    {
-        var response = await _httpClient.GetAsync($"/api/dinosaurs/clade/{clade}");
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
     }
 }

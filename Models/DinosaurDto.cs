@@ -12,12 +12,14 @@ namespace DinoApp.Models
         public string? Genus { get; set; }
         public string? Species { get; set; }
         public string? Description { get; set; }
-        public string? PhotoUrl { get; set; }
+
+        // Вместо PhotoUrl храним путь к файлу
+        public string? PhotoPath { get; set; }
+        public IFormFile? PhotoFile { get; set; }
         public string? Comments { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        // ДОБАВЛЯЕМ эти поля, чтобы они были в модели
         public string? Size { get; set; }
         public string? FullDescription { get; set; }
         public string? Diet { get; set; }

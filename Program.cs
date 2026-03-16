@@ -1,4 +1,5 @@
-﻿using DinoApp.Services;
+﻿// Program.cs
+using DinoApp.Services;
 
 namespace DinoApp
 {
@@ -11,8 +12,9 @@ namespace DinoApp
             // Добавляем MVC
             builder.Services.AddControllersWithViews();
 
-            // РЕГИСТРИРУЕМ DinoApiClient как Singleton (для конструктора с IConfiguration)
+            // Регистрируем сервисы
             builder.Services.AddSingleton<DinoApiClient>();
+            builder.Services.AddScoped<FileService>(); // Scoped, так как зависит от IWebHostEnvironment
 
             var app = builder.Build();
 
@@ -24,7 +26,10 @@ namespace DinoApp
             }
 
             app.UseHttpsRedirection();
+
+            // Важно для статических файлов (изображения будут здесь)
             app.UseStaticFiles();
+
             app.UseRouting();
             app.UseAuthorization();
 
