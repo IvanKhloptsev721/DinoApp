@@ -99,7 +99,7 @@ namespace DinoApp.Controllers
             }
         }
 
-        // POST: /Dinosaurs/Edit/5
+        // Controllers/DinosaursController.cs (исправленный Edit метод)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, DinosaurDto dto)
@@ -123,8 +123,9 @@ namespace DinoApp.Controllers
                     Clade = dto.Clade,
                     Period = dto.Period,
                     GroupName = dto.GroupName,
+                    Genus = dto.Genus,
+                    Species = dto.Species,
                     Size = dto.Size,
-                    PhotoUrl = dto.PhotoUrl,
                     Description = dto.Description,
                     FullDescription = dto.FullDescription,
                     Diet = dto.Diet,
@@ -133,7 +134,9 @@ namespace DinoApp.Controllers
                     Status = dto.Status,
                     IsFeatured = dto.IsFeatured,
                     AllowComments = dto.AllowComments,
-                    DiscoveryLocation = dto.DiscoveryLocation
+                    DiscoveryLocation = dto.DiscoveryLocation,
+                    Comments = dto.Comments,
+                    PhotoFile = dto.PhotoFile  // Если в представлении есть загрузка файла
                 };
 
                 await _apiClient.UpdateAsync(id, updateDto);
@@ -147,7 +150,6 @@ namespace DinoApp.Controllers
                 return View("Edit", dto);
             }
         }
-
         // GET: /Dinosaurs/Delete/5
         public async Task<IActionResult> Delete(int id)
         {

@@ -5,93 +5,116 @@
     ViewData["Title"] = "Создание динозавра";
 }
 
-<!-- Стили остаются теми же -->
+<h1>👷 Создание нового динозавра</h1>
 
-<div class="create-container">
-    <div class="page-header">
-        <div class="dino-avatar">
-            🦖
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        ❌ @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="form-card">
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="validation-summary alert alert-danger">
+            ⚠️ Пожалуйста, исправьте ошибки в форме
         </div>
-        <h1>👷 Создание нового динозавра</h1>
-    </div>
+    }
 
-    <div class="form-card">
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="validation-summary" style="display: block;">
-                ⚠️ Пожалуйста, исправьте ошибки в форме
-            </div>
-        }
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
 
-        <!-- ВАЖНО: Добавляем enctype="multipart/form-data" -->
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
-            @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="Name">Название *</label>
+            <input asp-for="Name" class="form-control" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-            <!-- Остальные поля остаются теми же -->
-            <!-- Загрузка фото - ИЗМЕНЕНО -->
-            <div class="form-group">
-                <label asp-for="PhotoFile" class="form-label">
-                    <i>📸</i> Фотография динозавра
-                </label>
-                <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" id="photoFile">
-                <span asp-validation-for="PhotoFile" class="field-validation"></span>
+        <div class="form-group">
+            <label asp-for="Era">Эра</label>
+            <input asp-for="Era" class="form-control" />
+            <small class="form-text text-muted">Например: Мезозойская</small>
+        </div>
 
-                <div class="photo-preview" id="photoPreview">
-                    <div class="photo-placeholder">
-                        <span>🖼️</span>
-                        Предпросмотр фото будет здесь
-                    </div>
-                </div>
-                <div class="tooltip-info">
-                    <i>ℹ️</i> Загрузите изображение динозавра (JPG, PNG, GIF до 5MB)
-                </div>
-            </div>
+        <div class="form-group">
+            <label asp-for="Clade">Клада</label>
+            <input asp-for="Clade" class="form-control" />
+            <small class="form-text text-muted">Например: Тероподы, Завроподы</small>
+        </div>
 
-            <!-- Остальные поля остаются теми же -->
-            <!-- Кнопки действий -->
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">
-                    💾 Создать динозавра
-                </button>
-                <a asp-action="Index" class="btn btn-secondary">
-                    ↩️ Отмена
-                </a>
-                <button type="reset" class="btn btn-danger">
-                    🗑️ Очистить
-                </button>
-            </div>
-        </form>
-    </div>
+        <div class="form-group">
+            <label asp-for="Period">Период</label>
+            <input asp-for="Period" class="form-control" />
+            <small class="form-text text-muted">Например: Меловой, Юрский</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GroupName">Семейство</label>
+            <input asp-for="GroupName" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Size">Размер</label>
+            <input asp-for="Size" class="form-control" placeholder="Например: 12 метров в длину, 5 метров в высоту" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhotoFile">Фотография</label>
+            <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" />
+            <small class="form-text text-muted">Загрузите изображение динозавра (JPG, PNG, GIF до 5MB)</small>
+            <span asp-validation-for="PhotoFile" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description">Краткое описание</label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <small class="form-text text-muted">Краткое описание для карточки динозавра</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="FullDescription">Полное описание</label>
+            <textarea asp-for="FullDescription" class="form-control" rows="5"></textarea>
+            <small class="form-text text-muted">Подробное описание для страницы динозавра</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Diet">Тип питания</label>
+            <input asp-for="Diet" class="form-control" placeholder="Например: Хищник, Травоядный, Всеядный" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Locomotion">Способ передвижения</label>
+            <input asp-for="Locomotion" class="form-control" placeholder="Например: Двуногий, Четвероногий" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Continent">Континент</label>
+            <input asp-for="Continent" class="form-control" placeholder="Например: Северная Америка, Азия" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DiscoveryLocation">Место обнаружения</label>
+            <input asp-for="DiscoveryLocation" class="form-control" placeholder="Например: Формация Хелл-Крик, Монтана" />
+        </div>
+
+        <div class="form-check">
+            <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+            <label asp-for="IsFeatured" class="form-check-label">Показывать на главной странице</label>
+        </div>
+
+        <div class="form-check">
+            <input asp-for="AllowComments" class="form-check-input" type="checkbox" />
+            <label asp-for="AllowComments" class="form-check-label">Разрешить комментарии</label>
+        </div>
+
+        <div class="form-actions" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">💾 Создать динозавра</button>
+            <a asp-action="Index" class="btn btn-secondary">↩️ Отмена</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Предпросмотр фото для файла
-            const photoInput = document.getElementById('photoFile');
-            const previewDiv = document.getElementById('photoPreview');
-
-            if (photoInput && previewDiv) {
-                photoInput.addEventListener('change', function (e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            previewDiv.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
-                        }
-                        reader.readAsDataURL(file);
-                    } else {
-                        previewDiv.innerHTML = `
-                                    <div class="photo-placeholder">
-                                        <span>🖼️</span>
-                                        Предпросмотр фото будет здесь
-                                    </div>`;
-                    }
-                });
-            }
-
-            // Остальной JavaScript (счетчик символов и т.д.)
-        });
-    </script>
 }

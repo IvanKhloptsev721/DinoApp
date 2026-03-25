@@ -5,67 +5,472 @@
     ViewData["Title"] = $"Редактирование: {Model.Name}";
 }
 
-<!-- Стили остаются теми же -->
+<style>
+    .edit-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Шапка с названием */
+    .page-header {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        color: white;
+        padding: 30px;
+        border-radius: 15px 15px 0 0;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .header-icon {
+        font-size: 64px;
+        background-color: rgba(255,255,255,0.2);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid white;
+    }
+
+    .header-title h1 {
+        margin: 0;
+        font-size: 42px;
+        font-weight: 700;
+    }
+
+    .header-title p {
+        margin: 10px 0 0 0;
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background-color: #f39c12;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    /* Основной контент */
+    .content-grid {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Форма */
+    .edit-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    /* Карточки */
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        border-left: 5px solid #e74c3c;
+    }
+
+        .form-card h3 {
+            color: #2c3e50;
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    /* Поля формы */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        color: #2c3e50;
+        font-weight: normal;
+    }
+
+    .help-text {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary {
+        background-color: #fee;
+        border-left: 4px solid #e74c3c;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        color: #c0392b;
+        grid-column: span 2;
+    }
+
+    /* Секция фото */
+    .photo-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    .current-photo {
+        width: 100%;
+        height: 250px;
+        background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        color: #95a5a6;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .current-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .photo-input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Кнопки */
+    .form-actions {
+        grid-column: span 2;
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+    /* Статус избранного */
+    .featured-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background-color: #f39c12;
+        color: white;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+</style>
 
 <div class="edit-container">
+    <!-- Шапка с названием -->
     <div class="page-header">
         <div class="header-icon">
             ✏️
         </div>
         <div class="header-title">
             <h1>Редактирование динозавра</h1>
-            <p>ID: @Model.Id · <strong>@Model.Name</strong> <span class="status-badge">Редактирование</span></p>
+            <p>
+                ID: @Model.Id · <strong>@Model.Name</strong>
+                @if (Model.IsFeatured)
+                {
+                    <span class="featured-badge">⭐ Избранный</span>
+                }
+                <span class="status-badge">Режим редактирования</span>
+            </p>
         </div>
     </div>
 
-    <div class="edit-form">
-        <!-- ВАЖНО: Добавляем enctype="multipart/form-data" -->
+    <div class="content-grid">
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id" />
-
-            <!-- Скрытое поле для существующего пути к фото -->
             <input type="hidden" name="ExistingPhotoPath" value="@Model.PhotoPath" />
 
             @if (!ViewData.ModelState.IsValid)
             {
-                <div class="validation-summary" style="display: block;">
+                <div class="validation-summary">
                     ⚠️ Пожалуйста, исправьте ошибки в форме
                 </div>
             }
 
-            <!-- Остальные поля формы остаются -->
-            <!-- Фотография - ИЗМЕНЕНО -->
-            <div class="form-card">
-                <h3>📸 Фотография</h3>
+            <div class="edit-form">
+                <!-- Левая колонка -->
+                <div>
+                    <!-- Основная информация -->
+                    <div class="form-card">
+                        <h3>📋 Основная информация</h3>
 
-                <div class="photo-section">
-                    <div class="current-photo" id="currentPhoto">
-                        @if (!string.IsNullOrEmpty(Model.PhotoPath))
-                        {
-                            <img src="@Model.PhotoPath" alt="@Model.Name">
-                        }
-                        else
-                        {
-                            <span>🦕</span>
-                        }
-                    </div>
-                    <div class="photo-input">
                         <div class="form-group">
-                            <label asp-for="PhotoFile" class="form-label">
-                                <i>📸</i> Загрузить новое фото
+                            <label asp-for="Name">Название *</label>
+                            <input asp-for="Name" class="form-control" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Era">Эра</label>
+                            <input asp-for="Era" class="form-control" placeholder="Например: Мезозойская" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Clade">Клада</label>
+                            <input asp-for="Clade" class="form-control" placeholder="Например: Тероподы, Завроподы" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Period">Период</label>
+                            <input asp-for="Period" class="form-control" placeholder="Например: Меловой, Юрский" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="GroupName">Семейство/Группа</label>
+                            <input asp-for="GroupName" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Size">Размер</label>
+                            <input asp-for="Size" class="form-control" placeholder="Например: 12 метров в длину" />
+                        </div>
+                    </div>
+
+                    <!-- Питание и передвижение -->
+                    <div class="form-card">
+                        <h3>🍖 Образ жизни</h3>
+
+                        <div class="form-group">
+                            <label asp-for="Diet">Тип питания</label>
+                            <input asp-for="Diet" class="form-control" placeholder="Хищник / Травоядный / Всеядный" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Locomotion">Способ передвижения</label>
+                            <input asp-for="Locomotion" class="form-control" placeholder="Двуногий / Четвероногий" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка -->
+                <div>
+                    <!-- Научная классификация -->
+                    <div class="form-card">
+                        <h3>🔬 Научная классификация</h3>
+
+                        <div class="form-group">
+                            <label asp-for="Genus">Род</label>
+                            <input asp-for="Genus" class="form-control" placeholder="Например: Tyrannosaurus" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Species">Вид</label>
+                            <input asp-for="Species" class="form-control" placeholder="Например: rex" />
+                        </div>
+                    </div>
+
+                    <!-- Место обитания -->
+                    <div class="form-card">
+                        <h3>🌍 Место обитания</h3>
+
+                        <div class="form-group">
+                            <label asp-for="Continent">Континент</label>
+                            <input asp-for="Continent" class="form-control" placeholder="Например: Северная Америка" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DiscoveryLocation">Место находки</label>
+                            <input asp-for="DiscoveryLocation" class="form-control" placeholder="Например: Формация Хелл-Крик" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Status">Статус</label>
+                            <input asp-for="Status" class="form-control" placeholder="Например: Вымерший" />
+                        </div>
+                    </div>
+
+                    <!-- Настройки -->
+                    <div class="form-card">
+                        <h3>⚙️ Настройки</h3>
+
+                        <div class="form-check">
+                            <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                            <label asp-for="IsFeatured" class="form-check-label">
+                                ⭐ Показывать на главной странице
                             </label>
-                            <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" id="photoFile">
-                            <span asp-validation-for="PhotoFile" class="field-validation"></span>
-                            <div class="help-text">
-                                <i>ℹ️</i> Оставьте пустым, чтобы сохранить текущее фото
+                        </div>
+
+                        <div class="form-check">
+                            <input asp-for="AllowComments" class="form-check-input" type="checkbox" />
+                            <label asp-for="AllowComments" class="form-check-label">
+                                💬 Разрешить комментарии
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Фотография (на всю ширину) -->
+                <div class="form-card full-width">
+                    <h3>📸 Фотография</h3>
+
+                    <div class="photo-section">
+                        <div class="current-photo" id="currentPhoto">
+                            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                            {
+                                <img src="@Model.PhotoPath" alt="@Model.Name">
+                            }
+                            else
+                            {
+                                <span>🦕</span>
+                            }
+                        </div>
+                        <div class="photo-input">
+                            <div class="form-group">
+                                <label>Загрузить новое фото</label>
+                                <input type="file" name="PhotoFile" class="form-control" accept="image/*" id="photoFile">
+                                <div class="help-text">
+                                    <i>ℹ️</i> Оставьте пустым, чтобы сохранить текущее фото
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Остальные поля формы остаются -->
+                <!-- Описания (на всю ширину) -->
+                <div class="form-card full-width">
+                    <h3>📝 Описание</h3>
+
+                    <div class="form-group">
+                        <label asp-for="Description">Краткое описание</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <div class="help-text">Краткое описание для карточки динозавра</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FullDescription">Полное описание</label>
+                        <textarea asp-for="FullDescription" class="form-control" rows="8"></textarea>
+                        <div class="help-text">Подробное описание для страницы динозавра</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Comments">Комментарии администратора</label>
+                        <textarea asp-for="Comments" class="form-control" rows="3"></textarea>
+                        <div class="help-text">Внутренние комментарии (не видны пользователям)</div>
+                    </div>
+                </div>
+
+                <!-- Кнопки действий -->
+                <div class="form-actions">
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">
+                        ← Назад к просмотру
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Сохранить изменения
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -84,12 +489,45 @@
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = function (e) {
-                            currentPhoto.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`;
+                            currentPhoto.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">`;
                         }
                         reader.readAsDataURL(file);
                     }
                 });
             }
+
+            // Автосохранение в localStorage (опционально)
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input, textarea, select');
+
+            // Загрузка сохраненных данных
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem(`edit_${input.name || input.id}`);
+                if (savedValue && input.type !== 'file' && input.type !== 'checkbox') {
+                    input.value = savedValue;
+                } else if (savedValue && input.type === 'checkbox') {
+                    input.checked = savedValue === 'true';
+                }
+            });
+
+            // Сохранение при изменении
+            inputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    if (this.type !== 'file') {
+                        const key = `edit_${this.name || this.id}`;
+                        const value = this.type === 'checkbox' ? this.checked : this.value;
+                        localStorage.setItem(key, value);
+                    }
+                });
+            });
+
+            // Очистка при отправке
+            form.addEventListener('submit', function () {
+                inputs.forEach(input => {
+                    const key = `edit_${input.name || input.id}`;
+                    localStorage.removeItem(key);
+                });
+            });
         });
     </script>
 }

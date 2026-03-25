@@ -139,9 +139,9 @@ else
         {
             <div class="col-md-4">
                 <div class="dino-card">
-                    @if (!string.IsNullOrEmpty(dino.PhotoUrl))
+                    @if (!string.IsNullOrEmpty(dino.PhotoPath))
                     {
-                        <img src="@dino.PhotoUrl" alt="@dino.Name" class="dino-image">
+                        <img src="@dino.PhotoPath" alt="@dino.Name" class="dino-image">
                     }
                     else
                     {
@@ -149,7 +149,6 @@ else
                             🦕
                         </div>
                     }
-
                     <h2 class="dino-name">
                         @dino.Name
                         @if (!string.IsNullOrEmpty(dino.Era))

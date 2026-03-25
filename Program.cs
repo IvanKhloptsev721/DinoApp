@@ -14,7 +14,6 @@ namespace DinoApp
 
             // Регистрируем сервисы
             builder.Services.AddSingleton<DinoApiClient>();
-            builder.Services.AddScoped<FileService>(); // Scoped, так как зависит от IWebHostEnvironment
 
             var app = builder.Build();
 

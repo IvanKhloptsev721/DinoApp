@@ -10,13 +10,12 @@ namespace DinoApp.Models
         public string? Clade { get; set; }
         public string? Period { get; set; }
         public string? GroupName { get; set; }
+        public string? Genus { get; set; }        // Добавлено
+        public string? Species { get; set; }      // Добавлено
         public string? Size { get; set; }
 
         // Для файла
         public IFormFile? PhotoFile { get; set; }
-
-        // Для случая, когда файл не меняется
-        public string? ExistingPhotoPath { get; set; }
 
         public string? Description { get; set; }
         public string? FullDescription { get; set; }
@@ -27,5 +26,6 @@ namespace DinoApp.Models
         public bool IsFeatured { get; set; }
         public bool AllowComments { get; set; }
         public string? DiscoveryLocation { get; set; }
+        public string? Comments { get; set; }     // Добавлено
     }
 }

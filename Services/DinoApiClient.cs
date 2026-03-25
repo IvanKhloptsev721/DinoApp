@@ -47,33 +47,37 @@ public class DinoApiClient
     }
 
     // POST /api/dinosaurs - создать с файлом
+    // Services/DinoApiClient.cs (исправленный CreateAsync)
     public async Task<DinosaurDto> CreateAsync(CreateDinosaurDto dto)
     {
         using var content = new MultipartFormDataContent();
 
         // Добавляем текстовые поля
-        content.Add(new StringContent(dto.Name ?? ""), "Name");
-        content.Add(new StringContent(dto.Era ?? ""), "Era");
-        content.Add(new StringContent(dto.Clade ?? ""), "Clade");
-        content.Add(new StringContent(dto.Period ?? ""), "Period");
-        content.Add(new StringContent(dto.GroupName ?? ""), "GroupName");
-        content.Add(new StringContent(dto.Size ?? ""), "Size");
-        content.Add(new StringContent(dto.Description ?? ""), "Description");
-        content.Add(new StringContent(dto.FullDescription ?? ""), "FullDescription");
-        content.Add(new StringContent(dto.Diet ?? ""), "Diet");
-        content.Add(new StringContent(dto.Locomotion ?? ""), "Locomotion");
-        content.Add(new StringContent(dto.Continent ?? ""), "Continent");
-        content.Add(new StringContent(dto.Status ?? ""), "Status");
-        content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
-        content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
-        content.Add(new StringContent(dto.DiscoveryLocation ?? ""), "DiscoveryLocation");
+        AddStringContent(content, "Name", dto.Name);
+        AddStringContent(content, "Era", dto.Era);
+        AddStringContent(content, "Clade", dto.Clade);
+        AddStringContent(content, "Period", dto.Period);
+        AddStringContent(content, "GroupName", dto.GroupName);
+        AddStringContent(content, "Genus", dto.Genus);
+        AddStringContent(content, "Species", dto.Species);
+        AddStringContent(content, "Size", dto.Size);
+        AddStringContent(content, "Description", dto.Description);
+        AddStringContent(content, "FullDescription", dto.FullDescription);
+        AddStringContent(content, "Diet", dto.Diet);
+        AddStringContent(content, "Locomotion", dto.Locomotion);
+        AddStringContent(content, "Continent", dto.Continent);
+        AddStringContent(content, "Status", dto.Status);
+        AddStringContent(content, "IsFeatured", dto.IsFeatured.ToString());
+        AddStringContent(content, "AllowComments", dto.AllowComments.ToString());
+        AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
+        AddStringContent(content, "Comments", dto.Comments);
 
         // Добавляем файл, если он есть
         if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
         {
             var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
             fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "PhotoFile", dto.PhotoFile.FileName);
+            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName); // Изменено с PhotoFile на ImageFile
         }
 
         var response = await _httpClient.PostAsync("/api/dinosaurs", content);
@@ -84,41 +88,51 @@ public class DinoApiClient
                ?? throw new Exception("Failed to create dinosaur");
     }
 
-    // PUT /api/dinosaurs/{id} - обновить с файлом
+    // Services/DinoApiClient.cs (исправленный UpdateAsync)
     public async Task UpdateAsync(int id, UpdateDinosaurDto dto)
     {
         using var content = new MultipartFormDataContent();
 
         // Добавляем текстовые поля
-        content.Add(new StringContent(dto.Name ?? ""), "Name");
-        content.Add(new StringContent(dto.Era ?? ""), "Era");
-        content.Add(new StringContent(dto.Clade ?? ""), "Clade");
-        content.Add(new StringContent(dto.Period ?? ""), "Period");
-        content.Add(new StringContent(dto.GroupName ?? ""), "GroupName");
-        content.Add(new StringContent(dto.Size ?? ""), "Size");
-        content.Add(new StringContent(dto.Description ?? ""), "Description");
-        content.Add(new StringContent(dto.FullDescription ?? ""), "FullDescription");
-        content.Add(new StringContent(dto.Diet ?? ""), "Diet");
-        content.Add(new StringContent(dto.Locomotion ?? ""), "Locomotion");
-        content.Add(new StringContent(dto.Continent ?? ""), "Continent");
-        content.Add(new StringContent(dto.Status ?? ""), "Status");
-        content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
-        content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
-        content.Add(new StringContent(dto.DiscoveryLocation ?? ""), "DiscoveryLocation");
-        content.Add(new StringContent(dto.ExistingPhotoPath ?? ""), "ExistingPhotoPath");
+        AddStringContent(content, "Name", dto.Name);
+        AddStringContent(content, "Era", dto.Era);
+        AddStringContent(content, "Clade", dto.Clade);
+        AddStringContent(content, "Period", dto.Period);
+        AddStringContent(content, "GroupName", dto.GroupName);
+        AddStringContent(content, "Genus", dto.Genus);
+        AddStringContent(content, "Species", dto.Species);
+        AddStringContent(content, "Size", dto.Size);
+        AddStringContent(content, "Description", dto.Description);
+        AddStringContent(content, "FullDescription", dto.FullDescription);
+        AddStringContent(content, "Diet", dto.Diet);
+        AddStringContent(content, "Locomotion", dto.Locomotion);
+        AddStringContent(content, "Continent", dto.Continent);
+        AddStringContent(content, "Status", dto.Status);
+        AddStringContent(content, "IsFeatured", dto.IsFeatured.ToString());
+        AddStringContent(content, "AllowComments", dto.AllowComments.ToString());
+        AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
+        AddStringContent(content, "Comments", dto.Comments);
 
         // Добавляем новый файл, если он есть
         if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
         {
             var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
             fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "PhotoFile", dto.PhotoFile.FileName);
+            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName); // Изменено с PhotoFile на ImageFile
         }
 
         var response = await _httpClient.PutAsync($"/api/dinosaurs/{id}", content);
         response.EnsureSuccessStatusCode();
     }
 
+    // Вспомогательный метод для добавления строковых полей
+    private void AddStringContent(MultipartFormDataContent content, string name, string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            content.Add(new StringContent(value), name);
+        }
+    }
     // DELETE /api/dinosaurs/{id} - удалить
     public async Task DeleteAsync(int id)
     {

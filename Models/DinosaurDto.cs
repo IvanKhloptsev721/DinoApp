@@ -15,6 +15,14 @@ namespace DinoApp.Models
 
         // Вместо PhotoUrl храним путь к файлу
         public string? PhotoPath { get; set; }
+
+        // Добавляем PhotoUrl для обратной совместимости
+        public string? PhotoUrl
+        {
+            get => PhotoPath;
+            set => PhotoPath = value;
+        }
+
         public IFormFile? PhotoFile { get; set; }
         public string? Comments { get; set; }
         public DateTime CreatedAt { get; set; }

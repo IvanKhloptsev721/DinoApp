@@ -75,16 +75,16 @@
         border-left: 5px solid #e74c3c;
     }
 
-    .info-card h3 {
-        color: #2c3e50;
-        margin: 0 0 15px 0;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        .info-card h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
     .info-row {
         display: flex;
@@ -143,14 +143,14 @@
         border-left: 5px solid #3498db;
     }
 
-    .description-section h3 {
-        color: #2c3e50;
-        margin: 0 0 15px 0;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        .description-section h3 {
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
     .description-text {
         font-size: 18px;
@@ -195,6 +195,25 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
+
+    /* Для статуса */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .status-featured {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .status-normal {
+        background-color: #95a5a6;
+        color: white;
+    }
 </style>
 
 <div class="details-container">
@@ -205,18 +224,25 @@
         </div>
         <div class="title-section">
             <h1>@Model.Name</h1>
-            <span class="era-badge-large">
-                @(Model.Era ?? "Эра не указана")
-            </span>
+            <div>
+                <span class="era-badge-large">
+                    @(Model.Era ?? "Эра не указана")
+                </span>
+                @if (Model.IsFeatured)
+                {
+                    <span class="status-badge status-featured" style="margin-left: 10px;">⭐ Избранный</span>
+                }
+            </div>
         </div>
     </div>
 
     <div class="content-grid">
         <!-- Изображение (на всю ширину) -->
         <div class="image-section">
-            @if (!string.IsNullOrEmpty(Model.PhotoUrl))
+            @if (!string.IsNullOrEmpty(Model.PhotoPath))
             {
-                <img src="@Model.PhotoUrl" alt="@Model.Name" class="dino-main-image">
+                <img src="@Model.PhotoPath" alt="@Model.Name" class="dino-main-image"
+                     onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
             }
             else
             {
@@ -231,94 +257,167 @@
             <div class="info-card">
                 <h3>📋 Основная информация</h3>
 
-                <div class="info-row">
-                    <span class="info-label">Клада:</span>
-                    <span class="info-value">@(Model.Clade ?? "Не указано")</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Clade))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Клада:</span>
+                        <span class="info-value">@Model.Clade</span>
+                    </div>
+                }
 
-                <div class="info-row">
-                    <span class="info-label">Период:</span>
-                    <span class="info-value">@(Model.Period ?? "Не указан")</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Period))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Период:</span>
+                        <span class="info-value">@Model.Period</span>
+                    </div>
+                }
 
-                <div class="info-row">
-                    <span class="info-label">Семейство:</span>
-                    <span class="info-value">@(Model.GroupName ?? "Не указано")</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.GroupName))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Семейство/Группа:</span>
+                        <span class="info-value">@Model.GroupName</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Size))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Размер:</span>
+                        <span class="info-value">@Model.Size</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Diet))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Питание:</span>
+                        <span class="info-value">@Model.Diet</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Locomotion))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Способ передвижения:</span>
+                        <span class="info-value">@Model.Locomotion</span>
+                    </div>
+                }
             </div>
 
             <!-- Краткое описание -->
-            <div class="info-card">
-                <h3>📝 Краткое описание</h3>
-                <p style="font-size: 16px; line-height: 1.8; color: #34495e;">
-                    @if (!string.IsNullOrEmpty(Model.Description))
-                    {
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="info-card">
+                    <h3>📝 Краткое описание</h3>
+                    <p style="font-size: 16px; line-height: 1.8; color: #34495e;">
                         @Model.Description
-                    }
-                    else
-                    {
-                        <span style="color: #95a5a6;">Описание отсутствует</span>
-                    }
-                </p>
-            </div>
+                    </p>
+                </div>
+            }
         </div>
 
-        <!-- Правая колонка - дополнительные характеристики (только текст) -->
+        <!-- Правая колонка - дополнительные характеристики -->
         <div>
             <div class="info-card">
                 <h3>🔬 Научная классификация</h3>
 
-                <div class="info-row">
-                    <span class="info-label">Отряд:</span>
-                    <span class="info-value">Ящеротазовые</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Genus))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Род:</span>
+                        <span class="info-value">@Model.Genus</span>
+                    </div>
+                }
 
-                <div class="info-row">
-                    <span class="info-label">Подотряд:</span>
-                    <span class="info-value">Тероподы</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Species))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Вид:</span>
+                        <span class="info-value">@Model.Species</span>
+                    </div>
+                }
 
-                <div class="info-row">
-                    <span class="info-label">Длина:</span>
-                    <span class="info-value">12-13 метров</span>
-                </div>
-
-                <div class="info-row">
-                    <span class="info-label">Вес:</span>
-                    <span class="info-value">6-8 тонн</span>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Clade))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Клада:</span>
+                        <span class="info-value">@Model.Clade</span>
+                    </div>
+                }
             </div>
 
             <div class="info-card">
                 <h3>🌍 Место обитания</h3>
-                <div class="info-row">
-                    <span class="info-label">Континент:</span>
-                    <span class="info-value">Северная Америка</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Формация:</span>
-                    <span class="info-value">Хелл-Крик</span>
-                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Continent))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Континент:</span>
+                        <span class="info-value">@Model.Continent</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.DiscoveryLocation))
+                {
+                    <div class="info-row">
+                        <span class="info-label">Место находки:</span>
+                        <span class="info-value">@Model.DiscoveryLocation</span>
+                    </div>
+                }
             </div>
+
+            @if (!string.IsNullOrEmpty(Model.Status))
+            {
+                <div class="info-card">
+                    <h3>📊 Статус</h3>
+                    <div class="info-row">
+                        <span class="info-label">Статус:</span>
+                        <span class="info-value">@Model.Status</span>
+                    </div>
+                </div>
+            }
+
+            @if (Model.AllowComments)
+            {
+                <div class="info-card">
+                    <h3>💬 Комментарии</h3>
+                    <div class="info-row">
+                        <span class="info-value">Комментарии разрешены</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Comments))
+                    {
+                        <div class="info-row">
+                            <span class="info-label">Комментарии:</span>
+                            <span class="info-value">@Model.Comments</span>
+                        </div>
+                    }
+                </div>
+            }
         </div>
 
-        <!-- Полное описание (только текст) -->
-        <div class="description-section">
-            <h3>📖 Полное описание</h3>
-            <div class="description-text">
-                <p>
-                    Тираннозавр (Tyrannosaurus rex) — один из крупнейших наземных хищников в истории Земли.
-                    Обитал в западной части Северной Америки в конце мелового периода, около 68-66 миллионов лет назад.
-                </p>
-                <p>
-                    Обладал массивным черепом длиной до 1.5 метра, мощными челюстями с 60 зубьями длиной до 30 см.
-                    Несмотря на огромные размеры, мог развивать скорость до 20-30 км/ч. Передние конечности были очень
-                    маленькими, но чрезвычайно сильными.
-                </p>
-                <p>
-                    Долгое время велись споры о том, был ли тираннозавр хищником или падальщиком. Современные исследования
-                    показывают, что он сочетал оба способа питания, занимая вершину пищевой пирамиды своего времени.
-                </p>
+        <!-- Полное описание -->
+        @if (!string.IsNullOrEmpty(Model.FullDescription))
+        {
+            <div class="description-section">
+                <h3>📖 Полное описание</h3>
+                <div class="description-text">
+                    @Html.Raw(Model.FullDescription.Replace("\n", "<br/>"))
+                </div>
+            </div>
+        }
+
+        <!-- Информация о датах -->
+        <div class="info-card" style="grid-column: span 2; background-color: #f8f9fa;">
+            <h3>📅 Информация о записи</h3>
+            <div class="info-row">
+                <span class="info-label">Создано:</span>
+                <span class="info-value">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Обновлено:</span>
+                <span class="info-value">@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")</span>
             </div>
         </div>
     </div>
@@ -329,12 +428,16 @@
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-edit">✏️ Редактировать</a>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        // Простой скрипт для демонстрации
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Страница динозавра загружена!');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Добавляем обработку ошибок загрузки изображений
+        const images = document.querySelectorAll('.dino-main-image');
+        images.forEach(img => {
+            img.addEventListener('error', function () {
+                console.log('Не удалось загрузить изображение');
+                // Можно подставить изображение по умолчанию
+                this.src = '/images/default-dino.jpg';
+            });
         });
-    </script>
-}
+    });
+</script>
