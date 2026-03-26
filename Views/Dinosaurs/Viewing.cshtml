@@ -235,22 +235,22 @@
             </div>
         </div>
     </div>
-
-    <div class="content-grid">
-        <!-- Изображение (на всю ширину) -->
-        <div class="image-section">
-            @if (!string.IsNullOrEmpty(Model.PhotoPath))
-            {
-                <img src="@Model.PhotoPath" alt="@Model.Name" class="dino-main-image"
-                     onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
-            }
-            else
-            {
-                <div class="image-placeholder">
-                    🦕
-                </div>
-            }
+    @if (!string.IsNullOrEmpty(Model.PhotoPath))
+    {
+        <img src="@Model.PhotoPath" alt="@Model.Name" class="dino-main-image"
+             onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
+    }
+    else if (!string.IsNullOrEmpty(Model.PhotoUrl))
+    {
+        <img src="@Model.PhotoUrl" alt="@Model.Name" class="dino-main-image"
+             onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
+    }
+    else
+    {
+        <div class="image-placeholder">
+            🦕
         </div>
+    }
 
         <!-- Левая колонка - основная информация -->
         <div>
@@ -440,4 +440,20 @@
             });
         });
     });
+    @if (!string.IsNullOrEmpty(Model.PhotoPath))
+    {
+            <img src="@Model.PhotoPath" alt="@Model.Name" class="dino-main-image"
+                onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
+    }
+    else if (!string.IsNullOrEmpty(Model.PhotoUrl))
+    {
+                <img src="@Model.PhotoUrl" alt="@Model.Name" class="dino-main-image"
+                    onerror="this.onerror=null; this.src='/images/default-dino.jpg';">
+    }
+    else
+    {
+                    <div class="image-placeholder">
+                        🦕
+                    </div>
+    }
 </script>

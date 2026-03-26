@@ -1,5 +1,4 @@
-﻿// Services/DinoApiClient.cs
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using DinoApp.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,11 +9,14 @@ public class DinoApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions;
+    private readonly IWebHostEnvironment _environment;
+    private readonly string _baseUrl;
 
-    public DinoApiClient(IConfiguration config)
+    public DinoApiClient(IConfiguration config, IWebHostEnvironment environment)
     {
-        var baseUrl = config["ApiSettings:BaseUrl"] ?? "https://localhost:7127";
-        _httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
+        _baseUrl = config["ApiSettings:BaseUrl"] ?? "https://localhost:7127";
+        _httpClient = new HttpClient { BaseAddress = new Uri(_baseUrl) };
+        _environment = environment;
         _jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
@@ -22,17 +24,25 @@ public class DinoApiClient
         };
     }
 
-    // GET /api/dinosaurs - получить всех
+    // GET /api/dinosaurs - получить всех (ИСПРАВЛЕНО)
     public async Task<List<DinosaurDto>> GetAllAsync()
     {
         var response = await _httpClient.GetAsync("/api/dinosaurs");
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
+        var dinosaurs = JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
+
+        // ПРЕОБРАЗУЕМ ОТНОСИТЕЛЬНЫЕ ПУТИ В ПОЛНЫЕ URL ДЛЯ КАЖДОГО ДИНОЗАВРА
+        foreach (var dino in dinosaurs)
+        {
+            FixImageUrl(dino);
+        }
+
+        return dinosaurs;
     }
 
-    // GET /api/dinosaurs/{id} - получить одного
+    // GET /api/dinosaurs/{id} - получить одного (ИСПРАВЛЕНО)
     public async Task<DinosaurDto?> GetByIdAsync(int id)
     {
         var response = await _httpClient.GetAsync($"/api/dinosaurs/{id}");
@@ -43,11 +53,47 @@ public class DinoApiClient
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
+        var dinosaur = JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
+
+        // ПРЕОБРАЗУЕМ ОТНОСИТЕЛЬНЫЙ ПУТЬ В ПОЛНЫЙ URL
+        if (dinosaur != null)
+        {
+            FixImageUrl(dinosaur);
+        }
+
+        return dinosaur;
+    }
+
+    // ВСПОМОГАТЕЛЬНЫЙ МЕТОД ДЛЯ ФИКСАЦИИ URL ИЗОБРАЖЕНИЙ
+    private void FixImageUrl(DinosaurDto dinosaur)
+    {
+        if (dinosaur == null) return;
+
+        // Проверяем PhotoPath
+        if (!string.IsNullOrEmpty(dinosaur.PhotoPath) && !dinosaur.PhotoPath.StartsWith("http"))
+        {
+            var baseUrl = _baseUrl.TrimEnd('/');
+            var fixedUrl = $"{baseUrl}{dinosaur.PhotoPath}";
+            dinosaur.PhotoPath = fixedUrl;
+            dinosaur.PhotoUrl = fixedUrl; // Для обратной совместимости
+        }
+
+        // Проверяем PhotoUrl как запасной вариант
+        if (!string.IsNullOrEmpty(dinosaur.PhotoUrl) && !dinosaur.PhotoUrl.StartsWith("http"))
+        {
+            var baseUrl = _baseUrl.TrimEnd('/');
+            dinosaur.PhotoUrl = $"{baseUrl}{dinosaur.PhotoUrl}";
+            if (string.IsNullOrEmpty(dinosaur.PhotoPath))
+            {
+                dinosaur.PhotoPath = dinosaur.PhotoUrl;
+            }
+        }
+
+        // Отладочная информация
+        Console.WriteLine($"Fixed URL for {dinosaur.Name}: {dinosaur.PhotoPath}");
     }
 
     // POST /api/dinosaurs - создать с файлом
-    // Services/DinoApiClient.cs (исправленный CreateAsync)
     public async Task<DinosaurDto> CreateAsync(CreateDinosaurDto dto)
     {
         using var content = new MultipartFormDataContent();
@@ -72,28 +118,50 @@ public class DinoApiClient
         AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
         AddStringContent(content, "Comments", dto.Comments);
 
-        // Добавляем файл, если он есть
+        // Добавляем URL фотографии, если есть
+        AddStringContent(content, "PhotoUrl", dto.PhotoUrl);
+
+        // Добавляем файл, если он есть - ВАЖНО: имя поля должно быть "ImageFile"
         if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
         {
             var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
             fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName); // Изменено с PhotoFile на ImageFile
+            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName);
         }
 
         var response = await _httpClient.PostAsync("/api/dinosaurs", content);
-        response.EnsureSuccessStatusCode();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception($"API вернул ошибку: {response.StatusCode} - {error}");
+        }
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<DinosaurDto>(responseJson, _jsonOptions)
-               ?? throw new Exception("Failed to create dinosaur");
+        var result = JsonSerializer.Deserialize<DinosaurDto>(responseJson, _jsonOptions);
+
+        // Преобразуем относительный путь в полный URL
+        if (result != null)
+        {
+            FixImageUrl(result);
+        }
+
+        return result ?? throw new Exception("Failed to create dinosaur");
     }
 
-    // Services/DinoApiClient.cs (исправленный UpdateAsync)
-    public async Task UpdateAsync(int id, UpdateDinosaurDto dto)
+    // PUT /api/dinosaurs/{id} - обновить с файлом
+    // PUT /api/dinosaurs/{id} - обновить с файлом (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ)
+    public async Task<DinosaurDto> UpdateAsync(int id, UpdateDinosaurDto dto)
     {
         using var content = new MultipartFormDataContent();
 
-        // Добавляем текстовые поля
+        Console.WriteLine($"=== ОТПРАВКА ЗАПРОСА НА ОБНОВЛЕНИЕ ===");
+        Console.WriteLine($"ID: {id}");
+        Console.WriteLine($"Name: {dto.Name}");
+        Console.WriteLine($"Has PhotoFile: {dto.PhotoFile != null}");
+        Console.WriteLine($"PhotoUrl: {dto.PhotoUrl}");
+
+        // Добавляем текстовые поля (только если они не null)
         AddStringContent(content, "Name", dto.Name);
         AddStringContent(content, "Era", dto.Era);
         AddStringContent(content, "Clade", dto.Clade);
@@ -113,24 +181,52 @@ public class DinoApiClient
         AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
         AddStringContent(content, "Comments", dto.Comments);
 
+        // Добавляем URL фотографии, если есть
+        AddStringContent(content, "PhotoUrl", dto.PhotoUrl);
+
         // Добавляем новый файл, если он есть
         if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
         {
+            Console.WriteLine($"Загружаем новый файл: {dto.PhotoFile.FileName}, размер: {dto.PhotoFile.Length} bytes");
             var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
             fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName); // Изменено с PhotoFile на ImageFile
+            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName);
+        }
+        else
+        {
+            Console.WriteLine("Новый файл НЕ загружен");
         }
 
         var response = await _httpClient.PutAsync($"/api/dinosaurs/{id}", content);
-        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"Response Status: {response.StatusCode}");
+        Console.WriteLine($"Response Content: {responseContent}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"API вернул ошибку: {response.StatusCode} - {responseContent}");
+        }
+
+        // Получаем обновленного динозавра из ответа
+        var updatedDinosaur = JsonSerializer.Deserialize<DinosaurDto>(responseContent, _jsonOptions);
+
+        // Преобразуем URL изображения
+        if (updatedDinosaur != null)
+        {
+            FixImageUrl(updatedDinosaur);
+            Console.WriteLine($"Обновленный динозавр: {updatedDinosaur.Name}, PhotoPath: {updatedDinosaur.PhotoPath}");
+        }
+
+        return updatedDinosaur ?? throw new Exception("Failed to update dinosaur");
     }
 
-    // Вспомогательный метод для добавления строковых полей
     private void AddStringContent(MultipartFormDataContent content, string name, string? value)
     {
         if (!string.IsNullOrEmpty(value))
         {
             content.Add(new StringContent(value), name);
+            Console.WriteLine($"Добавлено поле {name}: {value}");
         }
     }
     // DELETE /api/dinosaurs/{id} - удалить
@@ -139,4 +235,5 @@ public class DinoApiClient
         var response = await _httpClient.DeleteAsync($"/api/dinosaurs/{id}");
         response.EnsureSuccessStatusCode();
     }
+
 }

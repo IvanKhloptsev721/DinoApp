@@ -1,4 +1,5 @@
-﻿// Models/DinosaurDto.cs
+﻿using Microsoft.AspNetCore.Http;
+
 namespace DinoApp.Models
 {
     public class DinosaurDto
@@ -13,10 +14,10 @@ namespace DinoApp.Models
         public string? Species { get; set; }
         public string? Description { get; set; }
 
-        // Вместо PhotoUrl храним путь к файлу
+        // Путь к файлу (может быть относительным или полным URL)
         public string? PhotoPath { get; set; }
 
-        // Добавляем PhotoUrl для обратной совместимости
+        // Для обратной совместимости
         public string? PhotoUrl
         {
             get => PhotoPath;

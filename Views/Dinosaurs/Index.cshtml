@@ -1,5 +1,4 @@
-﻿@* Views/Dinosaurs/Index.cshtml *@
-@model IEnumerable<DinoApp.Models.DinosaurDto>
+﻿@model IEnumerable<DinoApp.Models.DinosaurDto>
 
 @{
     ViewData["Title"] = "Динозавры";
@@ -16,10 +15,10 @@
         transition: transform 0.2s;
     }
 
-    .dino-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
+        .dino-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
 
     .dino-image {
         width: 100%;
@@ -45,9 +44,9 @@
         margin-bottom: 5px;
     }
 
-    .dino-info strong {
-        color: #34495e;
-    }
+        .dino-info strong {
+            color: #34495e;
+        }
 
     .btn-group {
         margin-top: 15px;
@@ -104,9 +103,18 @@
         font-size: 12px;
         margin-left: 10px;
     }
+
+    .image-error {
+        background-color: #fee;
+        color: #c0392b;
+        font-size: 12px;
+        text-align: center;
+        padding: 10px;
+    }
 </style>
 
 <h1>🦕 Наши динозавры</h1>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
@@ -139,9 +147,17 @@ else
         {
             <div class="col-md-4">
                 <div class="dino-card">
-                    @if (!string.IsNullOrEmpty(dino.PhotoPath))
+                    @{
+                        var imageUrl = !string.IsNullOrEmpty(dino.PhotoPath) ? dino.PhotoPath : dino.PhotoUrl;
+                    }
+
+                    @if (!string.IsNullOrEmpty(imageUrl))
                     {
-                        <img src="@dino.PhotoPath" alt="@dino.Name" class="dino-image">
+                        <img src="@imageUrl"
+                             alt="@dino.Name"
+                             class="dino-image"
+                             onerror="this.onerror=null; this.src='/images/default-dino.jpg'; this.classList.add('image-error');"
+                             data-original-src="@imageUrl" />
                     }
                     else
                     {
@@ -149,6 +165,7 @@ else
                             🦕
                         </div>
                     }
+
                     <h2 class="dino-name">
                         @dino.Name
                         @if (!string.IsNullOrEmpty(dino.Era))
@@ -192,7 +209,36 @@ else
 
 @section Scripts {
     <script>
-        // Можно добавить JavaScript для интерактивности
-        console.log('Страница динозавров загружена!');
+        // Отладочная информация
+        console.log('=== Загрузка страницы динозавров ===');
+
+        @foreach (var dino in Model)
+        {
+            <text>
+                    console.log('Динозавр: @dino.Name');
+                    console.log('  PhotoPath: @dino.PhotoPath');
+                    console.log('  PhotoUrl: @dino.PhotoUrl');
+            </text>
+        }
+
+            // Отслеживаем ошибки загрузки изображений
+            document.querySelectorAll('img').forEach(img => {
+                img.addEventListener('error', function (e) {
+                    console.error('Ошибка загрузки изображения:', this.src);
+                    console.error('Оригинальный URL:', this.getAttribute('data-original-src'));
+
+                    // Показываем сообщение об ошибке
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'image-error';
+                    errorDiv.innerHTML = '⚠️ Не удалось загрузить изображение';
+                    this.parentNode.insertBefore(errorDiv, this.nextSibling);
+                });
+
+                img.addEventListener('load', function () {
+                    console.log('Изображение успешно загружено:', this.src);
+                });
+            });
+
+        console.log('=== Страница загружена ===');
     </script>
 }

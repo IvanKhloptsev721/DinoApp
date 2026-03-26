@@ -1,21 +1,23 @@
-﻿// Models/UpdateDinosaurDto.cs
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace DinoApp.Models
 {
     public class UpdateDinosaurDto
     {
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
         public string? Era { get; set; }
         public string? Clade { get; set; }
         public string? Period { get; set; }
         public string? GroupName { get; set; }
-        public string? Genus { get; set; }        // Добавлено
-        public string? Species { get; set; }      // Добавлено
+        public string? Genus { get; set; }
+        public string? Species { get; set; }
         public string? Size { get; set; }
 
         // Для файла
         public IFormFile? PhotoFile { get; set; }
+
+        // Для URL изображения (существующее изображение)
+        public string? PhotoUrl { get; set; }
 
         public string? Description { get; set; }
         public string? FullDescription { get; set; }
@@ -26,6 +28,6 @@ namespace DinoApp.Models
         public bool IsFeatured { get; set; }
         public bool AllowComments { get; set; }
         public string? DiscoveryLocation { get; set; }
-        public string? Comments { get; set; }     // Добавлено
+        public string? Comments { get; set; }
     }
 }

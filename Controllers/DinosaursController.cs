@@ -99,18 +99,30 @@ namespace DinoApp.Controllers
             }
         }
 
-        // Controllers/DinosaursController.cs (исправленный Edit метод)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, DinosaurDto dto)
         {
+            Console.WriteLine($"=== РЕДАКТИРОВАНИЕ ДИНОЗАВРА ===");
+            Console.WriteLine($"ID: {id}");
+            Console.WriteLine($"DTO ID: {dto.Id}");
+            Console.WriteLine($"Name: {dto.Name}");
+            Console.WriteLine($"PhotoFile: {dto.PhotoFile?.FileName ?? "null"}");
+            Console.WriteLine($"PhotoUrl: {dto.PhotoUrl}");
+
             if (id != dto.Id)
             {
+                Console.WriteLine("ID не совпадают!");
                 return NotFound();
             }
 
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState не валиден!");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Ошибка: {error.ErrorMessage}");
+                }
                 return View("Edit", dto);
             }
 
@@ -136,17 +148,22 @@ namespace DinoApp.Controllers
                     AllowComments = dto.AllowComments,
                     DiscoveryLocation = dto.DiscoveryLocation,
                     Comments = dto.Comments,
-                    PhotoFile = dto.PhotoFile  // Если в представлении есть загрузка файла
+                    PhotoFile = dto.PhotoFile,
+                    PhotoUrl = dto.PhotoFile == null ? dto.PhotoUrl : null // Важно!
                 };
 
-                await _apiClient.UpdateAsync(id, updateDto);
+                Console.WriteLine("Отправляем запрос на обновление...");
+                var updatedDinosaur = await _apiClient.UpdateAsync(id, updateDto);
+
+                Console.WriteLine($"Обновление успешно! Новый PhotoPath: {updatedDinosaur?.PhotoPath}");
                 TempData["SuccessMessage"] = "Динозавр успешно обновлен!";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка при обновлении: {ex.Message}");
-                ModelState.AddModelError("", "Ошибка при обновлении динозавра. Проверьте подключение к API.");
+                Console.WriteLine($"ОШИБКА ПРИ ОБНОВЛЕНИИ: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                ModelState.AddModelError("", $"Ошибка при обновлении динозавра: {ex.Message}");
                 return View("Edit", dto);
             }
         }
@@ -187,5 +204,6 @@ namespace DinoApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

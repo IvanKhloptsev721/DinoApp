@@ -1,5 +1,4 @@
-﻿// Program.cs
-using DinoApp.Services;
+﻿using DinoApp.Services;
 
 namespace DinoApp
 {
@@ -13,7 +12,8 @@ namespace DinoApp
             builder.Services.AddControllersWithViews();
 
             // Регистрируем сервисы
-            builder.Services.AddSingleton<DinoApiClient>();
+            builder.Services.AddHttpClient<DinoApiClient>();
+            builder.Services.AddScoped<DinoApiClient>();
 
             var app = builder.Build();
 
@@ -26,7 +26,7 @@ namespace DinoApp
 
             app.UseHttpsRedirection();
 
-            // Важно для статических файлов (изображения будут здесь)
+            // ВАЖНО: статические файлы (изображения будут здесь)
             app.UseStaticFiles();
 
             app.UseRouting();
