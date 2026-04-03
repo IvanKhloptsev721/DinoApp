@@ -1,0 +1,590 @@
+﻿@using DinoApp.Models
+@model DinoMapViewModel
+
+@{
+    ViewData["Title"] = "Карта Диномира";
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+
+    .map-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .map-header {
+        text-align: center;
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        border: 2px solid #ffd700;
+    }
+
+        .map-header h1 {
+            font-size: 48px;
+            color: #2c5a1e;
+            margin-bottom: 10px;
+        }
+
+        .map-header p {
+            font-size: 18px;
+            color: #555;
+        }
+
+    .search-panel {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .search-form {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .search-group {
+        flex: 1;
+        min-width: 250px;
+    }
+
+        .search-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c5a1e;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-group input,
+        .search-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+            .search-group input:focus,
+            .search-group select:focus {
+                outline: none;
+                border-color: #ffd700;
+                box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            }
+
+    .search-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+    }
+
+    .btn-search {
+        background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    .btn-reset {
+        background: #cbd5e0;
+        color: #1a202c;
+    }
+
+        .btn-reset:hover {
+            background: #a0aec0;
+        }
+
+    .world-map {
+        background: #e8f4f0;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .map-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c5a1e;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .map-svg-container {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .continent-map {
+        width: 100%;
+        min-width: 800px;
+        background: #c8e6df;
+        border-radius: 16px;
+        cursor: pointer;
+    }
+
+    .continent {
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+        .continent:hover {
+            filter: brightness(0.95);
+            stroke-width: 3;
+        }
+
+    .continent-label {
+        font-size: 14px;
+        font-weight: bold;
+        fill: #2c5a1e;
+        text-anchor: middle;
+        pointer-events: none;
+    }
+
+    .continents-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f1f5f9;
+        border-radius: 12px;
+    }
+
+    .continent-filter {
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+        .continent-filter:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .continent-filter.active {
+            background: #2c5a1e;
+            color: white;
+            border-color: #2c5a1e;
+        }
+
+    .dinosaurs-list {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .dinosaurs-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+        .dinosaurs-header h2 {
+            color: #2c5a1e;
+            font-size: 24px;
+        }
+
+    .results-count {
+        background: #ffd700;
+        color: #2c5a1e;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .dino-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+    }
+
+    .dino-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s;
+        cursor: pointer;
+        border: 1px solid #e2e8f0;
+    }
+
+        .dino-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #ffd700;
+        }
+
+    .dino-card-image {
+        height: 180px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .dino-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .continent-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .dino-card-content {
+        padding: 15px;
+    }
+
+    .dino-card-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c5a1e;
+        margin-bottom: 8px;
+    }
+
+    .dino-card-period {
+        font-size: 14px;
+        color: #718096;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .dino-card-description {
+        font-size: 14px;
+        color: #4a5568;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .view-button {
+        display: inline-block;
+        background: #2c5a1e;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+        .view-button:hover {
+            background: #ffd700;
+            color: #2c5a1e;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #718096;
+    }
+
+    .empty-state-icon {
+        font-size: 64px;
+        margin-bottom: 20px;
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #2c5a1e;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+        .back-button:hover {
+            background: white;
+            transform: translateX(-5px);
+        }
+
+    @@media (max-width: 768px) {
+        .map-header h1 {
+            font-size: 32px;
+        }
+
+        .search-form {
+            flex-direction: column;
+        }
+
+        .search-buttons {
+            justify-content: stretch;
+        }
+
+        .btn-search {
+            justify-content: center;
+        }
+
+        .dino-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="map-container">
+    <a asp-action="Index" class="back-button">← Назад к списку динозавров</a>
+
+    <div class="map-header">
+        <h1>🗺️ Вы находитесь на Карте Диномира</h1>
+        <p>Исследуйте мир динозавров по континентам и эпохам</p>
+    </div>
+
+    <div class="search-panel">
+        <form method="get" asp-action="Map" class="search-form">
+            <div class="search-group">
+                <label>🔍 Название динозавра</label>
+                <input type="text"
+                       name="dinoName"
+                       placeholder="Например: Tyrannosaurus, Triceratops..."
+                       value="@Context.Request.Query["dinoName"]" />
+            </div>
+
+            <div class="search-group">
+                <label>🌍 Континент</label>
+                <select name="continent">
+                    <option value="">Все континенты</option>
+                    <option value="Северная Америка">🌎 Северная Америка</option>
+                    <option value="Южная Америка">🌎 Южная Америка</option>
+                    <option value="Европа">🌍 Европа</option>
+                    <option value="Азия">🌏 Азия</option>
+                    <option value="Африка">🌍 Африка</option>
+                    <option value="Австралия">🌏 Австралия</option>
+                    <option value="Антарктида">❄️ Антарктида</option>
+                </select>
+            </div>
+
+            <div class="search-buttons">
+                <button type="submit" class="btn-search">
+                    🔍 Найти
+                </button>
+                <a href="@Url.Action("Map")" class="btn-search btn-reset">
+                    🗑️ Сбросить
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="world-map">
+        <div class="map-title">
+            🌎 Интерактивная карта мира — нажмите на континент
+        </div>
+
+        <div class="continents-legend">
+            <div class="continent-filter" data-continent="all">🌐 Все</div>
+            <div class="continent-filter" data-continent="Северная Америка">🌎 Северная Америка</div>
+            <div class="continent-filter" data-continent="Южная Америка">🌎 Южная Америка</div>
+            <div class="continent-filter" data-continent="Европа">🌍 Европа</div>
+            <div class="continent-filter" data-continent="Азия">🌏 Азия</div>
+            <div class="continent-filter" data-continent="Африка">🌍 Африка</div>
+            <div class="continent-filter" data-continent="Австралия">🌏 Австралия</div>
+            <div class="continent-filter" data-continent="Антарктида">❄️ Антарктида</div>
+        </div>
+
+        <div class="map-svg-container">
+            <svg viewBox="0 0 1200 600" class="continent-map">
+                <path class="continent" data-continent="Северная Америка"
+                      d="M 150,100 L 350,80 L 400,150 L 380,250 L 300,280 L 200,260 L 120,200 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="260" y="180" class="continent-label">Северная Америка</text>
+
+                <path class="continent" data-continent="Южная Америка"
+                      d="M 280,320 L 350,300 L 380,380 L 360,480 L 320,520 L 280,480 L 260,400 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="320" y="420" class="continent-label">Южная Америка</text>
+
+                <path class="continent" data-continent="Европа"
+                      d="M 550,100 L 650,80 L 700,130 L 680,200 L 600,220 L 540,180 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="620" y="160" class="continent-label">Европа</text>
+
+                <path class="continent" data-continent="Африка"
+                      d="M 600,280 L 700,260 L 750,340 L 720,450 L 660,480 L 620,420 L 580,350 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="660" y="380" class="continent-label">Африка</text>
+
+                <path class="continent" data-continent="Азия"
+                      d="M 750,100 L 950,80 L 1050,120 L 1080,200 L 1000,280 L 850,260 L 780,220 L 720,180 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="880" y="180" class="continent-label">Азия</text>
+
+                <path class="continent" data-continent="Австралия"
+                      d="M 950,420 L 1050,400 L 1100,460 L 1050,520 L 950,500 L 920,460 Z"
+                      fill="#90be6d" stroke="#2c5a1e" stroke-width="2" />
+                <text x="1000" y="470" class="continent-label">Австралия</text>
+
+                <path class="continent" data-continent="Антарктида"
+                      d="M 400,550 L 600,540 L 700,560 L 650,590 L 500,600 L 400,580 Z"
+                      fill="#a0c4ff" stroke="#2c5a1e" stroke-width="2" />
+                <text x="550" y="575" class="continent-label">Антарктида</text>
+            </svg>
+        </div>
+    </div>
+
+    <div class="dinosaurs-list">
+        <div class="dinosaurs-header">
+            <h2>🦕 Найденные динозавры</h2>
+            <div class="results-count">
+                Найдено: @(Model?.Dinosaurs?.Count ?? 0)
+            </div>
+        </div>
+
+        @if (Model != null && Model.Dinosaurs.Any())
+        {
+            <div class="dino-grid">
+                @foreach (var dino in Model.Dinosaurs)
+                {
+                    <div class="dino-card">
+                        <div class="dino-card-image">
+                            @if (!string.IsNullOrEmpty(dino.PhotoPath))
+                            {
+                                <img src="@dino.PhotoPath" alt="@dino.Name" onerror="this.src='/images/default-dino.jpg'">
+                            }
+                            else
+                            {
+                                <img src="/images/default-dino.jpg" alt="@dino.Name">
+                            }
+                            <div class="continent-badge">
+                                @(string.IsNullOrEmpty(dino.Continent) ? "🌍 Неизвестно" : dino.Continent)
+                            </div>
+                        </div>
+                        <div class="dino-card-content">
+                            <div class="dino-card-title">@dino.Name</div>
+                            <div class="dino-card-period">
+                                <span>📅</span> @(string.IsNullOrEmpty(dino.Period) ? "Период не указан" : dino.Period)
+                            </div>
+                            <div class="dino-card-description">
+                                @if (!string.IsNullOrEmpty(dino.Description))
+                                {
+                                    @(dino.Description.Length > 100 ? dino.Description.Substring(0, 100) + "..." : dino.Description)
+                                }
+                                else
+                                {
+                                    <em>Описание отсутствует</em>
+                                }
+                            </div>
+                            <a asp-action="Details" asp-route-id="@dino.Id" class="view-button">
+                                Перейти на просмотр →
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-state-icon">🦕</div>
+                <h3>Динозавры не найдены</h3>
+                <p>Попробуйте изменить параметры поиска или сбросить фильтры</p>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.continent').forEach(continent => {
+        continent.addEventListener('click', function () {
+            const continentName = this.getAttribute('data-continent');
+            if (continentName) {
+                const select = document.querySelector('select[name="continent"]');
+                if (select) {
+                    select.value = continentName;
+                    document.querySelector('.search-form').submit();
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.continent-filter').forEach(filter => {
+        filter.addEventListener('click', function () {
+            const continent = this.getAttribute('data-continent');
+            const select = document.querySelector('select[name="continent"]');
+            if (select) {
+                if (continent === 'all') {
+                    select.value = '';
+                } else {
+                    select.value = continent;
+                }
+                document.querySelector('.search-form').submit();
+            }
+        });
+    });
+
+    const currentContinent = new URLSearchParams(window.location.search).get('continent');
+    if (currentContinent) {
+        document.querySelectorAll('.continent-filter').forEach(filter => {
+            if (filter.getAttribute('data-continent') === currentContinent) {
+                filter.classList.add('active');
+            }
+        });
+    } else {
+        document.querySelector('.continent-filter[data-continent="all"]')?.classList.add('active');
+    }
+
+    document.querySelectorAll('.dino-card').forEach(card => {
+        card.addEventListener('click', function (e) {
+            if (!e.target.closest('.view-button')) {
+                const link = this.querySelector('.view-button');
+                if (link) {
+                    window.location.href = link.href;
+                }
+            }
+        });
+    });
+</script>

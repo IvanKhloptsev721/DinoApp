@@ -1,0 +1,443 @@
+﻿@model DinoApp.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<style>
+    /* Основные стили в стиле Dino_Mir */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Заголовок в стиле главной */
+    .hero-section {
+        text-align: center;
+        padding: 40px 20px 30px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        border: 2px solid #ffd700;
+    }
+
+    .hero-section h1 {
+        font-size: 48px;
+        color: #2c5a1e;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section h1 span {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    .hero-section h1:hover span {
+        transform: rotate(15deg);
+    }
+
+    .hero-section p {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 0;
+    }
+
+    /* Форма регистрации */
+    .register-card {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #2c5a1e, #1a472a);
+        padding: 30px;
+        text-align: center;
+        color: white;
+    }
+
+    .register-header .dino-icon {
+        font-size: 60px;
+        margin-bottom: 10px;
+        display: inline-block;
+        animation: dinoWalk 2s ease-in-out infinite;
+    }
+
+    @@keyframes dinoWalk {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .register-header h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .register-header p {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+    .register-body {
+        padding: 40px;
+    }
+
+    /* Поля формы */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c5a1e;
+        font-size: 14px;
+    }
+
+    .form-label .required {
+        color: #e74c3c;
+        margin-left: 5px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-family: inherit;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #ffd700;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+
+    .form-control.error {
+        border-color: #e74c3c;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    /* Чекбокс */
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .checkbox-group input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .checkbox-group label {
+        color: #555;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .checkbox-group a {
+        color: #ff6b35;
+        text-decoration: none;
+    }
+
+    .checkbox-group a:hover {
+        text-decoration: underline;
+    }
+
+    /* Кнопки */
+    .btn-group-form {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn-dino {
+        padding: 12px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: bold;
+        text-align: center;
+        flex: 1;
+    }
+
+    .btn-register {
+        background-color: #4caf50;
+        color: white;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-register:hover {
+        background-color: #45a049;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .btn-back {
+        background-color: #95a5a6;
+        color: white;
+    }
+
+    .btn-back:hover {
+        background-color: #7f8c8d;
+        transform: translateY(-3px);
+    }
+
+    /* Сообщения об ошибках */
+    .validation-message {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        font-weight: 500;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border-left: 5px solid #dc3545;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border-left: 5px solid #28a745;
+    }
+
+    /* Ссылка на вход */
+    .login-link {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .login-link a {
+        color: #ff6b35;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    /* Адаптивность */
+    @@media (max-width: 768px) {
+        .hero-section h1 { font-size: 32px; }
+        .register-body { padding: 25px; }
+        .btn-group-form { flex-direction: column; }
+        .btn-dino { width: 100%; }
+    }
+</style>
+
+<div class="container">
+    <!-- Шапка в стиле главной страницы -->
+    <div class="hero-section">
+        <h1>
+            🦕 <span>Dino_Mir</span> 🦖
+        </h1>
+        <p>Присоединяйся к сообществу любителей динозавров!</p>
+    </div>
+
+    <!-- Форма регистрации -->
+    <div class="register-card">
+        <div class="register-header">
+            <div class="dino-icon">🦕</div>
+            <h2>Создать аккаунт</h2>
+            <p>Заполните форму ниже чтобы стать частью Диномира</p>
+        </div>
+
+        <div class="register-body">
+            <!-- Сообщения об ошибках -->
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    ❌ @TempData["ErrorMessage"]
+                </div>
+            }
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    ✅ @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <form asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
+
+                <!-- Поле для имени -->
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label">
+                        Имя <span class="required">*</span>
+                    </label>
+                    <input asp-for="Name"
+                           class="form-control"
+                           placeholder="Введите ваше имя"
+                           autocomplete="off" />
+                    <span asp-validation-for="Name" class="validation-message"></span>
+                </div>
+
+                <!-- Поле для возраста -->
+                <div class="form-group">
+                    <label asp-for="Age" class="form-label">
+                        Возраст <span class="required">*</span>
+                    </label>
+                    <input asp-for="Age"
+                           type="number"
+                           class="form-control"
+                           placeholder="Ваш возраст"
+                           min="1"
+                           max="120" />
+                    <span asp-validation-for="Age" class="validation-message"></span>
+                </div>
+
+                <!-- Поле для статьи о себе -->
+                <div class="form-group">
+                    <label asp-for="Bio" class="form-label">
+                        О себе
+                    </label>
+                    <textarea asp-for="Bio"
+                              class="form-control"
+                              placeholder="Расскажите немного о себе...&#10;Например: Как вы узнали о динозаврах? Какой ваш любимый динозавр?"></textarea>
+                    <span asp-validation-for="Bio" class="validation-message"></span>
+                    <small style="color: #999; font-size: 12px; display: block; margin-top: 5px;">
+                        Максимум 500 символов
+                    </small>
+                </div>
+
+                <!-- Чекбокс согласия -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required />
+                    <label for="terms">
+                        Я согласен с <a href="/terms">правилами сообщества</a> и <a href="/privacy">политикой конфиденциальности</a>
+                    </label>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="btn-group-form">
+                    <button type="submit" class="btn-dino btn-register">
+                        🦕 Зарегистрироваться
+                    </button>
+                    <a href="/" class="btn-dino btn-back">
+                        ← На главную
+                    </a>
+                </div>
+
+                <!-- Ссылка на вход -->
+                <div class="login-link">
+                    Уже есть аккаунт? <a href="/login">Войти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        console.log('=== Dino_Mir - Страница регистрации ===');
+
+        // Валидация возраста на клиенте
+        const ageInput = document.querySelector('input[name="Age"]');
+        if (ageInput) {
+            ageInput.addEventListener('input', function() {
+                let value = parseInt(this.value);
+                if (value < 1) this.value = 1;
+                if (value > 120) this.value = 120;
+            });
+        }
+
+        // Валидация имени (не должно быть пустым и слишком коротким)
+        const nameInput = document.querySelector('input[name="Name"]');
+        if (nameInput) {
+            nameInput.addEventListener('blur', function() {
+                if (this.value.trim().length < 2) {
+                    this.classList.add('error');
+                } else {
+                    this.classList.remove('error');
+                }
+            });
+        }
+
+        // Счетчик символов для Bio
+        const bioTextarea = document.querySelector('textarea[name="Bio"]');
+        if (bioTextarea) {
+            const counter = document.createElement('div');
+            counter.style.cssText = 'text-align: right; font-size: 12px; color: #999; margin-top: 5px;';
+            bioTextarea.parentNode.appendChild(counter);
+
+            function updateCounter() {
+                const length = bioTextarea.value.length;
+                counter.textContent = `${length} / 500 символов`;
+                if (length > 500) {
+                    counter.style.color = '#e74c3c';
+                    bioTextarea.classList.add('error');
+                } else {
+                    counter.style.color = '#999';
+                    bioTextarea.classList.remove('error');
+                }
+            }
+
+            bioTextarea.addEventListener('input', updateCounter);
+            updateCounter();
+        }
+
+        // Предотвращение отправки без согласия
+        const form = document.querySelector('form');
+        const termsCheckbox = document.getElementById('terms');
+
+        if (form && termsCheckbox) {
+            form.addEventListener('submit', function(e) {
+                if (!termsCheckbox.checked) {
+                    e.preventDefault();
+                    alert('Пожалуйста, примите условия соглашения');
+                }
+            });
+        }
+
+        console.log('=== Страница регистрации готова ===');
+    </script>
+}

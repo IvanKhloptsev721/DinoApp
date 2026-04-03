@@ -89,7 +89,7 @@ namespace DinoApp.Controllers
                     return NotFound();
                 }
 
-                return View("Edit", dinosaur); // ВСЕГДА возвращаем DinosaurDto
+                return View("Edit", dinosaur);
             }
             catch (Exception ex)
             {
@@ -99,6 +99,7 @@ namespace DinoApp.Controllers
             }
         }
 
+        // POST: /Dinosaurs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, DinosaurDto dto)
@@ -149,7 +150,7 @@ namespace DinoApp.Controllers
                     DiscoveryLocation = dto.DiscoveryLocation,
                     Comments = dto.Comments,
                     PhotoFile = dto.PhotoFile,
-                    PhotoUrl = dto.PhotoFile == null ? dto.PhotoUrl : null // Важно!
+                    PhotoUrl = dto.PhotoFile == null ? dto.PhotoUrl : null
                 };
 
                 Console.WriteLine("Отправляем запрос на обновление...");
@@ -167,6 +168,79 @@ namespace DinoApp.Controllers
                 return View("Edit", dto);
             }
         }
+
+        // POST: /Dinosaurs/AddComment/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(int id, string userName, string commentText)
+        {
+            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(commentText))
+            {
+                TempData["ErrorMessage"] = "Имя и текст комментария обязательны!";
+                return RedirectToAction(nameof(Details), new { id });
+            }
+
+            try
+            {
+                // Получаем текущего динозавра
+                var dinosaur = await _apiClient.GetByIdAsync(id);
+                if (dinosaur == null)
+                {
+                    return NotFound();
+                }
+
+                // Формируем новый комментарий в формате "Дата||Имя||Текст"
+                var newComment = $"{DateTime.Now:dd.MM.yyyy}||{userName}||{commentText}";
+
+                // Добавляем к существующим комментариям
+                string updatedComments;
+                if (string.IsNullOrEmpty(dinosaur.Comments))
+                {
+                    updatedComments = newComment;
+                }
+                else
+                {
+                    updatedComments = dinosaur.Comments + "\n" + newComment;
+                }
+
+                // Создаем DTO для обновления
+                var updateDto = new UpdateDinosaurDto
+                {
+                    Name = dinosaur.Name,
+                    Era = dinosaur.Era,
+                    Clade = dinosaur.Clade,
+                    Period = dinosaur.Period,
+                    GroupName = dinosaur.GroupName,
+                    Genus = dinosaur.Genus,
+                    Species = dinosaur.Species,
+                    Size = dinosaur.Size,
+                    Description = dinosaur.Description,
+                    FullDescription = dinosaur.FullDescription,
+                    Diet = dinosaur.Diet,
+                    Locomotion = dinosaur.Locomotion,
+                    Continent = dinosaur.Continent,
+                    Status = dinosaur.Status,
+                    IsFeatured = dinosaur.IsFeatured,
+                    AllowComments = dinosaur.AllowComments,
+                    DiscoveryLocation = dinosaur.DiscoveryLocation,
+                    Comments = updatedComments,
+                    PhotoUrl = dinosaur.PhotoPath
+                };
+
+                // Отправляем обновление
+                await _apiClient.UpdateAsync(id, updateDto);
+
+                TempData["SuccessMessage"] = "Комментарий успешно добавлен!";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при добавлении комментария: {ex.Message}");
+                TempData["ErrorMessage"] = "Не удалось добавить комментарий.";
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
         // GET: /Dinosaurs/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -204,6 +278,46 @@ namespace DinoApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        // Добавьте в DinosaursController.cs
 
+// GET: /Dinosaurs/Map
+public async Task<IActionResult> Map(string? continent, string? dinoName)
+{
+    try
+    {
+        var allDinosaurs = await _apiClient.GetAllAsync();
+        var filteredDinosaurs = allDinosaurs?.ToList() ?? new List<DinosaurDto>();
+        
+        // Фильтрация по континенту
+        if (!string.IsNullOrEmpty(continent))
+        {
+            filteredDinosaurs = filteredDinosaurs
+                .Where(d => d.Continent != null && d.Continent.Contains(continent, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+        
+        // Фильтрация по названию динозавра
+        if (!string.IsNullOrEmpty(dinoName))
+        {
+            filteredDinosaurs = filteredDinosaurs
+                .Where(d => d.Name != null && d.Name.Contains(dinoName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+        
+        var viewModel = new DinoMapViewModel
+        {
+            Dinosaurs = filteredDinosaurs,
+            SelectedContinent = continent,
+            SelectedDinoName = dinoName
+        };
+        
+        return View(viewModel);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Ошибка при загрузке карты: {ex.Message}");
+        return View(new DinoMapViewModel());
+    }
+}
     }
 }

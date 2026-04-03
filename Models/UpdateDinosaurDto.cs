@@ -4,22 +4,17 @@ namespace DinoApp.Models
 {
     public class UpdateDinosaurDto
     {
-        public string? Name { get; set; }
-        public string? Era { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string? Clade { get; set; }
+        public string? Era { get; set; }
         public string? Period { get; set; }
         public string? GroupName { get; set; }
         public string? Genus { get; set; }
         public string? Species { get; set; }
-        public string? Size { get; set; }
-
-        // Для файла
-        public IFormFile? PhotoFile { get; set; }
-
-        // Для URL изображения (существующее изображение)
-        public string? PhotoUrl { get; set; }
-
         public string? Description { get; set; }
+        public IFormFile? PhotoFile { get; set; }
+        public string? PhotoUrl { get; set; }
+        public string? Size { get; set; }
         public string? FullDescription { get; set; }
         public string? Diet { get; set; }
         public string? Locomotion { get; set; }

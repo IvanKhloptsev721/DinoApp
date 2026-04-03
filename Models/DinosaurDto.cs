@@ -6,6 +6,7 @@ namespace DinoApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;  // Добавлено!
         public string? Clade { get; set; }
         public string? Era { get; set; }
         public string? Period { get; set; }
@@ -14,14 +15,14 @@ namespace DinoApp.Models
         public string? Species { get; set; }
         public string? Description { get; set; }
 
-        // Путь к файлу (может быть относительным или полным URL)
-        public string? PhotoPath { get; set; }
+        // API возвращает PhotoUrl, а не PhotoPath
+        public string? PhotoUrl { get; set; }
 
-        // Для обратной совместимости
-        public string? PhotoUrl
+        // Для обратной совместимости с представлениями
+        public string? PhotoPath
         {
-            get => PhotoPath;
-            set => PhotoPath = value;
+            get => PhotoUrl;
+            set => PhotoUrl = value;
         }
 
         public IFormFile? PhotoFile { get; set; }
@@ -29,6 +30,7 @@ namespace DinoApp.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
+        // Дополнительные поля
         public string? Size { get; set; }
         public string? FullDescription { get; set; }
         public string? Diet { get; set; }
@@ -38,5 +40,8 @@ namespace DinoApp.Models
         public bool IsFeatured { get; set; }
         public bool AllowComments { get; set; }
         public string? DiscoveryLocation { get; set; }
+
+        // Поле для пути к изображению (если API вернет)
+        public string? ImagePath { get; set; }
     }
 }

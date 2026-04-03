@@ -1,0 +1,33 @@
+﻿@model DinoApp.Models.DinosaurDto
+
+@{
+    ViewData["Title"] = $"Удаление: {Model.Name}";
+}
+
+<div class="container" style="max-width: 600px; margin: 50px auto;">
+    <div class="alert alert-danger">
+        <h2>⚠️ Подтверждение удаления</h2>
+        <p>Вы уверены, что хотите удалить динозавра <strong>@Model.Name</strong>?</p>
+        <p>Это действие невозможно отменить.</p>
+
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-3">Название</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Эра</dt>
+            <dd class="col-sm-9">@(Model.Era ?? "—")</dd>
+
+            <dt class="col-sm-3">Период</dt>
+            <dd class="col-sm-9">@(Model.Period ?? "—")</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">🗑️ Да, удалить</button>
+            <a asp-action="Index" class="btn btn-secondary">↩️ Отмена</a>
+        </form>
+    </div>
+</div>

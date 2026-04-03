@@ -151,54 +151,46 @@ public class DinoApiClient
 
     // PUT /api/dinosaurs/{id} - обновить с файлом
     // PUT /api/dinosaurs/{id} - обновить с файлом (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ)
-    public async Task<DinosaurDto> UpdateAsync(int id, UpdateDinosaurDto dto)
+   // DinoApp/Services/DinoApiClient.cs (фрагмент)
+public async Task<DinosaurDto?> UpdateAsync(int id, UpdateDinosaurDto dto)
+{
+    var content = new MultipartFormDataContent();
+    
+    // Добавляем все поля
+    if (!string.IsNullOrEmpty(dto.Name)) content.Add(new StringContent(dto.Name), "Name");
+    if (!string.IsNullOrEmpty(dto.Clade)) content.Add(new StringContent(dto.Clade), "Clade");
+    if (!string.IsNullOrEmpty(dto.Era)) content.Add(new StringContent(dto.Era), "Era");
+    if (!string.IsNullOrEmpty(dto.Period)) content.Add(new StringContent(dto.Period), "Period");
+    if (!string.IsNullOrEmpty(dto.GroupName)) content.Add(new StringContent(dto.GroupName), "GroupName");
+    if (!string.IsNullOrEmpty(dto.Genus)) content.Add(new StringContent(dto.Genus), "Genus");
+    if (!string.IsNullOrEmpty(dto.Species)) content.Add(new StringContent(dto.Species), "Species");
+    if (!string.IsNullOrEmpty(dto.Description)) content.Add(new StringContent(dto.Description), "Description");
+    
+    // Новые поля
+    if (!string.IsNullOrEmpty(dto.Size)) content.Add(new StringContent(dto.Size), "Size");
+    if (!string.IsNullOrEmpty(dto.FullDescription)) content.Add(new StringContent(dto.FullDescription), "FullDescription");
+    if (!string.IsNullOrEmpty(dto.Diet)) content.Add(new StringContent(dto.Diet), "Diet");
+    if (!string.IsNullOrEmpty(dto.Locomotion)) content.Add(new StringContent(dto.Locomotion), "Locomotion");
+    if (!string.IsNullOrEmpty(dto.Continent)) content.Add(new StringContent(dto.Continent), "Continent");
+    if (!string.IsNullOrEmpty(dto.Status)) content.Add(new StringContent(dto.Status), "Status");
+    if (!string.IsNullOrEmpty(dto.DiscoveryLocation)) content.Add(new StringContent(dto.DiscoveryLocation), "DiscoveryLocation");
+    if (!string.IsNullOrEmpty(dto.Comments)) content.Add(new StringContent(dto.Comments), "Comments");
+    
+    content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
+    content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
+    
+    // Файл изображения
+    if (dto.PhotoFile != null)
     {
-        using var content = new MultipartFormDataContent();
-
-        Console.WriteLine($"=== ОТПРАВКА ЗАПРОСА НА ОБНОВЛЕНИЕ ===");
-        Console.WriteLine($"ID: {id}");
-        Console.WriteLine($"Name: {dto.Name}");
-        Console.WriteLine($"Has PhotoFile: {dto.PhotoFile != null}");
-        Console.WriteLine($"PhotoUrl: {dto.PhotoUrl}");
-
-        // Добавляем текстовые поля (только если они не null)
-        AddStringContent(content, "Name", dto.Name);
-        AddStringContent(content, "Era", dto.Era);
-        AddStringContent(content, "Clade", dto.Clade);
-        AddStringContent(content, "Period", dto.Period);
-        AddStringContent(content, "GroupName", dto.GroupName);
-        AddStringContent(content, "Genus", dto.Genus);
-        AddStringContent(content, "Species", dto.Species);
-        AddStringContent(content, "Size", dto.Size);
-        AddStringContent(content, "Description", dto.Description);
-        AddStringContent(content, "FullDescription", dto.FullDescription);
-        AddStringContent(content, "Diet", dto.Diet);
-        AddStringContent(content, "Locomotion", dto.Locomotion);
-        AddStringContent(content, "Continent", dto.Continent);
-        AddStringContent(content, "Status", dto.Status);
-        AddStringContent(content, "IsFeatured", dto.IsFeatured.ToString());
-        AddStringContent(content, "AllowComments", dto.AllowComments.ToString());
-        AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
-        AddStringContent(content, "Comments", dto.Comments);
-
-        // Добавляем URL фотографии, если есть
-        AddStringContent(content, "PhotoUrl", dto.PhotoUrl);
-
-        // Добавляем новый файл, если он есть
-        if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
-        {
-            Console.WriteLine($"Загружаем новый файл: {dto.PhotoFile.FileName}, размер: {dto.PhotoFile.Length} bytes");
-            var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
-            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName);
-        }
-        else
-        {
-            Console.WriteLine("Новый файл НЕ загружен");
-        }
-
-        var response = await _httpClient.PutAsync($"/api/dinosaurs/{id}", content);
-
+        var stream = dto.PhotoFile.OpenReadStream();
+        content.Add(new StreamContent(stream), "ImageFile", dto.PhotoFile.FileName);
+    }
+    else if (!string.IsNullOrEmpty(dto.PhotoUrl))
+    {
+        content.Add(new StringContent(dto.PhotoUrl), "PhotoUrl");
+    }
+    
+    var response = await _httpClient.PutAsync($"api/dinosaurs/{id}", content);
         var responseContent = await response.Content.ReadAsStringAsync();
         Console.WriteLine($"Response Status: {response.StatusCode}");
         Console.WriteLine($"Response Content: {responseContent}");
