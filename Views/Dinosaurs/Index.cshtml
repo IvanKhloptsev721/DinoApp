@@ -33,6 +33,7 @@
         margin-bottom: 40px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         border: 2px solid #ffd700;
+        position: relative;
     }
 
         .hero-section h1 {
@@ -56,6 +57,68 @@
             color: #555;
             margin-bottom: 30px;
         }
+
+    /* Кнопки входа/регистрации в правом верхнем углу */
+    .auth-buttons {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-auth {
+        padding: 8px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: bold;
+    }
+
+    .btn-login {
+        background-color: #ffd700;
+        color: #2c5a1e;
+    }
+
+        .btn-login:hover {
+            background-color: #ffed4a;
+            transform: translateY(-2px);
+        }
+
+    .btn-register {
+        background-color: #ff6b35;
+        color: white;
+    }
+
+        .btn-register:hover {
+            background-color: #ff8555;
+            transform: translateY(-2px);
+        }
+
+    .btn-logout {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+    .user-greeting {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: rgba(44, 90, 30, 0.9);
+        color: #ffd700;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
 
     /* Кнопки в стиле главной */
     .btn-group-main {
@@ -308,19 +371,44 @@
             width: 80%;
             text-align: center;
         }
+
+        .auth-buttons {
+            position: static;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
     }
 </style>
 
 <div class="container">
     <!-- Шапка в стиле главной страницы -->
     <div class="hero-section">
+        <!-- Кнопки входа/регистрации/профиля -->
+        <div class="auth-buttons">
+            @if (Context.Session.GetString("UserId") != null)
+            {
+                <span class="user-greeting">
+                    🦖 @Context.Session.GetString("FullName")
+                </span>
+                <a asp-controller="Auth" asp-action="Logout" class="btn-auth btn-logout">
+                    🚪 Выйти
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Auth" asp-action="Login" class="btn-auth btn-login">
+                    🔑 Вход
+                </a>
+                <a asp-controller="Auth" asp-action="Register" class="btn-auth btn-register">
+                    📝 Регистрация
+                </a>
+            }
+        </div>
+
         <h1>
             🦕 <span>Dino_Mir</span> 🦖
         </h1>
         <p>Всё о динозаврах в одном месте!</p>
-        <div class="btn-group-main">
-            <a asp-action="Map" class="btn-dino btn-map">🗺️ Перейти на карту Диномира</a>
-        </div>
     </div>
 
     <!-- Заголовок раздела динозавров -->
@@ -328,7 +416,11 @@
         <h2 style="color: white; font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
             🦕 Наши динозавры
         </h2>
-        <a asp-action="Create" class="btn-dino btn-add">➕ Добавить динозавра</a>
+
+        @if (Context.Session.GetString("UserId") != null)
+        {
+            <a asp-action="Create" class="btn-dino btn-add">➕ Добавить динозавра</a>
+        }
     </div>
 
     <!-- Уведомления -->
@@ -351,7 +443,16 @@
     {
         <div class="empty-state">
             <h2>😕 Пока нет динозавров</h2>
-            <p>Нажмите кнопку "Добавить динозавра", чтобы создать первого!</p>
+            <p>
+                @if (Context.Session.GetString("UserId") != null)
+                {
+                    <span>Нажмите кнопку "Добавить динозавра", чтобы создать первого!</span>
+                }
+                else
+                {
+                    <span>Авторизуйтесь, чтобы добавить первого динозавра!</span>
+                }
+            </p>
         </div>
     }
     else
@@ -412,8 +513,16 @@
 
                         <div class="action-buttons">
                             <a asp-action="Details" asp-route-id="@dino.Id" class="btn-sm btn-view">👁️ Подробнее</a>
-                            <a asp-action="Edit" asp-route-id="@dino.Id" class="btn-sm btn-edit">✏️ Редактировать</a>
-                            <a asp-action="Delete" asp-route-id="@dino.Id" class="btn-sm btn-delete">🗑️ Удалить</a>
+
+                            @if (Context.Session.GetString("UserId") != null)
+                            {
+                                <a asp-action="Edit" asp-route-id="@dino.Id" class="btn-sm btn-edit">✏️ Редактировать</a>
+
+                                @if (Context.Session.GetString("IsAdmin") == "True")
+                                {
+                                    <a asp-action="Delete" asp-route-id="@dino.Id" class="btn-sm btn-delete">🗑️ Удалить</a>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -425,11 +534,12 @@
 @section Scripts {
     <script>
         console.log('=== Dino_Mir - Страница динозавров ===');
-
-        @foreach (var dino in Model)
+        console.log('Пользователь авторизован: @(Context.Session.GetString("UserId") != null ? "Да" : "Нет")');
+        @if (Context.Session.GetString("UserId") != null)
         {
             <text>
-                    console.log('🦕 @dino.Name | Фото: @(dino.PhotoPath ?? dino.PhotoUrl ?? "Нет")');
+                    console.log('Имя пользователя: @Context.Session.GetString("FullName")');
+                    console.log('Администратор: @Context.Session.GetString("IsAdmin")');
             </text>
         }
 

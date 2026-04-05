@@ -1,0 +1,128 @@
+﻿@model DinoApp.Models.User
+
+@{
+    ViewData["Title"] = "Мой профиль";
+}
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, #2c5a1e, #1a472a);
+        padding: 40px;
+        text-align: center;
+        color: white;
+    }
+
+    .profile-header .avatar {
+        font-size: 80px;
+        margin-bottom: 15px;
+    }
+
+    .profile-header h2 {
+        margin: 0;
+        font-size: 32px;
+    }
+
+    .profile-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+    }
+
+    .profile-body {
+        padding: 40px;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .info-label {
+        width: 150px;
+        font-weight: 600;
+        color: #2c5a1e;
+    }
+
+    .info-value {
+        flex: 1;
+        color: #555;
+    }
+
+    .admin-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: #ffd700;
+        color: #2c5a1e;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .btn-back {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 25px;
+        background: #2c5a1e;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        transition: all 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #ffd700;
+        color: #2c5a1e;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar">🦖</div>
+            <h2>@(Model.FullName ?? Model.Username)</h2>
+            <p>
+                @Model.Username
+                @if (Model.IsAdmin)
+                {
+                    <span class="admin-badge">Администратор</span>
+                }
+            </p>
+        </div>
+
+        <div class="profile-body">
+            <div class="info-row">
+                <div class="info-label">📧 Email:</div>
+                <div class="info-value">@Model.Email</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">📅 Дата регистрации:</div>
+                <div class="info-value">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">🆔 ID пользователя:</div>
+                <div class="info-value">@Model.Id</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="/" class="btn-back">← На главную</a>
+            </div>
+        </div>
+    </div>
+</div>

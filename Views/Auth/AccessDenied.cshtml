@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Доступ запрещён";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .denied-container {
+            max-width: 500px;
+            margin: 100px auto;
+            text-align: center;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .denied-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .denied-container h1 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .denied-container p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #2c5a1e;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+            .btn-back:hover {
+                background: #ffd700;
+                color: #2c5a1e;
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+    <div class="denied-container">
+        <div class="denied-icon">🚫</div>
+        <h1>Доступ запрещён</h1>
+        <p>У вас нет прав для просмотра этой страницы.</p>
+        <a href="/" class="btn-back">← Вернуться на главную</a>
+    </div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DinoApp.Services;
 using DinoApp.Models;
+using DinoApp.Attributes;
 
 namespace DinoApp.Controllers
 {
@@ -48,13 +49,13 @@ namespace DinoApp.Controllers
             }
         }
 
-        // GET: /Dinosaurs/Create
+        [Authorize] // Добавить этот атрибут
         public IActionResult Create()
         {
             return View("CreateDinosaurs", new CreateDinosaurDto());
         }
 
-        // POST: /Dinosaurs/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateDinosaurDto dto)
@@ -78,7 +79,7 @@ namespace DinoApp.Controllers
             }
         }
 
-        // GET: /Dinosaurs/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -99,7 +100,7 @@ namespace DinoApp.Controllers
             }
         }
 
-        // POST: /Dinosaurs/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, DinosaurDto dto)
@@ -241,7 +242,7 @@ namespace DinoApp.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        // GET: /Dinosaurs/Delete/5
+        [Authorize(requireAdmin: true)] // Только для админов
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -260,7 +261,7 @@ namespace DinoApp.Controllers
             }
         }
 
-        // POST: /Dinosaurs/Delete/5
+        [Authorize(requireAdmin: true)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

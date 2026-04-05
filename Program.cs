@@ -11,9 +11,23 @@ namespace DinoApp
             // Добавляем MVC
             builder.Services.AddControllersWithViews();
 
+            // Добавляем сессии
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.Name = "DinoMir.Session";
+            });
+
+            // Добавляем HttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
             // Регистрируем сервисы
             builder.Services.AddHttpClient<DinoApiClient>();
             builder.Services.AddScoped<DinoApiClient>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             var app = builder.Build();
 
@@ -25,14 +39,11 @@ namespace DinoApp
             }
 
             app.UseHttpsRedirection();
-
-            // ВАЖНО: статические файлы (изображения будут здесь)
             app.UseStaticFiles();
-
+            app.UseSession(); // ВАЖНО: до UseRouting
             app.UseRouting();
             app.UseAuthorization();
 
-            // Маршрут по умолчанию на Dinosaurs
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Dinosaurs}/{action=Index}/{id?}");

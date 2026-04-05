@@ -1,0 +1,237 @@
+﻿@model DinoApp.Models.RegisterUserDto
+
+@{
+    ViewData["Title"] = "Регистрация в Dino_Mir";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
+            min-height: 100vh;
+        }
+
+        .register-container {
+            max-width: 550px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, #2c5a1e, #1a472a);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+            .register-header .dino-icon {
+                font-size: 60px;
+                margin-bottom: 10px;
+                display: inline-block;
+                animation: dinoWalk 2s ease-in-out infinite;
+            }
+
+        @@keyframes dinoWalk {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        .register-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .register-body {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c5a1e;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #ffd700;
+                box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+            .btn-register:hover {
+                background: #ffd700;
+                color: #2c5a1e;
+                transform: translateY(-3px);
+            }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+            .login-link a {
+                color: #ff6b35;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .login-link a:hover {
+                    text-decoration: underline;
+                }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .text-danger {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            color: #666;
+            text-decoration: none;
+        }
+
+            .back-link:hover {
+                color: #2c5a1e;
+            }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <div class="dino-icon">🦖</div>
+                <h2>Присоединяйся к Dino_Mir!</h2>
+                <p>Создай свой аккаунт</p>
+            </div>
+
+            <div class="register-body">
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div class="alert-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <div>⚠️ @error.ErrorMessage</div>
+                        }
+                    </div>
+                }
+
+                <form method="post" asp-action="Register">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="form-label">Имя пользователя *</label>
+                        <input asp-for="Username" class="form-control" required />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input asp-for="Email" type="email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Полное имя (необязательно)</label>
+                        <input asp-for="FullName" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Пароль *</label>
+                        <input asp-for="Password" type="password" class="form-control" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Подтверждение пароля *</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn-register">🦕 Зарегистрироваться</button>
+
+                    <div class="login-link">
+                        Уже есть аккаунт? <a asp-action="Login">Войти</a>
+                    </div>
+
+                    <a href="/" class="back-link">← На главную</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
