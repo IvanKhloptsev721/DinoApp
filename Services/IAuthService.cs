@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using DinoApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace DinoApp.Services;
 
@@ -10,8 +11,11 @@ public interface IAuthService
     Task<bool> LoginAsync(string username, string password, bool rememberMe);
     void Logout();
     User? GetCurrentUser();
+    User? GetUserById(int id);
+    List<User> GetAllUsers();
     bool IsAuthenticated();
     Task<bool> RegisterAsync(RegisterUserDto dto);
+    Task<bool> UpdateProfileAsync(int userId, UpdateProfileDto dto);
 }
 
 public class AuthService : IAuthService
@@ -24,10 +28,7 @@ public class AuthService : IAuthService
     {
         _httpContextAccessor = httpContextAccessor;
         _usersFilePath = Path.Combine(Directory.GetCurrentDirectory(), "users.json");
-        Console.WriteLine($"=== AuthService инициализирован ===");
-        Console.WriteLine($"Путь к файлу users.json: {_usersFilePath}");
         _users = LoadUsers();
-        Console.WriteLine($"Загружено пользователей: {_users.Count}");
     }
 
     private List<User> LoadUsers()
@@ -35,13 +36,10 @@ public class AuthService : IAuthService
         if (File.Exists(_usersFilePath))
         {
             var json = File.ReadAllText(_usersFilePath);
-            Console.WriteLine($"Загружен JSON: {json}");
             return JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
         }
 
-        Console.WriteLine("Файл users.json не найден, создаю администратора по умолчанию");
-
-        // Создаём администратора по умолчанию при первом запуске
+        // Создаём администратора по умолчанию
         var defaultUsers = new List<User>
         {
             new User
@@ -51,7 +49,10 @@ public class AuthService : IAuthService
                 PasswordHash = HashPassword("admin123"),
                 Email = "admin@dino-mir.com",
                 FullName = "Администратор",
+                Bio = "Я создатель этого удивительного мира динозавров!",
+                AvatarUrl = "/images/default-avatar.png",
                 CreatedAt = DateTime.Now,
+                LastLoginAt = DateTime.Now,
                 IsAdmin = true
             }
         };
@@ -64,8 +65,6 @@ public class AuthService : IAuthService
     {
         var json = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_usersFilePath, json);
-        Console.WriteLine($"Сохранено пользователей: {users.Count}");
-        Console.WriteLine($"Сохранён JSON: {json}");
     }
 
     private string HashPassword(string password)
@@ -77,27 +76,10 @@ public class AuthService : IAuthService
 
     public async Task<bool> LoginAsync(string username, string password, bool rememberMe)
     {
-        Console.WriteLine($"=== Попытка входа ===");
-        Console.WriteLine($"Username: {username}");
-        Console.WriteLine($"Password: {password}");
-
         var user = _users.FirstOrDefault(u => u.Username == username);
 
-        if (user == null)
-        {
-            Console.WriteLine($"Пользователь {username} не найден");
+        if (user == null || user.PasswordHash != HashPassword(password))
             return false;
-        }
-
-        var hashedPassword = HashPassword(password);
-        Console.WriteLine($"Хеш пароля: {hashedPassword}");
-        Console.WriteLine($"Хеш в БД: {user.PasswordHash}");
-
-        if (user.PasswordHash != hashedPassword)
-        {
-            Console.WriteLine($"Неверный пароль");
-            return false;
-        }
 
         var session = _httpContextAccessor.HttpContext?.Session;
         if (session != null)
@@ -106,8 +88,11 @@ public class AuthService : IAuthService
             session.SetString("Username", user.Username);
             session.SetString("IsAdmin", user.IsAdmin.ToString());
             session.SetString("FullName", user.FullName ?? user.Username);
+            session.SetString("AvatarUrl", user.AvatarUrl ?? "/images/default-avatar.png");
 
-            Console.WriteLine($"Сессия создана для пользователя: {user.Username}");
+            // Обновляем время последнего входа
+            user.LastLoginAt = DateTime.Now;
+            SaveUsers(_users);
         }
 
         return await Task.FromResult(true);
@@ -116,7 +101,6 @@ public class AuthService : IAuthService
     public void Logout()
     {
         _httpContextAccessor.HttpContext?.Session.Clear();
-        Console.WriteLine("Пользователь вышел из системы");
     }
 
     public User? GetCurrentUser()
@@ -128,6 +112,16 @@ public class AuthService : IAuthService
         return _users.FirstOrDefault(u => u.Id.ToString() == userId);
     }
 
+    public User? GetUserById(int id)
+    {
+        return _users.FirstOrDefault(u => u.Id == id);
+    }
+
+    public List<User> GetAllUsers()
+    {
+        return _users.ToList();
+    }
+
     public bool IsAuthenticated()
     {
         return !string.IsNullOrEmpty(_httpContextAccessor.HttpContext?.Session.GetString("UserId"));
@@ -135,23 +129,11 @@ public class AuthService : IAuthService
 
     public async Task<bool> RegisterAsync(RegisterUserDto dto)
     {
-        Console.WriteLine($"=== Попытка регистрации ===");
-        Console.WriteLine($"Username: {dto.Username}");
-        Console.WriteLine($"Email: {dto.Email}");
-        Console.WriteLine($"FullName: {dto.FullName}");
-
-        // Проверка существования пользователя
         if (_users.Any(u => u.Username == dto.Username))
-        {
-            Console.WriteLine($"Пользователь с именем {dto.Username} уже существует");
             return await Task.FromResult(false);
-        }
 
         if (_users.Any(u => u.Email == dto.Email))
-        {
-            Console.WriteLine($"Пользователь с email {dto.Email} уже существует");
             return await Task.FromResult(false);
-        }
 
         var newUser = new User
         {
@@ -160,16 +142,49 @@ public class AuthService : IAuthService
             PasswordHash = HashPassword(dto.Password),
             Email = dto.Email,
             FullName = dto.FullName,
+            Bio = "Любитель динозавров! 🦕",
+            AvatarUrl = "/images/default-avatar.png",
             CreatedAt = DateTime.Now,
             IsAdmin = false
         };
 
-        Console.WriteLine($"Создан новый пользователь с ID: {newUser.Id}");
-
         _users.Add(newUser);
         SaveUsers(_users);
 
-        Console.WriteLine($"Регистрация успешна!");
+        return await Task.FromResult(true);
+    }
+
+    public async Task<bool> UpdateProfileAsync(int userId, UpdateProfileDto dto)
+    {
+        var user = _users.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+            return false;
+
+        if (!string.IsNullOrEmpty(dto.FullName))
+            user.FullName = dto.FullName;
+
+        if (!string.IsNullOrEmpty(dto.Bio))
+            user.Bio = dto.Bio;
+
+        if (!string.IsNullOrEmpty(dto.Email))
+            user.Email = dto.Email;
+
+        if (!string.IsNullOrEmpty(dto.AvatarUrl))
+            user.AvatarUrl = dto.AvatarUrl;
+
+        user.UpdatedAt = DateTime.Now;
+
+        SaveUsers(_users);
+
+        // Обновляем сессию если это текущий пользователь
+        var session = _httpContextAccessor.HttpContext?.Session;
+        if (session != null && session.GetString("UserId") == userId.ToString())
+        {
+            session.SetString("FullName", user.FullName ?? user.Username);
+            if (!string.IsNullOrEmpty(dto.AvatarUrl))
+                session.SetString("AvatarUrl", dto.AvatarUrl);
+        }
+
         return await Task.FromResult(true);
     }
 }

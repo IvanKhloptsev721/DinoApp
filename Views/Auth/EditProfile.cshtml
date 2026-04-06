@@ -1,0 +1,283 @@
+﻿@model DinoApp.Models.UpdateProfileDto
+
+@{
+    ViewData["Title"] = "Редактирование профиля";
+}
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
+        min-height: 100vh;
+    }
+
+    .edit-container {
+        max-width: 700px;
+        margin: 60px auto;
+        padding: 20px;
+    }
+
+    .edit-card {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-header {
+        background: linear-gradient(135deg, #2c5a1e, #1a472a);
+        padding: 30px;
+        text-align: center;
+        color: white;
+    }
+
+    .edit-header .icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .edit-header h2 {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+
+    .edit-header p {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+    .edit-body {
+        padding: 40px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c5a1e;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #ffd700;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .avatar-preview {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .current-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid #ffd700;
+    }
+
+    .current-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .current-avatar .no-avatar {
+        font-size: 40px;
+    }
+
+    .btn-save {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+    }
+
+    .btn-save:hover {
+        background: #ffd700;
+        color: #2c5a1e;
+        transform: translateY(-2px);
+    }
+
+    .btn-cancel {
+        width: 100%;
+        padding: 12px;
+        background: #95a5a6;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn-cancel:hover {
+        background: #7f8c8d;
+        transform: translateY(-2px);
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border-left: 4px solid #dc3545;
+    }
+
+    .text-danger {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .help-text {
+        font-size: 12px;
+        color: #999;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="edit-container">
+    <div class="edit-card">
+        <div class="edit-header">
+            <div class="icon">✏️</div>
+            <h2>Редактирование профиля</h2>
+            <p>Обновите информацию о себе</p>
+        </div>
+
+        <div class="edit-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>⚠️ @error.ErrorMessage</div>
+                    }
+                </div>
+            }
+
+            <form method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <div class="avatar-preview">
+                    <div class="current-avatar" id="avatarPreview">
+                        @if (!string.IsNullOrEmpty(Model.AvatarUrl) && Model.AvatarUrl != "/images/default-avatar.png")
+                        {
+                            <img src="@Model.AvatarUrl" alt="Avatar" id="avatarImg">
+                        }
+                        else
+                        {
+                            <div class="no-avatar" id="avatarPlaceholder">🦖</div>
+                        }
+                    </div>
+                    <div style="flex: 1;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Аватар</label>
+                            <input type="file" name="avatarFile" class="form-control" accept="image/*" id="avatarInput">
+                            <div class="help-text">Поддерживаются JPG, PNG, GIF до 5MB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Полное имя</label>
+                    <input asp-for="FullName" class="form-control" placeholder="Ваше полное имя">
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">О себе</label>
+                    <textarea asp-for="Bio" class="form-control" placeholder="Расскажите о своих любимых динозаврах..."></textarea>
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                    <div class="help-text">Максимум 500 символов</div>
+                </div>
+
+                <button type="submit" class="btn-save">💾 Сохранить изменения</button>
+                <a asp-action="Profile" class="btn-cancel">← Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Предпросмотр аватара
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarImg = document.getElementById('avatarImg');
+    const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+    const avatarPreview = document.getElementById('avatarPreview');
+
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    if (avatarImg) {
+                        avatarImg.src = event.target.result;
+                        avatarImg.style.display = 'block';
+                        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+                    } else {
+                        // Создаём img если его нет
+                        const newImg = document.createElement('img');
+                        newImg.id = 'avatarImg';
+                        newImg.src = event.target.result;
+                        avatarPreview.innerHTML = '';
+                        avatarPreview.appendChild(newImg);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>

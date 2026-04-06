@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\controllers\\dinosaurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:controllers\\dinosaurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\createdinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\createdinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,56 +23,32 @@
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\dinoapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:dinoapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\registeruserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\registeruserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\controllers\\dinosaurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:controllers\\dinosaurscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\attributes\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:attributes\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -83,6 +67,14 @@
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\registerviewmodel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\map.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\map.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -99,6 +91,26 @@
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\createdinosaurs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\auth\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\auth\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\services\\dinoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:services\\dinoapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -111,6 +123,10 @@
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\dinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\dinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -119,16 +135,20 @@
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\dinomapviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\createdinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\createdinosaurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\dinoapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:dinoapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\attributes\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:attributes\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\views\\dinosaurs\\registerviewmodel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:views\\dinosaurs\\registerviewmodel.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59DA8336-E6F7-475F-A308-8C1E5F06F822}|DinoApp.csproj|c:\\users\\ivan_comp\\source\\repos\\dinoapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -142,7 +162,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -150,52 +170,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\Login.cshtml",
-              "RelativeDocumentMoniker": "Views\\Auth\\Login.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\Login.cshtml",
-              "RelativeToolTip": "Views\\Auth\\Login.cshtml",
-              "ViewState": "AgIAAKoAAAAAAAAAAAAgwN4AAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T14:25:16.015Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\Register.cshtml",
-              "RelativeDocumentMoniker": "Views\\Auth\\Register.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\Register.cshtml",
-              "RelativeToolTip": "Views\\Auth\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOwAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T14:26:44.261Z",
+              "DocumentIndex": 6,
+              "Title": "RegisterUserDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterUserDto.cs",
+              "RelativeDocumentMoniker": "Models\\RegisterUserDto.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterUserDto.cs",
+              "RelativeToolTip": "Models\\RegisterUserDto.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwCEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-06T07:09:48.521Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "AccessDenied.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\AccessDenied.cshtml",
-              "RelativeDocumentMoniker": "Views\\Auth\\AccessDenied.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\Views\\Auth\\AccessDenied.cshtml",
-              "RelativeToolTip": "Views\\Auth\\AccessDenied.cshtml",
-              "ViewState": "AgIAACgAAAAAAAAAAAAYwEcAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T14:27:28.672Z",
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\LoginDto.cs",
+              "RelativeDocumentMoniker": "Models\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\LoginDto.cs",
+              "RelativeToolTip": "Models\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-06T07:09:29.304Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAgwDUAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAAEAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-02T06:21:35.237Z",
               "EditorCaption": ""
@@ -203,331 +210,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-02T06:18:28.889Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Index.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoBAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-02T06:23:02.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DinoApp.csproj",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\DinoApp.csproj",
-              "RelativeDocumentMoniker": "DinoApp.csproj",
-              "ToolTip": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\DinoApp.csproj",
-              "RelativeToolTip": "DinoApp.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-27T14:35:45.133Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IAuthService.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\IAuthService.cs",
-              "RelativeDocumentMoniker": "Services\\IAuthService.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\IAuthService.cs",
-              "RelativeToolTip": "Services\\IAuthService.cs",
-              "ViewState": "AgIAAI8AAAAAAAAAAAAgwK4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:21:07.756Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAgwHAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:23:35.542Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DinosaursController.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\DinosaursController.cs",
-              "RelativeDocumentMoniker": "Controllers\\DinosaursController.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\DinosaursController.cs",
-              "RelativeToolTip": "Controllers\\DinosaursController.cs",
-              "ViewState": "AgIAAAMBAAAAAAAAAAAYwPQAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-02T06:21:00.003Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "AuthorizeAttribute.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Attributes\\AuthorizeAttribute.cs",
-              "RelativeDocumentMoniker": "Attributes\\AuthorizeAttribute.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Attributes\\AuthorizeAttribute.cs",
-              "RelativeToolTip": "Attributes\\AuthorizeAttribute.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAA1wCUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:22:40.414Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAACkAAAAAAAAAAAAYwD0AAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T15:42:44.376Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "_ViewStart.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewStart.cshtml",
-              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewStart.cshtml",
-              "RelativeToolTip": "Views\\_ViewStart.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-12T06:34:53.392Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Viewing.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Viewing.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Viewing.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Viewing.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Viewing.cshtml",
-              "ViewState": "AgIAAEYDAAAAAAAAAAAAAEYDAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T16:19:30.302Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\User.cs",
               "RelativeDocumentMoniker": "Models\\User.cs",
               "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\User.cs",
               "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA8wB4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-05T14:20:10.746Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Profile.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Profile.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Profile.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Profile.cshtml",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAYwH8AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T14:43:43.549Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T15:47:57.192Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Privacy.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Privacy.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Privacy.cshtml",
-              "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-02T06:25:22.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "RegisterViewModel.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\RegisterViewModel.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\RegisterViewModel.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\RegisterViewModel.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\RegisterViewModel.cshtml",
-              "ViewState": "AgIAALoBAAAAAAAAAAAAALoBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T13:30:03.29Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "_ViewImports.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewImports.cshtml",
-              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewImports.cshtml",
-              "RelativeToolTip": "Views\\_ViewImports.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-12T06:34:55.438Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Map.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Map.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Map.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Map.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Map.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T10:49:37.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Edit.cshtml",
-              "ViewState": "AgIAAA0CAACwdhSuR+ESwBQCAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-06T16:23:07.001Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Delete.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Delete.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Delete.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\Delete.cshtml",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACAAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T12:42:08.925Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "CreateDinosaurs.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\CreateDinosaurs.cshtml",
-              "RelativeDocumentMoniker": "Views\\Dinosaurs\\CreateDinosaurs.cshtml",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\CreateDinosaurs.cshtml",
-              "RelativeToolTip": "Views\\Dinosaurs\\CreateDinosaurs.cshtml",
-              "ViewState": "AgIAAPgBAAAAyIJqz8kBwAICAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-04T16:01:03.534Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "DinoApiClient.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\DinoApiClient.cs",
-              "RelativeDocumentMoniker": "Services\\DinoApiClient.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\DinoApiClient.cs",
-              "RelativeToolTip": "Services\\DinoApiClient.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-04T15:37:02.004Z",
+              "WhenOpened": "2026-04-05T14:23:35.542Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "UpdateDinosaurDto.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\UpdateDinosaurDto.cs",
-              "RelativeDocumentMoniker": "Models\\UpdateDinosaurDto.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\UpdateDinosaurDto.cs",
-              "RelativeToolTip": "Models\\UpdateDinosaurDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Services\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\IAuthService.cs",
+              "RelativeToolTip": "Services\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-06T16:46:42.429Z",
+              "WhenOpened": "2026-04-05T14:21:07.756Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "RegisterViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterViewModel.cs",
-              "RelativeDocumentMoniker": "Models\\RegisterViewModel.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterViewModel.cs",
-              "RelativeToolTip": "Models\\RegisterViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T13:33:48.455Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "DinosaurDto.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinosaurDto.cs",
-              "RelativeDocumentMoniker": "Models\\DinosaurDto.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinosaurDto.cs",
-              "RelativeToolTip": "Models\\DinosaurDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T14:36:10.272Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "DinoMapViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinoMapViewModel.cs",
-              "RelativeDocumentMoniker": "Models\\DinoMapViewModel.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinoMapViewModel.cs",
-              "RelativeToolTip": "Models\\DinoMapViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T10:51:45.711Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 2,
               "Title": "CreateDinosaurDto.cs",
               "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\CreateDinosaurDto.cs",
               "RelativeDocumentMoniker": "Models\\CreateDinosaurDto.cs",
@@ -540,7 +261,381 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DinosaursController.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\DinosaursController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DinosaursController.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\DinosaursController.cs",
+              "RelativeToolTip": "Controllers\\DinosaursController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-02T06:21:00.003Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-12T06:34:53.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-12T06:34:55.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T15:47:57.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Viewing.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Viewing.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Viewing.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Viewing.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Viewing.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:19:30.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-06T07:01:35.006Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAMYAAAAAAAAAAAAAAOMAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T15:42:44.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "RegisterViewModel.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\RegisterViewModel.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\RegisterViewModel.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\RegisterViewModel.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\RegisterViewModel.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-02T13:30:03.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Profile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Profile.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Profile.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T14:43:43.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Index.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-02T06:23:02.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Map.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Map.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Map.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Map.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Map.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-02T10:49:37.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-06T16:23:07.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-02T06:25:22.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\Delete.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-02T12:42:08.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "CreateDinosaurs.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\CreateDinosaurs.cshtml",
+              "RelativeDocumentMoniker": "Views\\Dinosaurs\\CreateDinosaurs.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\CreateDinosaurs.cshtml",
+              "RelativeToolTip": "Views\\Dinosaurs\\CreateDinosaurs.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-04T16:01:03.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Register.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\Register.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Register.cshtml",
+              "RelativeToolTip": "Views\\Auth\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T14:26:44.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Profile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Profile.cshtml",
+              "RelativeToolTip": "Views\\Auth\\Profile.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-06T06:53:40.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\Login.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\Login.cshtml",
+              "RelativeToolTip": "Views\\Auth\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T14:25:16.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "EditProfile.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\EditProfile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\EditProfile.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\EditProfile.cshtml",
+              "RelativeToolTip": "Views\\Auth\\EditProfile.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-06T06:54:37.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AccessDenied.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\AccessDenied.cshtml",
+              "RelativeDocumentMoniker": "Views\\Auth\\AccessDenied.cshtml",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Auth\\AccessDenied.cshtml",
+              "RelativeToolTip": "Views\\Auth\\AccessDenied.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T14:27:28.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "DinoApiClient.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\DinoApiClient.cs",
+              "RelativeDocumentMoniker": "Services\\DinoApiClient.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Services\\DinoApiClient.cs",
+              "RelativeToolTip": "Services\\DinoApiClient.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-04T15:37:02.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "UpdateDinosaurDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\UpdateDinosaurDto.cs",
+              "RelativeDocumentMoniker": "Models\\UpdateDinosaurDto.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\UpdateDinosaurDto.cs",
+              "RelativeToolTip": "Models\\UpdateDinosaurDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T16:46:42.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "RegisterViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\RegisterViewModel.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\RegisterViewModel.cs",
+              "RelativeToolTip": "Models\\RegisterViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T13:33:48.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 30,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T14:36:46.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "DinosaurDto.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinosaurDto.cs",
+              "RelativeDocumentMoniker": "Models\\DinosaurDto.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinosaurDto.cs",
+              "RelativeToolTip": "Models\\DinosaurDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-27T14:36:10.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DinoMapViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinoMapViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\DinoMapViewModel.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\DinoMapViewModel.cs",
+              "RelativeToolTip": "Models\\DinoMapViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T10:51:45.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "DinoApp.csproj",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\DinoApp.csproj",
+              "RelativeDocumentMoniker": "DinoApp.csproj",
+              "ToolTip": "C:\\Users\\Ivan_comp\\Source\\Repos\\DinoApp\\DinoApp.csproj",
+              "RelativeToolTip": "DinoApp.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-27T14:35:45.133Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-02T06:18:28.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AuthorizeAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Attributes\\AuthorizeAttribute.cs",
+              "RelativeDocumentMoniker": "Attributes\\AuthorizeAttribute.cs",
+              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Attributes\\AuthorizeAttribute.cs",
+              "RelativeToolTip": "Attributes\\AuthorizeAttribute.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA1wCUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T14:22:40.414Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
               "Title": "RegisterViewModel.cshtml.cs",
               "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Views\\Dinosaurs\\RegisterViewModel.cshtml.cs",
               "RelativeDocumentMoniker": "Views\\Dinosaurs\\RegisterViewModel.cshtml.cs",
@@ -552,19 +647,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "ErrorViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\ErrorViewModel.cs",
-              "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
-              "ToolTip": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Models\\ErrorViewModel.cs",
-              "RelativeToolTip": "Models\\ErrorViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-27T14:36:46.386Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 37,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Ivan_comp\\source\\repos\\DinoApp\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",

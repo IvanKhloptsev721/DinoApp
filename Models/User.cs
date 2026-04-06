@@ -1,30 +1,31 @@
-﻿namespace DinoApp.Models;
+﻿using System;
 
-public class User
+namespace DinoApp.Models
 {
-    public int Id { get; set; }
-    public string Username { get; set; } = string.Empty;
-    public string PasswordHash { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string? FullName { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public bool IsAdmin { get; set; }
-}
+    public class User
+    {
+        public int Id { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? FullName { get; set; }
+        public string? Bio { get; set; }
+        public string? AvatarUrl { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? LastLoginAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public bool IsAdmin { get; set; }
 
-// DTO для входа
-public class LoginDto
-{
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public bool RememberMe { get; set; }
-}
+        // Статистика (опционально)
+        public int DinosaursCreated { get; set; }
+        public int CommentsCount { get; set; }
+    }
 
-// DTO для регистрации
-public class RegisterUserDto
-{
-    public string Username { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string ConfirmPassword { get; set; } = string.Empty;
-    public string? FullName { get; set; }
+    public class UpdateProfileDto
+    {
+        public string? FullName { get; set; }
+        public string? Bio { get; set; }
+        public string? Email { get; set; }
+        public string? AvatarUrl { get; set; }
+    }
 }

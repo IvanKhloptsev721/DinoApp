@@ -40,9 +40,20 @@ namespace DinoApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession(); // ВАЖНО: до UseRouting
+            app.UseSession();
             app.UseRouting();
             app.UseAuthorization();
+
+            // ========== ЯВНЫЕ МАРШРУТЫ ==========
+            app.MapControllerRoute(
+                name: "profile",
+                pattern: "Auth/Profile/{id?}",
+                defaults: new { controller = "Auth", action = "Profile" });
+
+            app.MapControllerRoute(
+                name: "editprofile",
+                pattern: "Auth/EditProfile",
+                defaults: new { controller = "Auth", action = "EditProfile" });
 
             app.MapControllerRoute(
                 name: "default",
