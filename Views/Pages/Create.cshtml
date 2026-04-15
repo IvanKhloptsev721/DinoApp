@@ -1,0 +1,275 @@
+@model DinoApp.Models.Page
+@{
+    ViewData["Title"] = "Создание новой страницы";
+}
+
+<style>
+        .page-form {
+        max-width: 900px;
+
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .form-section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+    }
+
+    .form-section-title {
+        color: #2c5a1e;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .form-label .required {
+        color: #e74c3c;
+        margin-left: 4px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #ffd700;
+        box-shadow: 0 0 0 3px rgba(255,215,0,0.2);
+    }
+
+    .form-control-sm {
+        max-width: 300px;
+    }
+
+    .help-text {
+        font-size: 13px;
+        color: #999;
+        margin-top: 5px;
+    }
+
+    .slug-preview {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        margin-top: 10px;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+</style>
+
+<div class="main-container">
+    <div class="hero-section">
+        <h1>📝 Создание новой страницы</h1>
+        <p>Заполните форму чтобы добавить новую страницу на сайт</p>
+    </div>
+
+    <div class="page-form">
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>📋</span> Основная информация
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Заголовок страницы <span class="required">*</span>
+                    </label>
+                    <input asp-for="Title" class="form-control" required autofocus placeholder="Например: О проекте" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                    <div class="help-text">Заголовок отображается в браузере и в меню навигации</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">URL (Slug)</label>
+                    <input asp-for="Slug" class="form-control form-control-sm" placeholder="naprimer: o-proekte" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                    <div class="help-text">Оставьте пустым для автоматической генерации из заголовка</div>
+                    <div class="slug-preview" id="slugPreview">
+                        🌐 URL страницы: <span id="slugValue">/</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>📄</span> Содержание страницы
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Текст страницы <span class="required">*</span>
+                    </label>
+                    <textarea asp-for="Content" class="form-control" rows="12" required placeholder="Введите содержание страницы..."></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                    <div class="help-text">Можно использовать HTML для форматирования текста</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>🔍</span> SEO настройки
+                </div>
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span>🔘</span> Кнопка на странице
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Текст на кнопке</label>
+                        <input asp-for="ButtonText" class="form-control" placeholder="Например: Узнать больше" />
+                        <div class="help-text">Оставьте пустым, если кнопка не нужна</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ссылка кнопки</label>
+                        <input asp-for="ButtonUrl" class="form-control" placeholder="https://example.com или /page/slug" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Цвет кнопки</label>
+                        <input asp-for="ButtonColor" type="color" class="form-control form-control-sm" />
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <span>🧭</span> Навигация
+                    </div>
+
+                    <div class="form-check">
+                        <input asp-for="ShowInNavigation" class="form-check-input" type="checkbox" />
+                        <label asp-for="ShowInNavigation" class="form-check-label">
+                            📍 Показывать страницу в меню навигации
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Порядок в меню</label>
+                        <input asp-for="NavigationOrder" type="number" class="form-control form-control-sm" value="0" />
+                        <div class="help-text">Меньшее число - левее в меню</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Meta Description</label>
+                    <input asp-for="MetaDescription" class="form-control" placeholder="Краткое описание страницы для поисковиков" />
+                    <div class="help-text">Рекомендуемая длина: 150-160 символов</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Meta Keywords</label>
+                    <input asp-for="MetaKeywords" class="form-control" placeholder="Ключевые слова через запятую" />
+                    <div class="help-text">Например: динозавры, палеонтология, тираннозавр</div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>⚙️</span> Публикация
+                </div>
+
+                <div class="form-check">
+                    <input asp-for="IsPublished" class="form-check-input" type="checkbox" checked />
+                    <label asp-for="IsPublished" class="form-check-label">
+                        ✅ Опубликовать страницу
+                    </label>
+                </div>
+                <div class="help-text" style="margin-left: 30px;">
+                    Если снять галочку, страница будет сохранена как черновик и не будет видна посетителям
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn-dino btn-dino-secondary">↩️ Отмена</a>
+                <button type="submit" class="btn-dino btn-dino-primary">💾 Создать страницу</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleInput = document.querySelector('#Title');
+        const slugInput = document.querySelector('#Slug');
+        const slugSpan = document.querySelector('#slugValue');
+
+        function generateSlug(text) {
+            return text.toLowerCase()
+                .replace(/[^а-яА-Яa-zA-Z0-9\s]/g, '')
+                .replace(/\s+/g, '-')
+                .substring(0, 50);
+        }
+
+        function updateSlugPreview() {
+            let slug = slugInput.value;
+            if (!slug && titleInput.value) {
+                slug = generateSlug(titleInput.value);
+            }
+            slugSpan.textContent = '/' + (slug || '');
+        }
+
+        titleInput.addEventListener('input', function() {
+            if (!slugInput.value) {
+                updateSlugPreview();
+            }
+        });
+
+        slugInput.addEventListener('input', updateSlugPreview);
+        updateSlugPreview();
+    });
+</script>

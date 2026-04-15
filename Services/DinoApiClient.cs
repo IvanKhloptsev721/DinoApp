@@ -11,221 +11,389 @@ public class DinoApiClient
     private readonly JsonSerializerOptions _jsonOptions;
     private readonly IWebHostEnvironment _environment;
     private readonly string _baseUrl;
+    private readonly ILogger<DinoApiClient> _logger;
 
-    public DinoApiClient(IConfiguration config, IWebHostEnvironment environment)
+    public DinoApiClient(HttpClient httpClient, IConfiguration config, IWebHostEnvironment environment, ILogger<DinoApiClient> logger)
     {
-        _baseUrl = config["ApiSettings:BaseUrl"] ?? "https://localhost:7127";
-        _httpClient = new HttpClient { BaseAddress = new Uri(_baseUrl) };
+        _httpClient = httpClient;
         _environment = environment;
+        _logger = logger;
+        _baseUrl = config["ApiSettings:BaseUrl"] ?? "http://85.198.68.116:5000";
+
+        // Устанавливаем BaseAddress
+        _httpClient.BaseAddress = new Uri(_baseUrl);
+
         _jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
+
+        _logger.LogInformation($"DinoApiClient initialized with base URL: {_httpClient.BaseAddress}");
     }
 
-    // GET /api/dinosaurs - получить всех (ИСПРАВЛЕНО)
+    // GET /api/dinosaurs
     public async Task<List<DinosaurDto>> GetAllAsync()
     {
-        var response = await _httpClient.GetAsync("/api/dinosaurs");
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        var dinosaurs = JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
-
-        // ПРЕОБРАЗУЕМ ОТНОСИТЕЛЬНЫЕ ПУТИ В ПОЛНЫЕ URL ДЛЯ КАЖДОГО ДИНОЗАВРА
-        foreach (var dino in dinosaurs)
+        try
         {
-            FixImageUrl(dino);
-        }
+            _logger.LogInformation("Fetching all dinosaurs from API");
+            var response = await _httpClient.GetAsync("/api/dinosaurs");
 
-        return dinosaurs;
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"API error {response.StatusCode}: {error}");
+                return new List<DinosaurDto>();
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            _logger.LogInformation($"API Response: {json}"); // Добавьте это для отладки
+
+            var dinosaurs = JsonSerializer.Deserialize<List<DinosaurDto>>(json, _jsonOptions) ?? new();
+
+            foreach (var dino in dinosaurs)
+            {
+                _logger.LogInformation($"Raw dino: {dino.Name}, PhotoUrl: {dino.PhotoUrl}, PhotoPath: {dino.PhotoPath}");
+                FixImageUrl(dino);
+                _logger.LogInformation($"Fixed dino: {dino.Name}, PhotoUrl: {dino.PhotoUrl}");
+            }
+
+            return dinosaurs;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching dinosaurs from API");
+            return new List<DinosaurDto>();
+        }
     }
 
-    // GET /api/dinosaurs/{id} - получить одного (ИСПРАВЛЕНО)
+    // GET /api/dinosaurs/{id}
     public async Task<DinosaurDto?> GetByIdAsync(int id)
     {
-        var response = await _httpClient.GetAsync($"/api/dinosaurs/{id}");
-
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            return null;
-
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadAsStringAsync();
-        var dinosaur = JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
-
-        // ПРЕОБРАЗУЕМ ОТНОСИТЕЛЬНЫЙ ПУТЬ В ПОЛНЫЙ URL
-        if (dinosaur != null)
+        try
         {
-            FixImageUrl(dinosaur);
-        }
+            var response = await _httpClient.GetAsync($"/api/dinosaurs/{id}");
 
-        return dinosaur;
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return null;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"API error {response.StatusCode}: {error}");
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var dinosaur = JsonSerializer.Deserialize<DinosaurDto>(json, _jsonOptions);
+
+            if (dinosaur != null)
+            {
+                FixImageUrl(dinosaur);
+            }
+
+            return dinosaur;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error fetching dinosaur with ID {id}");
+            return null;
+        }
     }
 
-    // ВСПОМОГАТЕЛЬНЫЙ МЕТОД ДЛЯ ФИКСАЦИИ URL ИЗОБРАЖЕНИЙ
+    // POST /api/dinosaurs - СОЗДАТЬ (упрощенная версия без файлов)
+    // Проверьте, какие поля ожидает API
+    public async Task<DinosaurDto> CreateAsync(CreateDinosaurDto dto)
+    {
+        try
+        {
+            // Убедитесь, что имена полей совпадают с API
+            var json = JsonSerializer.Serialize(dto, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _logger.LogInformation($"Sending POST to /api/dinosaurs with: {json}");
+            var response = await _httpClient.PostAsync("/api/dinosaurs", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"API error {response.StatusCode}: {error}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode} - {error}");
+            }
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<DinosaurDto>(responseJson, _jsonOptions);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating dinosaur");
+            throw;
+        }
+    }
+    // ✅ DELETE /api/dinosaurs/{id} - УДАЛИТЬ (этот метод отсутствовал)
+    public async Task DeleteAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"/api/dinosaurs/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"API error {response.StatusCode}: {error}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error deleting dinosaur ID: {id}");
+            throw;
+        }
+    }
+
+    // Вспомогательный метод для фиксации URL изображений
+    // Вспомогательный метод для фиксации URL изображений
     private void FixImageUrl(DinosaurDto dinosaur)
     {
         if (dinosaur == null) return;
 
-        // Проверяем PhotoPath
-        if (!string.IsNullOrEmpty(dinosaur.PhotoPath) && !dinosaur.PhotoPath.StartsWith("http"))
-        {
-            var baseUrl = _baseUrl.TrimEnd('/');
-            var fixedUrl = $"{baseUrl}{dinosaur.PhotoPath}";
-            dinosaur.PhotoPath = fixedUrl;
-            dinosaur.PhotoUrl = fixedUrl; // Для обратной совместимости
-        }
+        // Базовый URL API (жестко задаем, так как API на внешнем сервере)
+        var baseUrl = "http://85.198.68.116:5000";
 
-        // Проверяем PhotoUrl как запасной вариант
-        if (!string.IsNullOrEmpty(dinosaur.PhotoUrl) && !dinosaur.PhotoUrl.StartsWith("http"))
+        // Пробуем получить URL изображения из разных полей
+        var imagePath = !string.IsNullOrEmpty(dinosaur.PhotoUrl)
+            ? dinosaur.PhotoUrl
+            : dinosaur.PhotoPath;
+
+        if (!string.IsNullOrEmpty(imagePath))
         {
-            var baseUrl = _baseUrl.TrimEnd('/');
-            dinosaur.PhotoUrl = $"{baseUrl}{dinosaur.PhotoUrl}";
-            if (string.IsNullOrEmpty(dinosaur.PhotoPath))
+            // Если это уже полный URL - оставляем
+            if (imagePath.StartsWith("http://") || imagePath.StartsWith("https://"))
             {
-                dinosaur.PhotoPath = dinosaur.PhotoUrl;
+                dinosaur.PhotoUrl = imagePath;
+                dinosaur.PhotoPath = imagePath;
+            }
+            else
+            {
+                // Убираем ведущий слеш если есть
+                var cleanPath = imagePath.TrimStart('/');
+                // Формируем полный URL
+                var fullUrl = $"{baseUrl}/{cleanPath}";
+
+                dinosaur.PhotoUrl = fullUrl;
+                dinosaur.PhotoPath = fullUrl;
+
+                _logger.LogInformation($"Fixed image URL for {dinosaur.Name}: {fullUrl}");
             }
         }
-
-        // Отладочная информация
-        Console.WriteLine($"Fixed URL for {dinosaur.Name}: {dinosaur.PhotoPath}");
-    }
-
-    // POST /api/dinosaurs - создать с файлом
-    public async Task<DinosaurDto> CreateAsync(CreateDinosaurDto dto)
-    {
-        using var content = new MultipartFormDataContent();
-
-        // Добавляем текстовые поля
-        AddStringContent(content, "Name", dto.Name);
-        AddStringContent(content, "Era", dto.Era);
-        AddStringContent(content, "Clade", dto.Clade);
-        AddStringContent(content, "Period", dto.Period);
-        AddStringContent(content, "GroupName", dto.GroupName);
-        AddStringContent(content, "Genus", dto.Genus);
-        AddStringContent(content, "Species", dto.Species);
-        AddStringContent(content, "Size", dto.Size);
-        AddStringContent(content, "Description", dto.Description);
-        AddStringContent(content, "FullDescription", dto.FullDescription);
-        AddStringContent(content, "Diet", dto.Diet);
-        AddStringContent(content, "Locomotion", dto.Locomotion);
-        AddStringContent(content, "Continent", dto.Continent);
-        AddStringContent(content, "Status", dto.Status);
-        AddStringContent(content, "IsFeatured", dto.IsFeatured.ToString());
-        AddStringContent(content, "AllowComments", dto.AllowComments.ToString());
-        AddStringContent(content, "DiscoveryLocation", dto.DiscoveryLocation);
-        AddStringContent(content, "Comments", dto.Comments);
-
-        // Добавляем URL фотографии, если есть
-        AddStringContent(content, "PhotoUrl", dto.PhotoUrl);
-
-        // Добавляем файл, если он есть - ВАЖНО: имя поля должно быть "ImageFile"
-        if (dto.PhotoFile != null && dto.PhotoFile.Length > 0)
+        else
         {
-            var fileContent = new StreamContent(dto.PhotoFile.OpenReadStream());
-            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(dto.PhotoFile.ContentType);
-            content.Add(fileContent, "ImageFile", dto.PhotoFile.FileName);
+            _logger.LogWarning($"No image for dinosaur: {dinosaur.Name}");
+            // Устанавливаем заглушку
+            dinosaur.PhotoUrl = "/images/default-dino.jpg";
+            dinosaur.PhotoPath = "/images/default-dino.jpg";
         }
-
-        var response = await _httpClient.PostAsync("/api/dinosaurs", content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadAsStringAsync();
-            throw new Exception($"API вернул ошибку: {response.StatusCode} - {error}");
-        }
-
-        var responseJson = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<DinosaurDto>(responseJson, _jsonOptions);
-
-        // Преобразуем относительный путь в полный URL
-        if (result != null)
-        {
-            FixImageUrl(result);
-        }
-
-        return result ?? throw new Exception("Failed to create dinosaur");
     }
-
-    // PUT /api/dinosaurs/{id} - обновить с файлом
-    // PUT /api/dinosaurs/{id} - обновить с файлом (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ)
-   // DinoApp/Services/DinoApiClient.cs (фрагмент)
-public async Task<DinosaurDto?> UpdateAsync(int id, UpdateDinosaurDto dto)
-{
-    var content = new MultipartFormDataContent();
-    
-    // Добавляем все поля
-    if (!string.IsNullOrEmpty(dto.Name)) content.Add(new StringContent(dto.Name), "Name");
-    if (!string.IsNullOrEmpty(dto.Clade)) content.Add(new StringContent(dto.Clade), "Clade");
-    if (!string.IsNullOrEmpty(dto.Era)) content.Add(new StringContent(dto.Era), "Era");
-    if (!string.IsNullOrEmpty(dto.Period)) content.Add(new StringContent(dto.Period), "Period");
-    if (!string.IsNullOrEmpty(dto.GroupName)) content.Add(new StringContent(dto.GroupName), "GroupName");
-    if (!string.IsNullOrEmpty(dto.Genus)) content.Add(new StringContent(dto.Genus), "Genus");
-    if (!string.IsNullOrEmpty(dto.Species)) content.Add(new StringContent(dto.Species), "Species");
-    if (!string.IsNullOrEmpty(dto.Description)) content.Add(new StringContent(dto.Description), "Description");
-    
-    // Новые поля
-    if (!string.IsNullOrEmpty(dto.Size)) content.Add(new StringContent(dto.Size), "Size");
-    if (!string.IsNullOrEmpty(dto.FullDescription)) content.Add(new StringContent(dto.FullDescription), "FullDescription");
-    if (!string.IsNullOrEmpty(dto.Diet)) content.Add(new StringContent(dto.Diet), "Diet");
-    if (!string.IsNullOrEmpty(dto.Locomotion)) content.Add(new StringContent(dto.Locomotion), "Locomotion");
-    if (!string.IsNullOrEmpty(dto.Continent)) content.Add(new StringContent(dto.Continent), "Continent");
-    if (!string.IsNullOrEmpty(dto.Status)) content.Add(new StringContent(dto.Status), "Status");
-    if (!string.IsNullOrEmpty(dto.DiscoveryLocation)) content.Add(new StringContent(dto.DiscoveryLocation), "DiscoveryLocation");
-    if (!string.IsNullOrEmpty(dto.Comments)) content.Add(new StringContent(dto.Comments), "Comments");
-    
-    content.Add(new StringContent(dto.IsFeatured.ToString()), "IsFeatured");
-    content.Add(new StringContent(dto.AllowComments.ToString()), "AllowComments");
-    
-    // Файл изображения
-    if (dto.PhotoFile != null)
-    {
-        var stream = dto.PhotoFile.OpenReadStream();
-        content.Add(new StreamContent(stream), "ImageFile", dto.PhotoFile.FileName);
-    }
-    else if (!string.IsNullOrEmpty(dto.PhotoUrl))
-    {
-        content.Add(new StringContent(dto.PhotoUrl), "PhotoUrl");
-    }
-    
-    var response = await _httpClient.PutAsync($"api/dinosaurs/{id}", content);
-        var responseContent = await response.Content.ReadAsStringAsync();
-        Console.WriteLine($"Response Status: {response.StatusCode}");
-        Console.WriteLine($"Response Content: {responseContent}");
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"API вернул ошибку: {response.StatusCode} - {responseContent}");
-        }
-
-        // Получаем обновленного динозавра из ответа
-        var updatedDinosaur = JsonSerializer.Deserialize<DinosaurDto>(responseContent, _jsonOptions);
-
-        // Преобразуем URL изображения
-        if (updatedDinosaur != null)
-        {
-            FixImageUrl(updatedDinosaur);
-            Console.WriteLine($"Обновленный динозавр: {updatedDinosaur.Name}, PhotoPath: {updatedDinosaur.PhotoPath}");
-        }
-
-        return updatedDinosaur ?? throw new Exception("Failed to update dinosaur");
-    }
-
+    // Вспомогательный метод для добавления строковых полей
     private void AddStringContent(MultipartFormDataContent content, string name, string? value)
     {
         if (!string.IsNullOrEmpty(value))
         {
             content.Add(new StringContent(value), name);
-            Console.WriteLine($"Добавлено поле {name}: {value}");
         }
     }
-    // DELETE /api/dinosaurs/{id} - удалить
-    public async Task DeleteAsync(int id)
+    public async Task<List<Page>> GetAllPagesAsync()
     {
-        var response = await _httpClient.DeleteAsync($"/api/dinosaurs/{id}");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _httpClient.GetAsync("/api/pages");
+            if (!response.IsSuccessStatusCode)
+                return new List<Page>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Page>>(json, _jsonOptions) ?? new List<Page>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching pages");
+            return new List<Page>();
+        }
     }
 
+    // GET: api/pages/public
+    public async Task<List<Page>> GetPublicPagesAsync()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync("/api/pages/public");
+            if (!response.IsSuccessStatusCode)
+                return new List<Page>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Page>>(json, _jsonOptions) ?? new List<Page>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching public pages");
+            return new List<Page>();
+        }
+    }
+
+    // GET: api/pages/navigation
+    public async Task<List<Page>> GetNavigationPagesAsync()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync("/api/pages/navigation");
+            if (!response.IsSuccessStatusCode)
+                return new List<Page>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Page>>(json, _jsonOptions) ?? new List<Page>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching navigation pages");
+            return new List<Page>();
+        }
+    }
+
+    // GET: api/pages/slug/{slug}
+    public async Task<Page?> GetPageBySlugAsync(string slug)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"/api/pages/slug/{slug}");
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                return null;
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<Page>(json, _jsonOptions);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error fetching page with slug {slug}");
+            return null;
+        }
+    }
+
+    // POST: api/pages
+    public async Task<Page?> CreatePageAsync(CreatePageDto dto)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(dto, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/api/pages", content);
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"API error {response.StatusCode}: {responseJson}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode}");
+            }
+
+            return JsonSerializer.Deserialize<Page>(responseJson, _jsonOptions);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating page");
+            throw;
+        }
+    }
+    // PUT /api/dinosaurs/{id} - ОБНОВИТЬ
+    public async Task<DinosaurDto?> UpdateAsync(int id, UpdateDinosaurDto dto)
+    {
+        try
+        {
+            // Убираем PhotoFile, используем только PhotoUrl
+            var json = JsonSerializer.Serialize(dto, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            _logger.LogInformation($"Sending PUT request to /api/dinosaurs/{id} with: {json}");
+            var response = await _httpClient.PutAsync($"/api/dinosaurs/{id}", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"API error {response.StatusCode}: {responseContent}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode} - {responseContent}");
+            }
+
+            _logger.LogInformation($"Update response: {responseContent}");
+            var updatedDinosaur = JsonSerializer.Deserialize<DinosaurDto>(responseContent, _jsonOptions);
+
+            if (updatedDinosaur != null)
+            {
+                FixImageUrl(updatedDinosaur);
+            }
+
+            return updatedDinosaur;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error updating dinosaur ID: {id}");
+            throw;
+        }
+    }
+    // PUT: api/pages/{id}
+    public async Task<Page?> UpdatePageAsync(int id, UpdatePageDto dto)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(dto, _jsonOptions);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync($"/api/pages/{id}", content);
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"API error {response.StatusCode}: {responseJson}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode}");
+            }
+
+            return JsonSerializer.Deserialize<Page>(responseJson, _jsonOptions);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error updating page {id}");
+            throw;
+        }
+    }
+
+    // DELETE: api/pages/{id}
+    public async Task DeletePageAsync(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"/api/pages/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"API error {response.StatusCode}: {error}");
+                throw new Exception($"API вернул ошибку: {response.StatusCode}");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error deleting page {id}");
+            throw;
+        }
+    }
 }

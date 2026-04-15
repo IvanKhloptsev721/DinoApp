@@ -1,0 +1,52 @@
+﻿@model DinoApp.Models.ContactMessage
+@{
+    ViewData["Title"] = "Контакты";
+}
+
+<div class="main-container">
+    <div class="hero-section">
+        <h1>📞 Свяжитесь с нами</h1>
+        <p style="font-size: 18px; color: #555;">Мы всегда рады ответить на ваши вопросы</p>
+    </div>
+
+    <div class="card" style="padding: 40px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    ✅ @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Name">Ваше имя *</label>
+                    <input asp-for="Name" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email *</label>
+                    <input asp-for="Email" type="email" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject">Тема *</label>
+                    <input asp-for="Subject" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message">Сообщение *</label>
+                    <textarea asp-for="Message" class="form-control" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-dino btn-dino-primary">📤 Отправить</button>
+            </form>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="/" class="btn-dino btn-dino-secondary">🏠 На главную</a>
+            </div>
+        </div>
+    </div>
+</div>

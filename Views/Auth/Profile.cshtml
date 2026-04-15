@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = $"Профиль: {Model.Username}";
     var isOwnProfile = ViewBag.IsOwnProfile == true;
-    var stats = ViewBag.UserStats as DinoApp.Controllers.UserStats;
+    var stats = ViewBag.UserStats as DinoApp.Models.UserStats;
 }
 
 <style>

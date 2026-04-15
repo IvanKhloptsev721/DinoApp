@@ -410,33 +410,102 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Фотография (на всю ширину) -->
                 <div class="form-card full-width">
                     <h3>📸 Фотография</h3>
 
                     <div class="photo-section">
                         <div class="current-photo" id="currentPhoto">
-                            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+                            @if (!string.IsNullOrEmpty(Model.PhotoUrl) || !string.IsNullOrEmpty(Model.PhotoPath))
                             {
-                                <img src="@Model.PhotoPath" alt="@Model.Name">
+                                var imageUrl = !string.IsNullOrEmpty(Model.PhotoUrl) ? Model.PhotoUrl : Model.PhotoPath;
+                                <img src="@imageUrl" alt="@Model.Name" style="max-width: 200px; max-height: 200px; border-radius: 10px;" id="currentPhotoImg">
                             }
                             else
                             {
-                                <span>🦕</span>
+                                <div style="width: 200px; height: 200px; background: #f0f0f0; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <span style="font-size: 60px;">🦕</span>
+                                </div>
                             }
                         </div>
                         <div class="photo-input">
                             <div class="form-group">
-                                <label>Загрузить новое фото</label>
-                                <input type="file" name="PhotoFile" class="form-control" accept="image/*" id="photoFile">
+                                <label>Ссылка на новое изображение</label>
+                                <input asp-for="PhotoUrl" class="form-control" placeholder="https://example.com/new-dino-image.jpg" id="photoUrlInput" />
+                                <!-- Скрытое поле для PhotoPath (для обратной совместимости) -->
+                                <input type="hidden" asp-for="PhotoPath" />
                                 <div class="help-text">
-                                    <i>ℹ️</i> Оставьте пустым, чтобы сохранить текущее фото
+                                    <i>ℹ️</i> Вставьте прямую ссылку на изображение. Оставьте пустым, чтобы сохранить текущее.
+                                </div>
+                                <div id="photoPreview" style="margin-top: 10px; display: none;">
+                                    <p>Предпросмотр нового изображения:</p>
+                                    <img id="previewImage" src="#" alt="Предпросмотр" style="max-width: 200px; max-height: 200px; border-radius: 10px;">
+                                    <button type="button" id="clearPhoto" style="margin-top: 5px; padding: 5px 10px; background: #f0f0f0; border: none; border-radius: 5px; cursor: pointer;">Очистить</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const photoUrlInput = document.getElementById('photoUrlInput');
+                        const previewDiv = document.getElementById('photoPreview');
+                        const previewImage = document.getElementById('previewImage');
+                        const currentPhotoImg = document.getElementById('currentPhotoImg');
+                        const clearBtn = document.getElementById('clearPhoto');
+
+                        if (photoUrlInput) {
+                            photoUrlInput.addEventListener('input', function () {
+                                const url = this.value.trim();
+                                if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                                    previewImage.src = url;
+                                    previewDiv.style.display = 'block';
+
+                                    previewImage.onerror = function () {
+                                        this.src = '/images/default-dino.jpg';
+                                    };
+                                } else {
+                                    previewDiv.style.display = 'none';
+                                }
+                            });
+
+                            if (clearBtn) {
+                                clearBtn.addEventListener('click', function () {
+                                    photoUrlInput.value = '';
+                                    previewDiv.style.display = 'none';
+                                    // Восстанавливаем текущее фото
+                                    if (currentPhotoImg) {
+                                        // Ничего не делаем, текущее фото остается
+                                    }
+                                });
+                            }
+                        }
+                    });
+                </script>
+
+                <script>
+                    document.getElementById('photoFile').addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        const preview = document.getElementById('photoPreview');
+                        const previewImage = document.getElementById('previewImage');
+
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                previewImage.src = e.target.result;
+                                preview.style.display = 'block';
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            preview.style.display = 'none';
+                        }
+                    });
+
+                    document.getElementById('clearPhoto').addEventListener('click', function () {
+                        document.getElementById('photoFile').value = '';
+                        document.getElementById('photoPreview').style.display = 'none';
+                    });
+                </script>
 
                 <!-- Описания (на всю ширину) -->
                 <div class="form-card full-width">

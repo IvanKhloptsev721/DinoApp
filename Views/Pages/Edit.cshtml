@@ -1,0 +1,131 @@
+@model DinoApp.Models.Page
+@{
+    ViewData["Title"] = "Редактирование страницы";
+}
+
+<style>
+    .page-form {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4caf50, #2e7d32);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(76,175,80,0.4);
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+<div class="main-container">
+    <div class="hero-section">
+        <h1>✏️ Редактирование: @Model.Title</h1>
+        <p>Измените данные страницы</p>
+    </div>
+
+    <div class="page-form">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div class="form-group">
+                <label class="form-label" asp-for="Title">Заголовок</label>
+                <input asp-for="Title" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" asp-for="Slug">URL (Slug)</label>
+                <input asp-for="Slug" class="form-control" placeholder="naprimer: o-proekte" />
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" asp-for="Content">Содержание</label>
+                <textarea asp-for="Content" class="form-control" rows="10" required></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" asp-for="MetaDescription">Meta Description</label>
+                <input asp-for="MetaDescription" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" asp-for="MetaKeywords">Meta Keywords</label>
+                <input asp-for="MetaKeywords" class="form-control" />
+            </div>
+
+            <div class="form-check">
+                <input asp-for="IsPublished" type="checkbox" />
+                <label asp-for="IsPublished">Опубликовать страницу</label>
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-secondary">↩️ Отмена</a>
+                <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

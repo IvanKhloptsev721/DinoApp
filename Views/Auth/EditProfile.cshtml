@@ -37,20 +37,20 @@
         color: white;
     }
 
-    .edit-header .icon {
-        font-size: 50px;
-        margin-bottom: 10px;
-    }
+        .edit-header .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
 
-    .edit-header h2 {
-        font-size: 28px;
-        margin-bottom: 5px;
-    }
+        .edit-header h2 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
 
-    .edit-header p {
-        font-size: 14px;
-        opacity: 0.9;
-    }
+        .edit-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
 
     .edit-body {
         padding: 40px;
@@ -76,11 +76,11 @@
         transition: all 0.3s ease;
     }
 
-    .form-control:focus {
-        outline: none;
-        border-color: #ffd700;
-        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-    }
+        .form-control:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
 
     textarea.form-control {
         resize: vertical;
@@ -107,15 +107,15 @@
         border: 3px solid #ffd700;
     }
 
-    .current-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+        .current-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .current-avatar .no-avatar {
-        font-size: 40px;
-    }
+        .current-avatar .no-avatar {
+            font-size: 40px;
+        }
 
     .btn-save {
         width: 100%;
@@ -131,13 +131,14 @@
         margin-top: 10px;
     }
 
-    .btn-save:hover {
-        background: #ffd700;
-        color: #2c5a1e;
-        transform: translateY(-2px);
-    }
+        .btn-save:hover {
+            background: #ffd700;
+            color: #2c5a1e;
+            transform: translateY(-2px);
+        }
 
     .btn-cancel {
+        display: block;
         width: 100%;
         padding: 12px;
         background: #95a5a6;
@@ -149,15 +150,14 @@
         cursor: pointer;
         transition: all 0.3s;
         text-decoration: none;
-        display: inline-block;
         text-align: center;
         margin-top: 10px;
     }
 
-    .btn-cancel:hover {
-        background: #7f8c8d;
-        transform: translateY(-2px);
-    }
+        .btn-cancel:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
 
     .alert-danger {
         background: #f8d7da;
@@ -201,43 +201,48 @@
                 </div>
             }
 
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert-danger">
+                    ❌ @TempData["ErrorMessage"]
+                </div>
+            }
+
             <form method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
                 <div class="avatar-preview">
-                    <div class="current-avatar" id="avatarPreview">
+                    <div class="current-avatar">
                         @if (!string.IsNullOrEmpty(Model.AvatarUrl) && Model.AvatarUrl != "/images/default-avatar.png")
                         {
-                            <img src="@Model.AvatarUrl" alt="Avatar" id="avatarImg">
+                            <img src="@Model.AvatarUrl" alt="Аватар" id="avatarPreviewImg">
                         }
                         else
                         {
-                            <div class="no-avatar" id="avatarPlaceholder">🦖</div>
+                            <div class="no-avatar">🦖</div>
                         }
                     </div>
                     <div style="flex: 1;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label">Аватар</label>
-                            <input type="file" name="avatarFile" class="form-control" accept="image/*" id="avatarInput">
-                            <div class="help-text">Поддерживаются JPG, PNG, GIF до 5MB</div>
-                        </div>
+                        <label class="form-label">Аватар (ссылка)</label>
+                        <input type="text" name="AvatarUrl" class="form-control" placeholder="https://example.com/avatar.jpg" value="@Model.AvatarUrl" />
+                        <div class="help-text">Вставьте ссылку на изображение для аватара</div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Полное имя</label>
-                    <input asp-for="FullName" class="form-control" placeholder="Ваше полное имя">
+                    <label class="form-label" asp-for="FullName">Полное имя</label>
+                    <input asp-for="FullName" class="form-control" placeholder="Ваше полное имя" />
                     <span asp-validation-for="FullName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input asp-for="Email" type="email" class="form-control" required>
+                    <label class="form-label" asp-for="Email">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">О себе</label>
+                    <label class="form-label" asp-for="Bio">О себе</label>
                     <textarea asp-for="Bio" class="form-control" placeholder="Расскажите о своих любимых динозаврах..."></textarea>
                     <span asp-validation-for="Bio" class="text-danger"></span>
                     <div class="help-text">Максимум 500 символов</div>
@@ -251,32 +256,31 @@
 </div>
 
 <script>
-    // Предпросмотр аватара
-    const avatarInput = document.getElementById('avatarInput');
-    const avatarImg = document.getElementById('avatarImg');
-    const avatarPlaceholder = document.getElementById('avatarPlaceholder');
-    const avatarPreview = document.getElementById('avatarPreview');
+    // Предпросмотр аватара при вводе ссылки
+    const avatarUrlInput = document.querySelector('input[name="AvatarUrl"]');
+    const avatarPreviewImg = document.getElementById('avatarPreviewImg');
+    const avatarContainer = document.querySelector('.current-avatar');
 
-    if (avatarInput) {
-        avatarInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    if (avatarImg) {
-                        avatarImg.src = event.target.result;
-                        avatarImg.style.display = 'block';
-                        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
-                    } else {
-                        // Создаём img если его нет
-                        const newImg = document.createElement('img');
-                        newImg.id = 'avatarImg';
-                        newImg.src = event.target.result;
-                        avatarPreview.innerHTML = '';
-                        avatarPreview.appendChild(newImg);
-                    }
+    if (avatarUrlInput && avatarContainer) {
+        avatarUrlInput.addEventListener('input', function () {
+            const url = this.value.trim();
+            if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                // Проверяем, есть ли уже img
+                let img = avatarContainer.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    img.id = 'avatarPreviewImg';
+                    img.alt = 'Аватар';
+                    avatarContainer.innerHTML = '';
+                    avatarContainer.appendChild(img);
+                }
+                img.src = url;
+                img.onerror = function () {
+                    this.src = '/images/default-avatar.png';
                 };
-                reader.readAsDataURL(file);
+            } else if (!url) {
+                // Если поле пустое, показываем заглушку
+                avatarContainer.innerHTML = '<div class="no-avatar">🦖</div>';
             }
         });
     }

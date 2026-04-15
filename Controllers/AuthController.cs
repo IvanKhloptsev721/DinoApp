@@ -2,22 +2,31 @@
 using DinoApp.Services;
 using DinoApp.Models;
 using DinoApp.Attributes;
-using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+
 namespace DinoApp.Controllers;
+
+using RegisterUserDto = DinoApp.Models.RegisterDto;
 
 public class AuthController : Controller
 {
     private readonly IAuthService _authService;
+    // private readonly IEmailService _emailService; // Временно отключено
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, /* IEmailService emailService, */ ILogger<AuthController> logger)
     {
         _authService = authService;
+        // _emailService = emailService; // Временно отключено
+        _logger = logger;
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Login(string? returnUrl = null)
     {
-        if (_authService.IsAuthenticated())
+        // Если уже авторизован - перенаправляем на главную
+        if (User.Identity?.IsAuthenticated == true)
             return RedirectToAction("Index", "Dinosaurs");
 
         ViewBag.ReturnUrl = returnUrl;
@@ -32,8 +41,15 @@ public class AuthController : Controller
         {
             var result = await _authService.LoginAsync(model.Username, model.Password, model.RememberMe);
 
-            if (result)
+            if (result.success)
             {
+                // Двухфакторная аутентификация временно отключена
+                // if (result.requiresTwoFactor)
+                // {
+                //     TempData["InfoMessage"] = $"Код подтверждения отправлен на почту {result.email}";
+                //     return RedirectToAction("VerifyCode", new { username = model.Username, returnUrl });
+                // }
+
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     return Redirect(returnUrl);
 
@@ -49,14 +65,71 @@ public class AuthController : Controller
     }
 
     [HttpGet]
+    public IActionResult VerifyCode(string username, string? returnUrl = null)
+    {
+        // Временно отключено
+        TempData["InfoMessage"] = "Двухфакторная аутентификация временно отключена";
+        return RedirectToAction("Login");
+
+        // if (string.IsNullOrEmpty(username))
+        //     return RedirectToAction("Login");
+        //
+        // ViewBag.Username = username;
+        // ViewBag.ReturnUrl = returnUrl;
+        // return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> VerifyCode(string username, string code, string? returnUrl = null)
+    {
+        // Временно отключено
+        TempData["InfoMessage"] = "Двухфакторная аутентификация временно отключена";
+        return RedirectToAction("Login");
+
+        // if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(code))
+        // {
+        //     ViewBag.Username = username;
+        //     ModelState.AddModelError("", "Введите код подтверждения");
+        //     return View();
+        // }
+        //
+        // var result = await _authService.VerifyTwoFactorCodeAsync(username, code);
+        //
+        // if (result)
+        // {
+        //     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+        //         return Redirect(returnUrl);
+        //
+        //     TempData["SuccessMessage"] = "Вход выполнен успешно!";
+        //     return RedirectToAction("Index", "Dinosaurs");
+        // }
+        //
+        // ViewBag.Username = username;
+        // ViewBag.ReturnUrl = returnUrl;
+        // ModelState.AddModelError("", "Неверный код подтверждения или срок его действия истек");
+        // return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResendCode(string username)
+    {
+        // Временно отключено
+        TempData["InfoMessage"] = "Двухфакторная аутентификация временно отключена";
+        return RedirectToAction("Login");
+    }
+
+  [HttpGet]
+[AllowAnonymous]
     public IActionResult Register()
     {
-        if (_authService.IsAuthenticated())
+        // Если уже авторизован - перенаправляем на главную
+        if (User.Identity?.IsAuthenticated == true)
             return RedirectToAction("Index", "Dinosaurs");
 
         return View();
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterUserDto model)
@@ -73,9 +146,8 @@ public class AuthController : Controller
 
             if (result)
             {
-                await _authService.LoginAsync(model.Username, model.Password, false);
-                TempData["SuccessMessage"] = "Регистрация прошла успешно! Добро пожаловать в Dino_Mir!";
-                return RedirectToAction("Index", "Dinosaurs");
+                TempData["SuccessMessage"] = "Регистрация прошла успешно! Теперь вы можете войти.";
+                return RedirectToAction("Login");
             }
 
             ModelState.AddModelError("", "Пользователь с таким именем или email уже существует");
@@ -93,20 +165,11 @@ public class AuthController : Controller
     }
 
     [HttpGet]
-    public IActionResult AccessDenied()
-    {
-        return View();
-    }
-
-    // ========== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ==========
-
-    [HttpGet]
     [Authorize]
     public IActionResult Profile(int? id = null)
     {
         User? user;
 
-        // Если id не указан, показываем профиль текущего пользователя
         if (id == null)
         {
             user = _authService.GetCurrentUser();
@@ -116,13 +179,12 @@ public class AuthController : Controller
         {
             user = _authService.GetUserById(id.Value);
             var currentUser = _authService.GetCurrentUser();
-            ViewBag.IsOwnProfile = currentUser?.Id == id;
+            ViewBag.IsOwnProfile = currentUser?.Id == id.ToString();
         }
 
         if (user == null)
             return NotFound();
 
-        // Получаем статистику пользователя (можно расширить)
         ViewBag.UserStats = new UserStats
         {
             MemberDays = (DateTime.Now - user.CreatedAt).Days,
@@ -154,7 +216,7 @@ public class AuthController : Controller
     [HttpPost]
     [Authorize]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditProfile(UpdateProfileDto model, IFormFile? avatarFile)
+    public async Task<IActionResult> EditProfile(UpdateProfileDto model)
     {
         var user = _authService.GetCurrentUser();
         if (user == null)
@@ -162,50 +224,75 @@ public class AuthController : Controller
 
         if (ModelState.IsValid)
         {
-            // Обработка загрузки аватара
-            if (avatarFile != null && avatarFile.Length > 0)
+            try
             {
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-                var extension = Path.GetExtension(avatarFile.FileName).ToLowerInvariant();
+                var result = await _authService.UpdateProfileAsync(user.Id, model);
 
-                if (allowedExtensions.Contains(extension))
+                if (result)
                 {
-                    // Создаём директорию для аватаров
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "avatars");
-                    if (!Directory.Exists(uploadsFolder))
-                        Directory.CreateDirectory(uploadsFolder);
-
-                    // Генерируем уникальное имя файла
-                    var fileName = $"{user.Username}_{DateTime.Now:yyyyMMddHHmmss}{extension}";
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await avatarFile.CopyToAsync(stream);
-                    }
-
-                    model.AvatarUrl = $"/uploads/avatars/{fileName}";
+                    TempData["SuccessMessage"] = "Профиль успешно обновлён!";
+                    return RedirectToAction("Profile");
                 }
+
+                ModelState.AddModelError("", "Ошибка при обновлении профиля");
             }
-
-            var result = await _authService.UpdateProfileAsync(user.Id, model);
-
-            if (result)
+            catch (Exception ex)
             {
-                TempData["SuccessMessage"] = "Профиль успешно обновлён!";
-                return RedirectToAction("Profile");
+                _logger.LogError(ex, "Error updating profile");
+                ModelState.AddModelError("", $"Ошибка при обновлении профиля: {ex.Message}");
             }
-
-            ModelState.AddModelError("", "Ошибка при обновлении профиля");
         }
 
         return View(model);
     }
-}
+    [HttpPost]
+    [Authorize] // Developer проверяется внутри
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleDeveloper(int id)
+    {
+        var user = _authService.GetUserById(id);
+        if (user != null && user.UserName != "admin" && user.UserName != "developer")
+        {
+            var result = await _authService.ToggleDeveloperAsync(user.Id);
+            if (result)
+            {
+                TempData["SuccessMessage"] = $"Статус разработчика для {user.UserName} изменён!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Недостаточно прав для выполнения операции.";
+            }
+        }
 
-public class UserStats
-{
-    public int MemberDays { get; set; }
-    public DateTime LastActive { get; set; }
-    public int DinosaursViewed { get; set; }
+        return RedirectToAction("Users");
+    }
+    [HttpPost]
+    [Authorize(requireAdmin: true)]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleAdmin(int id)
+    {
+        var user = _authService.GetUserById(id);
+        if (user != null && user.UserName != "admin")
+        {
+            await _authService.ToggleAdminAsync(user.Id);
+            TempData["SuccessMessage"] = $"Статус администратора для {user.UserName} изменён!";
+        }
+
+        return RedirectToAction("Users");
+    }
+
+    [HttpGet]
+    [Authorize(requireAdmin: true)]
+    public IActionResult Users()
+    {
+        var users = _authService.GetAllUsers();
+        return View(users);
+    }
+
+    public class UserStats
+    {
+        public int MemberDays { get; set; }
+        public DateTime LastActive { get; set; }
+        public int DinosaursViewed { get; set; }
+    }
 }

@@ -1,32 +1,16 @@
 [
-  {
-    "Id": 1,
-    "Username": "admin",
-    "PasswordHash": "JAvlGPq9JyTdtvBO6x2llnRI1\u002BgxwIyPqCKAn3THIKk=",
-    "Email": "admin@dino-mir.com",
-    "FullName": "\u0410\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440",
-    "Bio": null,
-    "AvatarUrl": null,
-    "CreatedAt": "2026-04-05T17:40:25.9895591+03:00",
-    "LastLoginAt": null,
-    "UpdatedAt": null,
-    "IsAdmin": true,
-    "DinosaursCreated": 0,
-    "CommentsCount": 0
-  },
-  {
-    "Id": 2,
-    "Username": "Ivash",
-    "PasswordHash": "rpsglzpDDRog/xnYkvbvs8SGsetJCm\u002BY6XOvCLr1lk8=",
-    "Email": "khloptsev.ivan@gmail.com",
-    "FullName": null,
-    "Bio": null,
-    "AvatarUrl": null,
-    "CreatedAt": "2026-04-05T18:30:36.1421576+03:00",
-    "LastLoginAt": "2026-04-06T10:16:42.1722475+03:00",
-    "UpdatedAt": null,
-    "IsAdmin": false,
-    "DinosaursCreated": 0,
-    "CommentsCount": 0
-  }
+    {
+        "Id": 1,
+        "Username": "admin",
+        "PasswordHash": "Admin123!",
+        "Email": "admin@dino-mir.com",
+        "IsAdmin": true
+    },
+    {
+        "Id": 2,
+        "Username": "Ivash",
+        "PasswordHash": "11325Ivan2134#7",
+        "Email": "khloptsev_vanya@mail.ru",
+        "IsAdmin": true
+    }
 ]

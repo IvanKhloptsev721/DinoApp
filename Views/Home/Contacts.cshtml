@@ -1,0 +1,277 @@
+﻿@model DinoApp.Models.ContactMessage
+@{
+    ViewData["Title"] = "Контакты";
+}
+
+<style>
+    .contacts-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .contacts-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .contacts-header h1 {
+        color: #2c5a1e;
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .contacts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 40px;
+    }
+
+    .contact-info {
+        background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+        color: white;
+        padding: 40px;
+        border-radius: 20px;
+    }
+
+    .contact-info h3 {
+        margin-bottom: 30px;
+        font-size: 24px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .contact-icon {
+        font-size: 24px;
+        min-width: 40px;
+        text-align: center;
+    }
+
+    .contact-text h4 {
+        margin: 0 0 5px 0;
+        font-size: 18px;
+    }
+
+    .contact-text p {
+        margin: 0;
+        opacity: 0.9;
+    }
+
+    .contact-form {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #2c5a1e;
+        box-shadow: 0 0 0 3px rgba(44,90,30,0.1);
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+        transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(44,90,30,0.3);
+    }
+
+    .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 5px solid #28a745;
+    }
+
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border-left: 5px solid #dc3545;
+    }
+
+    .social-links {
+        margin-top: 40px;
+    }
+
+    .social-links h4 {
+        margin-bottom: 15px;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-icon {
+        width: 45px;
+        height: 45px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 20px;
+        transition: all 0.3s;
+    }
+
+    .social-icon:hover {
+        background: rgba(255,255,255,0.3);
+        transform: translateY(-3px);
+    }
+
+    .map-container {
+        margin-top: 30px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    @@media (max-width: 768px) {
+        .contacts-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="contacts-container">
+    <div class="contacts-header">
+        <h1>📞 Свяжитесь с нами</h1>
+        <p>Есть вопросы или предложения? Мы всегда рады помочь!</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-message">
+            ✅ @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="contacts-grid">
+        <div class="contact-info">
+            <h3>Контактная информация</h3>
+
+            <div class="contact-item">
+                <div class="contact-icon">📍</div>
+                <div class="contact-text">
+                    <h4>Адрес</h4>
+                    <p>ул. Динозавров, 65<br>Москва, Россия</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <div class="contact-text">
+                    <h4>Email</h4>
+                    <p>info@dino-mir.com<br>support@dino-mir.com</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <div class="contact-text">
+                    <h4>Телефон</h4>
+                    <p>+7 (999) 123-45-67<br>+7 (999) 765-43-21</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">🕐</div>
+                <div class="contact-text">
+                    <h4>Часы работы</h4>
+                    <p>Пн-Пт: 9:00 - 18:00<br>Сб-Вс: 10:00 - 16:00</p>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <h4>Мы в соцсетях</h4>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">VK</a>
+                    <a href="#" class="social-icon">TG</a>
+                    <a href="#" class="social-icon">YT</a>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.123456789!2d37.618423!3d55.751244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzA0LjUiTiAzN8KwMzcnMDYuMyJF!5e0!3m2!1sru!2sru!4v1234567890"
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h3 style="margin-bottom: 30px; color: #2c5a1e;">Напишите нам</h3>
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Name">Ваше имя *</label>
+                    <input asp-for="Name" class="form-control" placeholder="Иван Петров" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email *</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="ivan@example.com" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject">Тема *</label>
+                    <input asp-for="Subject" class="form-control" placeholder="Вопрос о..." required />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message">Сообщение *</label>
+                    <textarea asp-for="Message" class="form-control" rows="6" placeholder="Ваше сообщение..." required></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">📤 Отправить сообщение</button>
+            </form>
+        </div>
+    </div>
+</div>

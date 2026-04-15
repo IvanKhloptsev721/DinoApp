@@ -1,0 +1,84 @@
+﻿@model DinoApp.Models.Page
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    .page-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .page-header {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        color: #2c5a1e;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+
+    .page-content {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        line-height: 1.8;
+        font-size: 16px;
+    }
+
+    .page-button {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    .btn-custom {
+        display: inline-block;
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 18px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1>@Model.Title</h1>
+        @if (!string.IsNullOrEmpty(Model.MetaDescription))
+        {
+            <p class="text-muted">@Model.MetaDescription</p>
+        }
+    </div>
+
+    <div class="page-content">
+        @Html.Raw(Model.Content)
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ButtonText) && !string.IsNullOrEmpty(Model.ButtonUrl))
+    {
+        <div class="page-button">
+            @Model.ButtonUrl.
+        </div>
+    }
+    else
+    {
+        <!-- Для отладки: показываем что кнопка не настроена -->
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="alert alert-info">
+                <small>Кнопка не отображается, так как не указан текст или URL.</small>
+            </div>
+        }
+    }
+</div>

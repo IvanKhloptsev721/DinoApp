@@ -1,0 +1,78 @@
+﻿@model List<DinoApp.Models.User>
+@using DinoApp.Services
+@inject IAuthService AuthService
+@{
+    ViewData["Title"] = "Управление пользователями";
+    var isDeveloper = AuthService.IsDeveloper();
+}
+
+<div class="main-container">
+    <div class="hero-section">
+        <h1>👥 Управление пользователями</h1>
+    </div>
+
+    <div class="card" style="padding: 20px;">
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Роли</th>
+                    <th>Дата регистрации</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (user.IsAdmin)
+                            {
+                                <span style="color: #ffd700;">⭐ Админ</span>
+                            }
+                            else
+                            {
+                                <span>👤 Пользователь</span>
+                            }
+                            @if (AuthService.IsDeveloper())
+                            {
+                                // Здесь можно добавить проверку на Developer
+                                <span style="color: #e74c3c; margin-left: 5px;">👑 Dev</span>
+                            }
+                        </td>
+                        <td>@user.CreatedAt.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (user.Username != "admin" && user.Username != "developer")
+                            {
+                                @if (isDeveloper || User.IsInRole("Admin"))
+                                {
+                                    <form method="post" asp-action="ToggleAdmin" asp-route-id="@user.Id" style="display: inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn-sm" style="margin-right: 5px;">
+                                            @(user.IsAdmin ? "Снять админа" : "Сделать админом")
+                                        </button>
+                                    </form>
+                                }
+
+                                @if (isDeveloper)
+                                {
+                                    <form method="post" asp-action="ToggleDeveloper" asp-route-id="@user.Id" style="display: inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn-sm" style="background: #e74c3c; color: white;">
+                                            👑 Сделать разработчиком
+                                        </button>
+                                    </form>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

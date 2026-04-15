@@ -1,31 +1,28 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace DinoApp.Models
 {
     public class User
     {
-        public int Id { get; set; }
-        public string Username { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;  // ← Было Username
         public string Email { get; set; } = string.Empty;
         public string? FullName { get; set; }
         public string? Bio { get; set; }
         public string? AvatarUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
         public bool IsAdmin { get; set; }
+
+        // Для совместимости со старым кодом (если где-то используется Username)
+        public string Username
+        {
+            get => UserName;
+            set => UserName = value;
+        }
 
         // Статистика (опционально)
         public int DinosaursCreated { get; set; }
         public int CommentsCount { get; set; }
-    }
-
-    public class UpdateProfileDto
-    {
-        public string? FullName { get; set; }
-        public string? Bio { get; set; }
-        public string? Email { get; set; }
-        public string? AvatarUrl { get; set; }
     }
 }

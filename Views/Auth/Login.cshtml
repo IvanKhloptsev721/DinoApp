@@ -1,9 +1,21 @@
 ﻿@model DinoApp.Models.LoginDto
-
 @{
-    ViewData["Title"] = "Вход в Dino_Mir";
-    Layout = null;
+    ViewData["Title"] = "Вход";
+    var returnUrl = ViewBag.ReturnUrl as string;
 }
+
+<!-- Ваша существующая форма входа -->
+<form method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+    <!-- Поля для входа -->
+    <input asp-for="Username" />
+    <input asp-for="Password" />
+    <input asp-for="RememberMe" />
+
+    <button type="submit">Войти</button>
+</form>
 
 <!DOCTYPE html>
 <html lang="ru">

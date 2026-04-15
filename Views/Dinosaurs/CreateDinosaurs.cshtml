@@ -6,303 +6,10 @@
 }
 
 <style>
-    /* Основные стили в стиле Dino_Mir */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #1a472a 0%, #2d5a3b 100%);
-        min-height: 100vh;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    /* Заголовок в стиле главной */
-    .hero-section {
-        text-align: center;
-        padding: 40px 20px 30px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 30px;
-        margin-bottom: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        border: 2px solid #ffd700;
-    }
-
-        .hero-section h1 {
-            font-size: 48px;
-            color: #2c5a1e;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-            .hero-section h1 span {
-                display: inline-block;
-                transition: transform 0.3s ease;
-            }
-
-            .hero-section h1:hover span {
-                transform: rotate(15deg);
-            }
-
-        .hero-section p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 0;
-        }
-
-    /* Карточка формы */
-    .form-card {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 30px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    .form-header {
-        background: linear-gradient(135deg, #2c5a1e, #1a472a);
-        padding: 30px;
-        text-align: center;
-        color: white;
-    }
-
-        .form-header .dino-icon {
-            font-size: 60px;
-            margin-bottom: 10px;
-            display: inline-block;
-            animation: dinoWalk 2s ease-in-out infinite;
-        }
-
-    @@keyframes dinoWalk {
-        0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-        }
-
-        50% {
-            transform: translateY(-10px) rotate(5deg);
-        }
-    }
-
-    .form-header h2 {
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
-
-    .form-header p {
-        font-size: 14px;
-        opacity: 0.9;
-    }
-
-    .form-body {
-        padding: 40px;
-    }
-
-    /* Поля формы */
-    .form-group {
-        margin-bottom: 25px;
-    }
-
-    .form-label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c5a1e;
-        font-size: 14px;
-    }
-
-    .required {
-        color: #e74c3c;
-        margin-left: 5px;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 12px 15px;
-        font-size: 16px;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        font-family: inherit;
-    }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #ffd700;
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
-        }
-
-        .form-control.error {
-            border-color: #e74c3c;
-        }
-
-    textarea.form-control {
-        resize: vertical;
-        min-height: 100px;
-    }
-
-    input[type="file"].form-control {
-        padding: 10px;
-        background: #f9f9f9;
-    }
-
-    /* Чекбоксы */
-    .form-check {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 15px;
-        padding: 10px;
-        background: #f9f9f9;
-        border-radius: 10px;
-    }
-
-    .form-check-input {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-    .form-check-label {
-        color: #555;
-        font-size: 14px;
-        cursor: pointer;
-        font-weight: normal;
-    }
-
-    /* Кнопки */
-    .form-actions {
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-    }
-
-    .btn-dino {
-        padding: 12px 30px;
-        font-size: 16px;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-        font-weight: bold;
-        text-align: center;
-        flex: 1;
-    }
-
-    .btn-primary {
-        background-color: #4caf50;
-        color: white;
-        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-    }
-
-        .btn-primary:hover {
-            background-color: #45a049;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-    .btn-secondary {
-        background-color: #95a5a6;
-        color: white;
-    }
-
-        .btn-secondary:hover {
-            background-color: #7f8c8d;
-            transform: translateY(-3px);
-        }
-
-    /* Сообщения об ошибках */
-    .validation-summary {
-        padding: 15px 20px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        font-weight: 500;
-    }
-
-    .alert {
-        padding: 15px 20px;
-        border-radius: 12px;
-        margin-bottom: 25px;
-        font-weight: 500;
-    }
-
-    .alert-danger {
-        background: #f8d7da;
-        color: #721c24;
-        border-left: 5px solid #dc3545;
-    }
-
-    .text-danger {
-        color: #e74c3c;
-        font-size: 12px;
-        margin-top: 5px;
-        display: block;
-    }
-
-    .text-muted {
-        color: #999;
-        font-size: 12px;
-        display: block;
-        margin-top: 5px;
-    }
-
-    .form-text {
-        font-size: 12px;
-        color: #999;
-        margin-top: 5px;
-    }
-
-    /* Разделитель */
-    .form-divider {
-        margin: 30px 0 20px;
-        border-top: 2px dashed #e0e0e0;
-        position: relative;
-    }
-
-        .form-divider span {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 0 15px;
-            color: #999;
-            font-size: 14px;
-        }
-
-    /* Адаптивность */
-    @@media (max-width: 768px) {
-        .hero-section h1 {
-            font-size: 32px;
-        }
-
-        .form-body {
-            padding: 25px;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
-
-        .btn-dino {
-            width: 100%;
-        }
-    }
+    /* ... существующие стили ... */
 </style>
 
 <div class="container">
-    <!-- Шапка в стиле главной страницы -->
     <div class="hero-section">
         <h1>
             🦕 <span>Dino_Mir</span> 🦖
@@ -310,7 +17,6 @@
         <p>Добавь нового динозавра в нашу коллекцию</p>
     </div>
 
-    <!-- Форма создания динозавра -->
     <div class="form-card">
         <div class="form-header">
             <div class="dino-icon">🦖</div>
@@ -319,7 +25,6 @@
         </div>
 
         <div class="form-body">
-            <!-- Сообщения об ошибках -->
             @if (TempData["ErrorMessage"] != null)
             {
                 <div class="alert alert-danger">
@@ -334,7 +39,7 @@
                 </div>
             }
 
-            <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
 
                 <!-- Основная информация -->
@@ -369,7 +74,16 @@
                     <input asp-for="GroupName" class="form-control" />
                 </div>
 
-                <!-- Разделитель -->
+                <div class="form-group">
+                    <label asp-for="Genus" class="form-label">Род</label>
+                    <input asp-for="Genus" class="form-control" placeholder="Например: Tyrannosaurus" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Species" class="form-label">Вид</label>
+                    <input asp-for="Species" class="form-control" placeholder="Например: rex" />
+                </div>
+
                 <div class="form-divider">
                     <span>📏 Физические характеристики</span>
                 </div>
@@ -389,7 +103,6 @@
                     <input asp-for="Locomotion" class="form-control" placeholder="Например: Двуногий, Четвероногий" />
                 </div>
 
-                <!-- Разделитель -->
                 <div class="form-divider">
                     <span>🌍 Место обнаружения</span>
                 </div>
@@ -404,7 +117,11 @@
                     <input asp-for="DiscoveryLocation" class="form-control" placeholder="Например: Формация Хелл-Крик, Монтана" />
                 </div>
 
-                <!-- Разделитель -->
+                <div class="form-group">
+                    <label asp-for="Status" class="form-label">Статус</label>
+                    <input asp-for="Status" class="form-control" placeholder="Например: Вымерший" />
+                </div>
+
                 <div class="form-divider">
                     <span>📝 Описание</span>
                 </div>
@@ -421,19 +138,22 @@
                     <small class="form-text">Подробное описание для страницы динозавра</small>
                 </div>
 
-                <!-- Разделитель -->
                 <div class="form-divider">
                     <span>🖼️ Изображение</span>
                 </div>
 
+                <!-- ЗАМЕНЕНО: Ссылка на изображение вместо файла -->
                 <div class="form-group">
-                    <label asp-for="PhotoFile" class="form-label">Фотография</label>
-                    <input asp-for="PhotoFile" type="file" class="form-control" accept="image/*" />
-                    <small class="form-text">Загрузите изображение динозавра (JPG, PNG, GIF до 5MB)</small>
-                    <span asp-validation-for="PhotoFile" class="text-danger"></span>
+                    <label asp-for="PhotoUrl" class="form-label">Ссылка на изображение</label>
+                    <input asp-for="PhotoUrl" class="form-control" placeholder="https://example.com/dino-image.jpg" />
+                    <small class="form-text">Вставьте прямую ссылку на изображение динозавра (URL должен оканчиваться на .jpg, .png, .webp и т.д.)</small>
+                    <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+                    <div id="imagePreview" style="margin-top: 10px; display: none;">
+                        <p>Предпросмотр:</p>
+                        <img id="previewImg" src="#" alt="Предпросмотр" style="max-width: 300px; max-height: 200px; border-radius: 10px;" />
+                    </div>
                 </div>
 
-                <!-- Разделитель -->
                 <div class="form-divider">
                     <span>⚙️ Настройки</span>
                 </div>
@@ -448,7 +168,6 @@
                     <label asp-for="AllowComments" class="form-check-label">💬 Разрешить комментарии</label>
                 </div>
 
-                <!-- Кнопки действий -->
                 <div class="form-actions">
                     <button type="submit" class="btn-dino btn-primary">
                         💾 Создать динозавра
@@ -468,40 +187,38 @@
     <script>
         console.log('=== Dino_Mir - Создание динозавра ===');
 
-        // Превью изображения перед загрузкой
-        const photoInput = document.querySelector('input[type="file"]');
-        if (photoInput) {
-            photoInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        // Проверка размера файла (5MB)
-                        if (file.size > 5 * 1024 * 1024) {
-                            alert('Файл слишком большой! Максимальный размер 5MB');
-                            photoInput.value = '';
-                            return;
-                        }
+        // Предпросмотр изображения по ссылке
+        const photoUrlInput = document.querySelector('input[name="PhotoUrl"]');
+        const previewDiv = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
 
-                        // Проверка типа файла
-                        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-                        if (!allowedTypes.includes(file.type)) {
-                            alert('Поддерживаются только JPG, PNG и GIF файлы');
-                            photoInput.value = '';
-                            return;
-                        }
+        if (photoUrlInput) {
+            photoUrlInput.addEventListener('input', function () {
+                const url = this.value.trim();
+                if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+                    previewImg.src = url;
+                    previewDiv.style.display = 'block';
 
-                        console.log('Изображение выбрано:', file.name, file.size + ' байт');
+                    // Обработка ошибки загрузки
+                    previewImg.onerror = function () {
+                        this.src = '/images/default-dino.jpg';
+                        console.warn('Не удалось загрузить изображение по ссылке');
                     };
-                    reader.readAsDataURL(file);
+                } else {
+                    previewDiv.style.display = 'none';
                 }
             });
+
+            // Проверяем начальное значение
+            if (photoUrlInput.value) {
+                photoUrlInput.dispatchEvent(new Event('input'));
+            }
         }
 
         // Валидация названия
         const nameInput = document.querySelector('input[name="Name"]');
         if (nameInput) {
-            nameInput.addEventListener('blur', function() {
+            nameInput.addEventListener('blur', function () {
                 if (this.value.trim().length < 2) {
                     this.classList.add('error');
                 } else {

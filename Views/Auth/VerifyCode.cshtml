@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Подтверждение входа";
+    var username = ViewBag.Username as string;
+}
+
+<style>
+    .verify-container {
+        max-width: 450px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .verify-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .code-input {
+        width: 100%;
+        padding: 15px;
+        font-size: 24px;
+        text-align: center;
+        letter-spacing: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+    .code-input:focus {
+        outline: none;
+        border-color: #2c5a1e;
+        box-shadow: 0 0 0 3px rgba(44,90,30,0.2);
+    }
+
+    .btn-verify {
+        background: linear-gradient(135deg, #2c5a1e, #1e3a2f);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .resend-link {
+        margin-top: 20px;
+    }
+
+    .resend-link a {
+        color: #2c5a1e;
+        text-decoration: none;
+    }
+
+    .resend-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="verify-container">
+    <div class="verify-icon">📧</div>
+    <h2>Подтверждение входа</h2>
+    <p>Мы отправили код подтверждения на вашу почту.</p>
+
+    @if (!string.IsNullOrEmpty(username))
+    {
+        <p><strong>@username</strong></p>
+    }
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="username" value="@username" />
+        <input type="hidden" name="returnUrl" value="@Context.Request.Query["returnUrl"]" />
+
+        <input type="text" name="code" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" autofocus required />
+
+        <button type="submit" class="btn-verify">Подтвердить вход</button>
+    </form>
+
+    <div class="resend-link">
+        <form method="post" asp-action="ResendCode" style="display: inline;">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="username" value="@username" />
+            <button type="submit" style="background: none; border: none; color: #2c5a1e; text-decoration: underline; cursor: pointer;">Отправить код повторно</button>
+        </form>
+    </div>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #999;">
+        Не пришло письмо? Проверьте папку "Спам"
+    </p>
+</div>

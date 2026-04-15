@@ -1,0 +1,84 @@
+﻿@model DinoApp.Models.Page
+@{
+    ViewData["Title"] = "Удаление страницы";
+}
+
+<style>
+    .delete-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .warning-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .page-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="delete-container">
+    <div class="warning-icon">⚠️</div>
+    <h2>Удаление страницы</h2>
+    <p>Вы уверены, что хотите удалить эту страницу? Это действие нельзя отменить.</p>
+
+    <div class="page-info">
+        <p><strong>ID:</strong> @Model.Id</p>
+        <p><strong>Заголовок:</strong> @Model.Title</p>
+        <p><strong>Slug:</strong> /@Model.Slug</p>
+        <p><strong>Статус:</strong> @(Model.IsPublished ? "✅ Опубликована" : "📝 Черновик")</p>
+        <p><strong>Создана:</strong> @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+    </div>
+
+    <div class="btn-group">
+        <form asp-action="DeleteConfirmed" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger">🗑️ Да, удалить</button>
+        </form>
+        <a asp-action="Index" class="btn btn-secondary">↩️ Отмена</a>
+    </div>
+</div>

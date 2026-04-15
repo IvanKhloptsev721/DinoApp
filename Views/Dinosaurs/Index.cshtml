@@ -1,7 +1,14 @@
 ﻿@model IEnumerable<DinoApp.Models.DinosaurDto>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Динозавры";
+    var isAuthenticated = SignInManager.IsSignedIn(User);
+    var currentUser = isAuthenticated ? await UserManager.GetUserAsync(User) : null;
+    var isAdmin = isAuthenticated && await UserManager.IsInRoleAsync(currentUser, "Admin");
+    var userName = currentUser?.UserName ?? "";
 }
 
 <style>
@@ -385,11 +392,18 @@
     <div class="hero-section">
         <!-- Кнопки входа/регистрации/профиля -->
         <div class="auth-buttons">
-            @if (Context.Session.GetString("UserId") != null)
+            @if (isAuthenticated)
             {
                 <span class="user-greeting">
-                    🦖 @Context.Session.GetString("FullName")
+                    🦖 @userName
+                    @if (isAdmin)
+                    {
+                        <span style="color: #ffd700;"> ⭐</span>
+                    }
                 </span>
+                <a asp-controller="Auth" asp-action="Profile" class="btn-auth btn-login" style="background: #2196f3;">
+                    👤 Профиль
+                </a>
                 <a asp-controller="Auth" asp-action="Logout" class="btn-auth btn-logout">
                     🚪 Выйти
                 </a>
@@ -417,7 +431,7 @@
             🦕 Наши динозавры
         </h2>
 
-        @if (Context.Session.GetString("UserId") != null)
+        @if (isAuthenticated)
         {
             <a asp-action="Create" class="btn-dino btn-add">➕ Добавить динозавра</a>
         }
@@ -444,7 +458,7 @@
         <div class="empty-state">
             <h2>😕 Пока нет динозавров</h2>
             <p>
-                @if (Context.Session.GetString("UserId") != null)
+                @if (isAuthenticated)
                 {
                     <span>Нажмите кнопку "Добавить динозавра", чтобы создать первого!</span>
                 }
@@ -462,7 +476,10 @@
             {
                 <div class="dino-card">
                     @{
-                        var imageUrl = !string.IsNullOrEmpty(dino.PhotoPath) ? dino.PhotoPath : dino.PhotoUrl;
+                        // Пробуем разные варианты URL изображения
+                        var imageUrl = !string.IsNullOrEmpty(dino.PhotoPath)
+                        ? dino.PhotoPath
+                        : (!string.IsNullOrEmpty(dino.PhotoUrl) ? dino.PhotoUrl : null);
                     }
 
                     @if (!string.IsNullOrEmpty(imageUrl))
@@ -514,11 +531,11 @@
                         <div class="action-buttons">
                             <a asp-action="Details" asp-route-id="@dino.Id" class="btn-sm btn-view">👁️ Подробнее</a>
 
-                            @if (Context.Session.GetString("UserId") != null)
+                            @if (isAuthenticated)
                             {
                                 <a asp-action="Edit" asp-route-id="@dino.Id" class="btn-sm btn-edit">✏️ Редактировать</a>
 
-                                @if (Context.Session.GetString("IsAdmin") == "True")
+                                @if (isAdmin)
                                 {
                                     <a asp-action="Delete" asp-route-id="@dino.Id" class="btn-sm btn-delete">🗑️ Удалить</a>
                                 }
@@ -534,12 +551,12 @@
 @section Scripts {
     <script>
         console.log('=== Dino_Mir - Страница динозавров ===');
-        console.log('Пользователь авторизован: @(Context.Session.GetString("UserId") != null ? "Да" : "Нет")');
-        @if (Context.Session.GetString("UserId") != null)
+        console.log('Пользователь авторизован: @(isAuthenticated ? "Да" : "Нет")');
+        @if (isAuthenticated)
         {
             <text>
-                    console.log('Имя пользователя: @Context.Session.GetString("FullName")');
-                    console.log('Администратор: @Context.Session.GetString("IsAdmin")');
+                    console.log('Имя пользователя: @userName');
+                    console.log('Администратор: @isAdmin');
             </text>
         }
 
@@ -557,5 +574,22 @@
             });
 
         console.log('=== Страница готова ===');
+    </script>
+    <script>
+        // Отладка изображений
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('img').forEach(function (img) {
+                console.log('Image src:', img.src);
+                img.addEventListener('error', function () {
+                    console.error('Failed to load image:', this.src);
+                    // Пробуем альтернативный URL
+                    if (this.src && !this.src.includes('localhost:5000')) {
+                        var altUrl = 'http://0.0.0.0:5000' + this.getAttribute('data-original-src');
+                        console.log('Trying alternative URL:', altUrl);
+                        this.src = altUrl;
+                    }
+                });
+            });
+        });
     </script>
 }

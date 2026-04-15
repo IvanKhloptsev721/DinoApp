@@ -1,0 +1,9 @@
+﻿@model DinoApp.Models.Page
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container">
+    <h1>@Model.Title</h1>
+    @Html.Raw(Model.Content)
+</div>

@@ -15,11 +15,19 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var isAuthenticated = context.HttpContext.Session.GetString("UserId") != null;
+        // Проверяем, есть ли атрибут AllowAnonymous
+        var allowAnonymous = context.ActionDescriptor.EndpointMetadata
+            .Any(em => em.GetType() == typeof(AllowAnonymousAttribute));
+
+        if (allowAnonymous)
+            return;
+
+        // Проверяем аутентификацию через Identity
+        var user = context.HttpContext.User;
+        var isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
 
         if (!isAuthenticated)
         {
-            // Сохраняем URL, куда хотел перейти пользователь
             var returnUrl = context.HttpContext.Request.Path;
             context.Result = new RedirectResult($"/Auth/Login?returnUrl={returnUrl}");
             return;
@@ -27,7 +35,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 
         if (_requireAdmin)
         {
-            var isAdmin = context.HttpContext.Session.GetString("IsAdmin") == "True";
+            var isAdmin = user?.IsInRole("Admin") ?? false;
             if (!isAdmin)
             {
                 context.Result = new RedirectResult("/Auth/AccessDenied");

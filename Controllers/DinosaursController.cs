@@ -20,6 +20,13 @@ namespace DinoApp.Controllers
             try
             {
                 var dinosaurs = await _apiClient.GetAllAsync();
+
+                // Отладка: выводим URL изображений
+                foreach (var dino in dinosaurs ?? new List<DinosaurDto>())
+                {
+                    Console.WriteLine($"Dino: {dino.Name}, PhotoUrl: {dino.PhotoUrl}, PhotoPath: {dino.PhotoPath}");
+                }
+
                 return View(dinosaurs ?? new List<DinosaurDto>());
             }
             catch (Exception ex)
@@ -99,7 +106,6 @@ namespace DinoApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -107,9 +113,7 @@ namespace DinoApp.Controllers
         {
             Console.WriteLine($"=== РЕДАКТИРОВАНИЕ ДИНОЗАВРА ===");
             Console.WriteLine($"ID: {id}");
-            Console.WriteLine($"DTO ID: {dto.Id}");
             Console.WriteLine($"Name: {dto.Name}");
-            Console.WriteLine($"PhotoFile: {dto.PhotoFile?.FileName ?? "null"}");
             Console.WriteLine($"PhotoUrl: {dto.PhotoUrl}");
 
             if (id != dto.Id)
@@ -150,8 +154,7 @@ namespace DinoApp.Controllers
                     AllowComments = dto.AllowComments,
                     DiscoveryLocation = dto.DiscoveryLocation,
                     Comments = dto.Comments,
-                    PhotoFile = dto.PhotoFile,
-                    PhotoUrl = dto.PhotoFile == null ? dto.PhotoUrl : null
+                    PhotoUrl = dto.PhotoUrl ?? dto.PhotoPath  // Используем PhotoUrl
                 };
 
                 Console.WriteLine("Отправляем запрос на обновление...");
@@ -164,7 +167,6 @@ namespace DinoApp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"ОШИБКА ПРИ ОБНОВЛЕНИИ: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 ModelState.AddModelError("", $"Ошибка при обновлении динозавра: {ex.Message}");
                 return View("Edit", dto);
             }
